@@ -1,0 +1,867 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		11449BCD249DDB5900E32D9F /* MultichannelWidget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11449BC3249DDB5900E32D9F /* MultichannelWidget.framework */; };
+		11449BD2249DDB5900E32D9F /* MultichannelWidgetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449BD1249DDB5900E32D9F /* MultichannelWidgetTests.swift */; };
+		11449BD4249DDB5900E32D9F /* MultichannelWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 11449BC6249DDB5900E32D9F /* MultichannelWidget.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		11449C2A249DDB9800E32D9F /* QismoMobile.h in Headers */ = {isa = PBXBuildFile; fileRef = 11449BDF249DDB9800E32D9F /* QismoMobile.h */; };
+		11449C2B249DDB9800E32D9F /* QismoNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449BE0249DDB9800E32D9F /* QismoNetworkManager.swift */; };
+		11449C2C249DDB9800E32D9F /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 11449BE1249DDB9800E32D9F /* Media.xcassets */; };
+		11449C2D249DDB9800E32D9F /* QiscusTextConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449BE3249DDB9800E32D9F /* QiscusTextConfiguration.swift */; };
+		11449C2E249DDB9800E32D9F /* ColorConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449BE4249DDB9800E32D9F /* ColorConfiguration.swift */; };
+		11449C2F249DDB9800E32D9F /* MultichannelWidgetConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449BE5249DDB9800E32D9F /* MultichannelWidgetConfig.swift */; };
+		11449C30249DDB9800E32D9F /* ChatConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449BE6249DDB9800E32D9F /* ChatConfig.swift */; };
+		11449C31249DDB9800E32D9F /* AppUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449BE8249DDB9800E32D9F /* AppUtil.swift */; };
+		11449C32249DDB9800E32D9F /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449BEA249DDB9800E32D9F /* Date.swift */; };
+		11449C33249DDB9800E32D9F /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449BEB249DDB9800E32D9F /* Image.swift */; };
+		11449C34249DDB9800E32D9F /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449BEC249DDB9800E32D9F /* UIViewController.swift */; };
+		11449C35249DDB9800E32D9F /* FullImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11449BEF249DDB9800E32D9F /* FullImageViewController.xib */; };
+		11449C36249DDB9800E32D9F /* FullImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449BF0249DDB9800E32D9F /* FullImageViewController.swift */; };
+		11449C37249DDB9800E32D9F /* EmptyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449BF3249DDB9800E32D9F /* EmptyCell.swift */; };
+		11449C38249DDB9800E32D9F /* QTextLeftCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11449BF5249DDB9800E32D9F /* QTextLeftCell.xib */; };
+		11449C39249DDB9800E32D9F /* QTextRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11449BF6249DDB9800E32D9F /* QTextRightCell.xib */; };
+		11449C3A249DDB9800E32D9F /* QTextLeftCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449BF7249DDB9800E32D9F /* QTextLeftCell.swift */; };
+		11449C3B249DDB9800E32D9F /* QTextRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449BF8249DDB9800E32D9F /* QTextRightCell.swift */; };
+		11449C3C249DDB9800E32D9F /* QImagesRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449BFA249DDB9800E32D9F /* QImagesRightCell.swift */; };
+		11449C3D249DDB9800E32D9F /* QImagesLeftCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11449BFB249DDB9800E32D9F /* QImagesLeftCell.xib */; };
+		11449C3E249DDB9800E32D9F /* QImagesLeftCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449BFC249DDB9800E32D9F /* QImagesLeftCell.swift */; };
+		11449C3F249DDB9800E32D9F /* QImagesRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11449BFD249DDB9800E32D9F /* QImagesRightCell.xib */; };
+		11449C40249DDB9800E32D9F /* EmptyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11449BFE249DDB9800E32D9F /* EmptyCell.xib */; };
+		11449C41249DDB9800E32D9F /* QSystemCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11449BFF249DDB9800E32D9F /* QSystemCell.xib */; };
+		11449C42249DDB9800E32D9F /* QFileRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11449C01249DDB9800E32D9F /* QFileRightCell.xib */; };
+		11449C43249DDB9800E32D9F /* QFileRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449C02249DDB9800E32D9F /* QFileRightCell.swift */; };
+		11449C44249DDB9800E32D9F /* QFileLeftCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449C03249DDB9800E32D9F /* QFileLeftCell.swift */; };
+		11449C45249DDB9800E32D9F /* QFileLeftCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11449C04249DDB9800E32D9F /* QFileLeftCell.xib */; };
+		11449C46249DDB9800E32D9F /* QSystemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449C05249DDB9800E32D9F /* QSystemCell.swift */; };
+		11449C47249DDB9800E32D9F /* QReplyLeftCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11449C07249DDB9800E32D9F /* QReplyLeftCell.xib */; };
+		11449C48249DDB9800E32D9F /* QReplyRightCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11449C08249DDB9800E32D9F /* QReplyRightCell.xib */; };
+		11449C49249DDB9800E32D9F /* QReplyLeftCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449C09249DDB9800E32D9F /* QReplyLeftCell.swift */; };
+		11449C4A249DDB9800E32D9F /* QReplyRightCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449C0A249DDB9800E32D9F /* QReplyRightCell.swift */; };
+		11449C4B249DDB9800E32D9F /* QUIBaseChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449C0B249DDB9800E32D9F /* QUIBaseChatCell.swift */; };
+		11449C4C249DDB9800E32D9F /* QCardLeftCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11449C0D249DDB9800E32D9F /* QCardLeftCell.xib */; };
+		11449C4D249DDB9800E32D9F /* QCardLeftCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449C0E249DDB9800E32D9F /* QCardLeftCell.swift */; };
+		11449C4E249DDB9800E32D9F /* UIChatPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449C0F249DDB9800E32D9F /* UIChatPresenter.swift */; };
+		11449C4F249DDB9800E32D9F /* QismoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449C10249DDB9800E32D9F /* QismoViewController.swift */; };
+		11449C50249DDB9800E32D9F /* UIChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449C11249DDB9800E32D9F /* UIChatViewController.swift */; };
+		11449C51249DDB9800E32D9F /* UIChatNavigation.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11449C12249DDB9800E32D9F /* UIChatNavigation.xib */; };
+		11449C52249DDB9800E32D9F /* UIChatNavigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449C13249DDB9800E32D9F /* UIChatNavigation.swift */; };
+		11449C53249DDB9800E32D9F /* QiscusUploaderVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11449C15249DDB9800E32D9F /* QiscusUploaderVC.xib */; };
+		11449C54249DDB9800E32D9F /* QiscusUploaderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449C16249DDB9800E32D9F /* QiscusUploaderVC.swift */; };
+		11449C55249DDB9800E32D9F /* UIChatInput.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11449C18249DDB9800E32D9F /* UIChatInput.xib */; };
+		11449C56249DDB9800E32D9F /* UIChatInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449C19249DDB9800E32D9F /* UIChatInput.swift */; };
+		11449C57249DDB9800E32D9F /* DisableInput.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11449C1A249DDB9800E32D9F /* DisableInput.xib */; };
+		11449C58249DDB9800E32D9F /* CustomChatInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449C1B249DDB9800E32D9F /* CustomChatInput.swift */; };
+		11449C59249DDB9800E32D9F /* DisableInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449C1C249DDB9800E32D9F /* DisableInput.swift */; };
+		11449C5A249DDB9800E32D9F /* CustomChatInput.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11449C1D249DDB9800E32D9F /* CustomChatInput.xib */; };
+		11449C5B249DDB9800E32D9F /* QismoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11449C1E249DDB9800E32D9F /* QismoViewController.xib */; };
+		11449C5C249DDB9800E32D9F /* UIChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11449C1F249DDB9800E32D9F /* UIChatViewController.xib */; };
+		11449C5D249DDB9800E32D9F /* QPopUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449C20249DDB9800E32D9F /* QPopUpView.swift */; };
+		11449C5E249DDB9800E32D9F /* QPopUpView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11449C21249DDB9800E32D9F /* QPopUpView.xib */; };
+		11449C5F249DDB9800E32D9F /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449C23249DDB9800E32D9F /* WebViewController.swift */; };
+		11449C60249DDB9800E32D9F /* QismoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449C24249DDB9800E32D9F /* QismoManager.swift */; };
+		11449C61249DDB9800E32D9F /* CommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449C26249DDB9800E32D9F /* CommentModel.swift */; };
+		11449C62249DDB9800E32D9F /* SharedPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449C27249DDB9800E32D9F /* SharedPreferences.swift */; };
+		11449C63249DDB9800E32D9F /* MultichannelWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449C28249DDB9800E32D9F /* MultichannelWidget.swift */; };
+		11449C68249DDC8300E32D9F /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11449C66249DDC8300E32D9F /* SwiftyJSON.framework */; };
+		11449C69249DDC8300E32D9F /* QiscusCoreAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11449C67249DDC8300E32D9F /* QiscusCoreAPI.framework */; };
+		11449C6C249DDE5800E32D9F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11449C6A249DDE5800E32D9F /* Alamofire.framework */; };
+		11449C6D249DDE5800E32D9F /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11449C6B249DDE5800E32D9F /* AlamofireImage.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		11449BCE249DDB5900E32D9F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 11449BBA249DDB5900E32D9F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 11449BC2249DDB5900E32D9F;
+			remoteInfo = MultichannelWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		11449BC3249DDB5900E32D9F /* MultichannelWidget.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MultichannelWidget.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		11449BC6249DDB5900E32D9F /* MultichannelWidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MultichannelWidget.h; sourceTree = "<group>"; };
+		11449BC7249DDB5900E32D9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		11449BCC249DDB5900E32D9F /* MultichannelWidgetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultichannelWidgetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		11449BD1249DDB5900E32D9F /* MultichannelWidgetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultichannelWidgetTests.swift; sourceTree = "<group>"; };
+		11449BD3249DDB5900E32D9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		11449BDF249DDB9800E32D9F /* QismoMobile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QismoMobile.h; sourceTree = "<group>"; };
+		11449BE0249DDB9800E32D9F /* QismoNetworkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QismoNetworkManager.swift; sourceTree = "<group>"; };
+		11449BE1249DDB9800E32D9F /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
+		11449BE3249DDB9800E32D9F /* QiscusTextConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QiscusTextConfiguration.swift; sourceTree = "<group>"; };
+		11449BE4249DDB9800E32D9F /* ColorConfiguration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ColorConfiguration.swift; sourceTree = "<group>"; };
+		11449BE5249DDB9800E32D9F /* MultichannelWidgetConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultichannelWidgetConfig.swift; sourceTree = "<group>"; };
+		11449BE6249DDB9800E32D9F /* ChatConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatConfig.swift; sourceTree = "<group>"; };
+		11449BE8249DDB9800E32D9F /* AppUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppUtil.swift; sourceTree = "<group>"; };
+		11449BEA249DDB9800E32D9F /* Date.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
+		11449BEB249DDB9800E32D9F /* Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		11449BEC249DDB9800E32D9F /* UIViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		11449BEF249DDB9800E32D9F /* FullImageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FullImageViewController.xib; sourceTree = "<group>"; };
+		11449BF0249DDB9800E32D9F /* FullImageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullImageViewController.swift; sourceTree = "<group>"; };
+		11449BF3249DDB9800E32D9F /* EmptyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyCell.swift; sourceTree = "<group>"; };
+		11449BF5249DDB9800E32D9F /* QTextLeftCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QTextLeftCell.xib; sourceTree = "<group>"; };
+		11449BF6249DDB9800E32D9F /* QTextRightCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QTextRightCell.xib; sourceTree = "<group>"; };
+		11449BF7249DDB9800E32D9F /* QTextLeftCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTextLeftCell.swift; sourceTree = "<group>"; };
+		11449BF8249DDB9800E32D9F /* QTextRightCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QTextRightCell.swift; sourceTree = "<group>"; };
+		11449BFA249DDB9800E32D9F /* QImagesRightCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QImagesRightCell.swift; sourceTree = "<group>"; };
+		11449BFB249DDB9800E32D9F /* QImagesLeftCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QImagesLeftCell.xib; sourceTree = "<group>"; };
+		11449BFC249DDB9800E32D9F /* QImagesLeftCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QImagesLeftCell.swift; sourceTree = "<group>"; };
+		11449BFD249DDB9800E32D9F /* QImagesRightCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QImagesRightCell.xib; sourceTree = "<group>"; };
+		11449BFE249DDB9800E32D9F /* EmptyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EmptyCell.xib; sourceTree = "<group>"; };
+		11449BFF249DDB9800E32D9F /* QSystemCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSystemCell.xib; sourceTree = "<group>"; };
+		11449C01249DDB9800E32D9F /* QFileRightCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QFileRightCell.xib; sourceTree = "<group>"; };
+		11449C02249DDB9800E32D9F /* QFileRightCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QFileRightCell.swift; sourceTree = "<group>"; };
+		11449C03249DDB9800E32D9F /* QFileLeftCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QFileLeftCell.swift; sourceTree = "<group>"; };
+		11449C04249DDB9800E32D9F /* QFileLeftCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QFileLeftCell.xib; sourceTree = "<group>"; };
+		11449C05249DDB9800E32D9F /* QSystemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QSystemCell.swift; sourceTree = "<group>"; };
+		11449C07249DDB9800E32D9F /* QReplyLeftCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QReplyLeftCell.xib; sourceTree = "<group>"; };
+		11449C08249DDB9800E32D9F /* QReplyRightCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QReplyRightCell.xib; sourceTree = "<group>"; };
+		11449C09249DDB9800E32D9F /* QReplyLeftCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QReplyLeftCell.swift; sourceTree = "<group>"; };
+		11449C0A249DDB9800E32D9F /* QReplyRightCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QReplyRightCell.swift; sourceTree = "<group>"; };
+		11449C0B249DDB9800E32D9F /* QUIBaseChatCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QUIBaseChatCell.swift; sourceTree = "<group>"; };
+		11449C0D249DDB9800E32D9F /* QCardLeftCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QCardLeftCell.xib; sourceTree = "<group>"; };
+		11449C0E249DDB9800E32D9F /* QCardLeftCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QCardLeftCell.swift; sourceTree = "<group>"; };
+		11449C0F249DDB9800E32D9F /* UIChatPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatPresenter.swift; sourceTree = "<group>"; };
+		11449C10249DDB9800E32D9F /* QismoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QismoViewController.swift; sourceTree = "<group>"; };
+		11449C11249DDB9800E32D9F /* UIChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatViewController.swift; sourceTree = "<group>"; };
+		11449C12249DDB9800E32D9F /* UIChatNavigation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UIChatNavigation.xib; sourceTree = "<group>"; };
+		11449C13249DDB9800E32D9F /* UIChatNavigation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatNavigation.swift; sourceTree = "<group>"; };
+		11449C15249DDB9800E32D9F /* QiscusUploaderVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QiscusUploaderVC.xib; sourceTree = "<group>"; };
+		11449C16249DDB9800E32D9F /* QiscusUploaderVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QiscusUploaderVC.swift; sourceTree = "<group>"; };
+		11449C18249DDB9800E32D9F /* UIChatInput.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UIChatInput.xib; sourceTree = "<group>"; };
+		11449C19249DDB9800E32D9F /* UIChatInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIChatInput.swift; sourceTree = "<group>"; };
+		11449C1A249DDB9800E32D9F /* DisableInput.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DisableInput.xib; sourceTree = "<group>"; };
+		11449C1B249DDB9800E32D9F /* CustomChatInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomChatInput.swift; sourceTree = "<group>"; };
+		11449C1C249DDB9800E32D9F /* DisableInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisableInput.swift; sourceTree = "<group>"; };
+		11449C1D249DDB9800E32D9F /* CustomChatInput.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomChatInput.xib; sourceTree = "<group>"; };
+		11449C1E249DDB9800E32D9F /* QismoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QismoViewController.xib; sourceTree = "<group>"; };
+		11449C1F249DDB9800E32D9F /* UIChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UIChatViewController.xib; sourceTree = "<group>"; };
+		11449C20249DDB9800E32D9F /* QPopUpView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QPopUpView.swift; sourceTree = "<group>"; };
+		11449C21249DDB9800E32D9F /* QPopUpView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QPopUpView.xib; sourceTree = "<group>"; };
+		11449C23249DDB9800E32D9F /* WebViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		11449C24249DDB9800E32D9F /* QismoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QismoManager.swift; sourceTree = "<group>"; };
+		11449C26249DDB9800E32D9F /* CommentModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommentModel.swift; sourceTree = "<group>"; };
+		11449C27249DDB9800E32D9F /* SharedPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SharedPreferences.swift; sourceTree = "<group>"; };
+		11449C28249DDB9800E32D9F /* MultichannelWidget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultichannelWidget.swift; sourceTree = "<group>"; };
+		11449C66249DDC8300E32D9F /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
+		11449C67249DDC8300E32D9F /* QiscusCoreAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QiscusCoreAPI.framework; path = Carthage/Build/iOS/QiscusCoreAPI.framework; sourceTree = "<group>"; };
+		11449C6A249DDE5800E32D9F /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
+		11449C6B249DDE5800E32D9F /* AlamofireImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireImage.framework; path = Carthage/Build/iOS/AlamofireImage.framework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		11449BC0249DDB5900E32D9F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				11449C68249DDC8300E32D9F /* SwiftyJSON.framework in Frameworks */,
+				11449C69249DDC8300E32D9F /* QiscusCoreAPI.framework in Frameworks */,
+				11449C6C249DDE5800E32D9F /* Alamofire.framework in Frameworks */,
+				11449C6D249DDE5800E32D9F /* AlamofireImage.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		11449BC9249DDB5900E32D9F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				11449BCD249DDB5900E32D9F /* MultichannelWidget.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		11449BB9249DDB5900E32D9F = {
+			isa = PBXGroup;
+			children = (
+				11449BC5249DDB5900E32D9F /* MultichannelWidget */,
+				11449BD0249DDB5900E32D9F /* MultichannelWidgetTests */,
+				11449BC4249DDB5900E32D9F /* Products */,
+				11449C65249DDC8200E32D9F /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		11449BC4249DDB5900E32D9F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				11449BC3249DDB5900E32D9F /* MultichannelWidget.framework */,
+				11449BCC249DDB5900E32D9F /* MultichannelWidgetTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		11449BC5249DDB5900E32D9F /* MultichannelWidget */ = {
+			isa = PBXGroup;
+			children = (
+				11449BDD249DDB9800E32D9F /* Source */,
+				11449BC6249DDB5900E32D9F /* MultichannelWidget.h */,
+				11449BC7249DDB5900E32D9F /* Info.plist */,
+			);
+			path = MultichannelWidget;
+			sourceTree = "<group>";
+		};
+		11449BD0249DDB5900E32D9F /* MultichannelWidgetTests */ = {
+			isa = PBXGroup;
+			children = (
+				11449BD1249DDB5900E32D9F /* MultichannelWidgetTests.swift */,
+				11449BD3249DDB5900E32D9F /* Info.plist */,
+			);
+			path = MultichannelWidgetTests;
+			sourceTree = "<group>";
+		};
+		11449BDD249DDB9800E32D9F /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				11449BDE249DDB9800E32D9F /* MultichannelWidget */,
+			);
+			path = Source;
+			sourceTree = SOURCE_ROOT;
+		};
+		11449BDE249DDB9800E32D9F /* MultichannelWidget */ = {
+			isa = PBXGroup;
+			children = (
+				11449BDF249DDB9800E32D9F /* QismoMobile.h */,
+				11449BE0249DDB9800E32D9F /* QismoNetworkManager.swift */,
+				11449BE1249DDB9800E32D9F /* Media.xcassets */,
+				11449BE2249DDB9800E32D9F /* Config */,
+				11449BE7249DDB9800E32D9F /* AppUtil */,
+				11449BE9249DDB9800E32D9F /* Extensions */,
+				11449BED249DDB9800E32D9F /* ViewControllers */,
+				11449C24249DDB9800E32D9F /* QismoManager.swift */,
+				11449C25249DDB9800E32D9F /* Model */,
+				11449C27249DDB9800E32D9F /* SharedPreferences.swift */,
+				11449C28249DDB9800E32D9F /* MultichannelWidget.swift */,
+			);
+			path = MultichannelWidget;
+			sourceTree = "<group>";
+		};
+		11449BE2249DDB9800E32D9F /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				11449BE3249DDB9800E32D9F /* QiscusTextConfiguration.swift */,
+				11449BE4249DDB9800E32D9F /* ColorConfiguration.swift */,
+				11449BE5249DDB9800E32D9F /* MultichannelWidgetConfig.swift */,
+				11449BE6249DDB9800E32D9F /* ChatConfig.swift */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		11449BE7249DDB9800E32D9F /* AppUtil */ = {
+			isa = PBXGroup;
+			children = (
+				11449BE8249DDB9800E32D9F /* AppUtil.swift */,
+			);
+			path = AppUtil;
+			sourceTree = "<group>";
+		};
+		11449BE9249DDB9800E32D9F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				11449BEA249DDB9800E32D9F /* Date.swift */,
+				11449BEB249DDB9800E32D9F /* Image.swift */,
+				11449BEC249DDB9800E32D9F /* UIViewController.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		11449BED249DDB9800E32D9F /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				11449BEE249DDB9800E32D9F /* fullimage */,
+				11449BF1249DDB9800E32D9F /* Chatview */,
+				11449C20249DDB9800E32D9F /* QPopUpView.swift */,
+				11449C21249DDB9800E32D9F /* QPopUpView.xib */,
+				11449C22249DDB9800E32D9F /* webview */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		11449BEE249DDB9800E32D9F /* fullimage */ = {
+			isa = PBXGroup;
+			children = (
+				11449BEF249DDB9800E32D9F /* FullImageViewController.xib */,
+				11449BF0249DDB9800E32D9F /* FullImageViewController.swift */,
+			);
+			path = fullimage;
+			sourceTree = "<group>";
+		};
+		11449BF1249DDB9800E32D9F /* Chatview */ = {
+			isa = PBXGroup;
+			children = (
+				11449BF2249DDB9800E32D9F /* ChatCell */,
+				11449C0F249DDB9800E32D9F /* UIChatPresenter.swift */,
+				11449C10249DDB9800E32D9F /* QismoViewController.swift */,
+				11449C11249DDB9800E32D9F /* UIChatViewController.swift */,
+				11449C12249DDB9800E32D9F /* UIChatNavigation.xib */,
+				11449C13249DDB9800E32D9F /* UIChatNavigation.swift */,
+				11449C14249DDB9800E32D9F /* ChatUpload */,
+				11449C17249DDB9800E32D9F /* ChatInput */,
+				11449C1E249DDB9800E32D9F /* QismoViewController.xib */,
+				11449C1F249DDB9800E32D9F /* UIChatViewController.xib */,
+			);
+			path = Chatview;
+			sourceTree = "<group>";
+		};
+		11449BF2249DDB9800E32D9F /* ChatCell */ = {
+			isa = PBXGroup;
+			children = (
+				11449BF3249DDB9800E32D9F /* EmptyCell.swift */,
+				11449BF4249DDB9800E32D9F /* TextCell */,
+				11449BF9249DDB9800E32D9F /* ImageCell */,
+				11449BFE249DDB9800E32D9F /* EmptyCell.xib */,
+				11449BFF249DDB9800E32D9F /* QSystemCell.xib */,
+				11449C00249DDB9800E32D9F /* FileCell */,
+				11449C05249DDB9800E32D9F /* QSystemCell.swift */,
+				11449C06249DDB9800E32D9F /* ReplyCell */,
+				11449C0B249DDB9800E32D9F /* QUIBaseChatCell.swift */,
+				11449C0C249DDB9800E32D9F /* CardCell */,
+			);
+			path = ChatCell;
+			sourceTree = "<group>";
+		};
+		11449BF4249DDB9800E32D9F /* TextCell */ = {
+			isa = PBXGroup;
+			children = (
+				11449BF5249DDB9800E32D9F /* QTextLeftCell.xib */,
+				11449BF6249DDB9800E32D9F /* QTextRightCell.xib */,
+				11449BF7249DDB9800E32D9F /* QTextLeftCell.swift */,
+				11449BF8249DDB9800E32D9F /* QTextRightCell.swift */,
+			);
+			path = TextCell;
+			sourceTree = "<group>";
+		};
+		11449BF9249DDB9800E32D9F /* ImageCell */ = {
+			isa = PBXGroup;
+			children = (
+				11449BFA249DDB9800E32D9F /* QImagesRightCell.swift */,
+				11449BFB249DDB9800E32D9F /* QImagesLeftCell.xib */,
+				11449BFC249DDB9800E32D9F /* QImagesLeftCell.swift */,
+				11449BFD249DDB9800E32D9F /* QImagesRightCell.xib */,
+			);
+			path = ImageCell;
+			sourceTree = "<group>";
+		};
+		11449C00249DDB9800E32D9F /* FileCell */ = {
+			isa = PBXGroup;
+			children = (
+				11449C01249DDB9800E32D9F /* QFileRightCell.xib */,
+				11449C02249DDB9800E32D9F /* QFileRightCell.swift */,
+				11449C03249DDB9800E32D9F /* QFileLeftCell.swift */,
+				11449C04249DDB9800E32D9F /* QFileLeftCell.xib */,
+			);
+			path = FileCell;
+			sourceTree = "<group>";
+		};
+		11449C06249DDB9800E32D9F /* ReplyCell */ = {
+			isa = PBXGroup;
+			children = (
+				11449C07249DDB9800E32D9F /* QReplyLeftCell.xib */,
+				11449C08249DDB9800E32D9F /* QReplyRightCell.xib */,
+				11449C09249DDB9800E32D9F /* QReplyLeftCell.swift */,
+				11449C0A249DDB9800E32D9F /* QReplyRightCell.swift */,
+			);
+			path = ReplyCell;
+			sourceTree = "<group>";
+		};
+		11449C0C249DDB9800E32D9F /* CardCell */ = {
+			isa = PBXGroup;
+			children = (
+				11449C0D249DDB9800E32D9F /* QCardLeftCell.xib */,
+				11449C0E249DDB9800E32D9F /* QCardLeftCell.swift */,
+			);
+			path = CardCell;
+			sourceTree = "<group>";
+		};
+		11449C14249DDB9800E32D9F /* ChatUpload */ = {
+			isa = PBXGroup;
+			children = (
+				11449C15249DDB9800E32D9F /* QiscusUploaderVC.xib */,
+				11449C16249DDB9800E32D9F /* QiscusUploaderVC.swift */,
+			);
+			path = ChatUpload;
+			sourceTree = "<group>";
+		};
+		11449C17249DDB9800E32D9F /* ChatInput */ = {
+			isa = PBXGroup;
+			children = (
+				11449C18249DDB9800E32D9F /* UIChatInput.xib */,
+				11449C19249DDB9800E32D9F /* UIChatInput.swift */,
+				11449C1A249DDB9800E32D9F /* DisableInput.xib */,
+				11449C1B249DDB9800E32D9F /* CustomChatInput.swift */,
+				11449C1C249DDB9800E32D9F /* DisableInput.swift */,
+				11449C1D249DDB9800E32D9F /* CustomChatInput.xib */,
+			);
+			path = ChatInput;
+			sourceTree = "<group>";
+		};
+		11449C22249DDB9800E32D9F /* webview */ = {
+			isa = PBXGroup;
+			children = (
+				11449C23249DDB9800E32D9F /* WebViewController.swift */,
+			);
+			path = webview;
+			sourceTree = "<group>";
+		};
+		11449C25249DDB9800E32D9F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				11449C26249DDB9800E32D9F /* CommentModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		11449C65249DDC8200E32D9F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				11449C6A249DDE5800E32D9F /* Alamofire.framework */,
+				11449C6B249DDE5800E32D9F /* AlamofireImage.framework */,
+				11449C67249DDC8300E32D9F /* QiscusCoreAPI.framework */,
+				11449C66249DDC8300E32D9F /* SwiftyJSON.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		11449BBE249DDB5900E32D9F /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				11449C2A249DDB9800E32D9F /* QismoMobile.h in Headers */,
+				11449BD4249DDB5900E32D9F /* MultichannelWidget.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		11449BC2249DDB5900E32D9F /* MultichannelWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 11449BD7249DDB5900E32D9F /* Build configuration list for PBXNativeTarget "MultichannelWidget" */;
+			buildPhases = (
+				11449BBE249DDB5900E32D9F /* Headers */,
+				11449BBF249DDB5900E32D9F /* Sources */,
+				11449BC0249DDB5900E32D9F /* Frameworks */,
+				11449BC1249DDB5900E32D9F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MultichannelWidget;
+			productName = MultichannelWidget;
+			productReference = 11449BC3249DDB5900E32D9F /* MultichannelWidget.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		11449BCB249DDB5900E32D9F /* MultichannelWidgetTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 11449BDA249DDB5900E32D9F /* Build configuration list for PBXNativeTarget "MultichannelWidgetTests" */;
+			buildPhases = (
+				11449BC8249DDB5900E32D9F /* Sources */,
+				11449BC9249DDB5900E32D9F /* Frameworks */,
+				11449BCA249DDB5900E32D9F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				11449BCF249DDB5900E32D9F /* PBXTargetDependency */,
+			);
+			name = MultichannelWidgetTests;
+			productName = MultichannelWidgetTests;
+			productReference = 11449BCC249DDB5900E32D9F /* MultichannelWidgetTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		11449BBA249DDB5900E32D9F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1140;
+				LastUpgradeCheck = 1140;
+				ORGANIZATIONNAME = Qiscus;
+				TargetAttributes = {
+					11449BC2249DDB5900E32D9F = {
+						CreatedOnToolsVersion = 11.4.1;
+					};
+					11449BCB249DDB5900E32D9F = {
+						CreatedOnToolsVersion = 11.4.1;
+					};
+				};
+			};
+			buildConfigurationList = 11449BBD249DDB5900E32D9F /* Build configuration list for PBXProject "MultichannelWidget" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 11449BB9249DDB5900E32D9F;
+			productRefGroup = 11449BC4249DDB5900E32D9F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				11449BC2249DDB5900E32D9F /* MultichannelWidget */,
+				11449BCB249DDB5900E32D9F /* MultichannelWidgetTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		11449BC1249DDB5900E32D9F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				11449C47249DDB9800E32D9F /* QReplyLeftCell.xib in Resources */,
+				11449C3F249DDB9800E32D9F /* QImagesRightCell.xib in Resources */,
+				11449C42249DDB9800E32D9F /* QFileRightCell.xib in Resources */,
+				11449C51249DDB9800E32D9F /* UIChatNavigation.xib in Resources */,
+				11449C2C249DDB9800E32D9F /* Media.xcassets in Resources */,
+				11449C40249DDB9800E32D9F /* EmptyCell.xib in Resources */,
+				11449C45249DDB9800E32D9F /* QFileLeftCell.xib in Resources */,
+				11449C35249DDB9800E32D9F /* FullImageViewController.xib in Resources */,
+				11449C53249DDB9800E32D9F /* QiscusUploaderVC.xib in Resources */,
+				11449C5A249DDB9800E32D9F /* CustomChatInput.xib in Resources */,
+				11449C4C249DDB9800E32D9F /* QCardLeftCell.xib in Resources */,
+				11449C5E249DDB9800E32D9F /* QPopUpView.xib in Resources */,
+				11449C48249DDB9800E32D9F /* QReplyRightCell.xib in Resources */,
+				11449C3D249DDB9800E32D9F /* QImagesLeftCell.xib in Resources */,
+				11449C57249DDB9800E32D9F /* DisableInput.xib in Resources */,
+				11449C5C249DDB9800E32D9F /* UIChatViewController.xib in Resources */,
+				11449C5B249DDB9800E32D9F /* QismoViewController.xib in Resources */,
+				11449C38249DDB9800E32D9F /* QTextLeftCell.xib in Resources */,
+				11449C41249DDB9800E32D9F /* QSystemCell.xib in Resources */,
+				11449C55249DDB9800E32D9F /* UIChatInput.xib in Resources */,
+				11449C39249DDB9800E32D9F /* QTextRightCell.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		11449BCA249DDB5900E32D9F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		11449BBF249DDB5900E32D9F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				11449C30249DDB9800E32D9F /* ChatConfig.swift in Sources */,
+				11449C62249DDB9800E32D9F /* SharedPreferences.swift in Sources */,
+				11449C33249DDB9800E32D9F /* Image.swift in Sources */,
+				11449C34249DDB9800E32D9F /* UIViewController.swift in Sources */,
+				11449C4A249DDB9800E32D9F /* QReplyRightCell.swift in Sources */,
+				11449C3E249DDB9800E32D9F /* QImagesLeftCell.swift in Sources */,
+				11449C2B249DDB9800E32D9F /* QismoNetworkManager.swift in Sources */,
+				11449C32249DDB9800E32D9F /* Date.swift in Sources */,
+				11449C49249DDB9800E32D9F /* QReplyLeftCell.swift in Sources */,
+				11449C4B249DDB9800E32D9F /* QUIBaseChatCell.swift in Sources */,
+				11449C36249DDB9800E32D9F /* FullImageViewController.swift in Sources */,
+				11449C37249DDB9800E32D9F /* EmptyCell.swift in Sources */,
+				11449C3A249DDB9800E32D9F /* QTextLeftCell.swift in Sources */,
+				11449C4F249DDB9800E32D9F /* QismoViewController.swift in Sources */,
+				11449C50249DDB9800E32D9F /* UIChatViewController.swift in Sources */,
+				11449C3B249DDB9800E32D9F /* QTextRightCell.swift in Sources */,
+				11449C5F249DDB9800E32D9F /* WebViewController.swift in Sources */,
+				11449C2D249DDB9800E32D9F /* QiscusTextConfiguration.swift in Sources */,
+				11449C60249DDB9800E32D9F /* QismoManager.swift in Sources */,
+				11449C3C249DDB9800E32D9F /* QImagesRightCell.swift in Sources */,
+				11449C59249DDB9800E32D9F /* DisableInput.swift in Sources */,
+				11449C54249DDB9800E32D9F /* QiscusUploaderVC.swift in Sources */,
+				11449C56249DDB9800E32D9F /* UIChatInput.swift in Sources */,
+				11449C31249DDB9800E32D9F /* AppUtil.swift in Sources */,
+				11449C4D249DDB9800E32D9F /* QCardLeftCell.swift in Sources */,
+				11449C44249DDB9800E32D9F /* QFileLeftCell.swift in Sources */,
+				11449C4E249DDB9800E32D9F /* UIChatPresenter.swift in Sources */,
+				11449C63249DDB9800E32D9F /* MultichannelWidget.swift in Sources */,
+				11449C5D249DDB9800E32D9F /* QPopUpView.swift in Sources */,
+				11449C61249DDB9800E32D9F /* CommentModel.swift in Sources */,
+				11449C52249DDB9800E32D9F /* UIChatNavigation.swift in Sources */,
+				11449C46249DDB9800E32D9F /* QSystemCell.swift in Sources */,
+				11449C58249DDB9800E32D9F /* CustomChatInput.swift in Sources */,
+				11449C2E249DDB9800E32D9F /* ColorConfiguration.swift in Sources */,
+				11449C43249DDB9800E32D9F /* QFileRightCell.swift in Sources */,
+				11449C2F249DDB9800E32D9F /* MultichannelWidgetConfig.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		11449BC8249DDB5900E32D9F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				11449BD2249DDB5900E32D9F /* MultichannelWidgetTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		11449BCF249DDB5900E32D9F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 11449BC2249DDB5900E32D9F /* MultichannelWidget */;
+			targetProxy = 11449BCE249DDB5900E32D9F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		11449BD5249DDB5900E32D9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		11449BD6249DDB5900E32D9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		11449BD8249DDB5900E32D9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = MultichannelWidget/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.qismo.MultichannelWidget;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		11449BD9249DDB5900E32D9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = MultichannelWidget/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.qismo.MultichannelWidget;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		11449BDB249DDB5900E32D9F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = MultichannelWidgetTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.qismo.MultichannelWidgetTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		11449BDC249DDB5900E32D9F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = MultichannelWidgetTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.qiscus.qismo.MultichannelWidgetTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		11449BBD249DDB5900E32D9F /* Build configuration list for PBXProject "MultichannelWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				11449BD5249DDB5900E32D9F /* Debug */,
+				11449BD6249DDB5900E32D9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		11449BD7249DDB5900E32D9F /* Build configuration list for PBXNativeTarget "MultichannelWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				11449BD8249DDB5900E32D9F /* Debug */,
+				11449BD9249DDB5900E32D9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		11449BDA249DDB5900E32D9F /* Build configuration list for PBXNativeTarget "MultichannelWidgetTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				11449BDB249DDB5900E32D9F /* Debug */,
+				11449BDC249DDB5900E32D9F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 11449BBA249DDB5900E32D9F /* Project object */;
+}

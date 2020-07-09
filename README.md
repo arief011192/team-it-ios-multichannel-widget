@@ -14,43 +14,30 @@
 * QiscusCoreAPI
 * SDWebImage
 
-## How to run the Example
+## Installation
 
-### Step 1 : Get Your APP ID
+### CocoaPods
 
-Firstly, you need to register to Qiscus Multichannel, by accessing this [link](https://multichannel.qiscus.com). The APP ID can be retrieved from setting section.
-![Qiscus Widget Integration](/Readme/multichannel_setting.png)
+[CocoaPods](https://cocoapods.org) is a dependency manager for Cocoa projects. For usage and installation instructions, visit their website. To integrate MultichannelWidget into your Xcode project using CocoaPods, specify it in your `Podfile`:
 
-### Step 2 : Activate Qiscus Widget Integration
-
-In your Qiscus Multichannel, activate Qiscus Widget Integration.
-![Qiscus Widget Integration](/Readme/multichannel_integration.png)
-
-### Step 3 : Run pod install
-
-After cloned the example, you will need to run
-```
-pod install
-```
-This will install all cocoapods dependencies needed by the Example
-
-### Step 4 : Set Your APP ID in Example
-Set the example Qiscus Multichannel APP ID you got from step 1. Open Example/ChatManager.swift, replace the appId at line 21 with your APP ID.
-```swift
-lazy  var  widget: MultichannelWidget = {
-    return  MultichannelWidget(appID: "YOUR_APP_ID_FROM_STEP_1")
-}()
+```ruby
+pod 'MultichannelWidget', '~> 1.1.6'
 ```
 
-### Step 5: Start Chatting
-The Example is ready to use. You can start chatting with your customer service.
-![Ready to Chat Image](/Readme/ready_to_chat.png)
+### Carthage
+
+[Carthage](https://github.com/Carthage/Carthage) is a decentralized dependency manager that builds your dependencies and provides you with binary frameworks. To integrate MultichannelWidget into your Xcode project using Carthage, specify it in your `Cartfile`:
+
+```ogdl
+github "Qiscus-Integration/ios-multichannel-widget"
+```
 
 ## How to use
+
 ### Initialization
 To use the widget you will need to initialize MultichannelWidget, in order to do this you will need APP_ID.
 ```swift
-let widget = MultichannelWidget(appID: "bul-3c5iczzj7aiefltec")
+let widget = MultichannelWidget(appID: YOUR_APP_ID)
 ```
 after the initialization, you can access all the widget's function.
 ### Set the user
@@ -252,6 +239,38 @@ for example using tool Easy APNs Provider :
 **Follow step 1 - 6 tools to test push notification.
 **We test using cert Apple Development IOS Push Service
 
+
+## How to run the Example
+
+### Step 1 : Get Your APP ID
+
+Firstly, you need to register to Qiscus Multichannel, by accessing this [link](https://multichannel.qiscus.com). The APP ID can be retrieved from setting section.
+![Qiscus Widget Integration](/Readme/multichannel_setting.png)
+
+### Step 2 : Activate Qiscus Widget Integration
+
+In your Qiscus Multichannel, activate Qiscus Widget Integration.
+![Qiscus Widget Integration](/Readme/multichannel_integration.png)
+
+### Step 3 : Run pod install
+
+After cloned the example, you will need to run
+```
+pod install
+```
+This will install all cocoapods dependencies needed by the Example
+
+### Step 4 : Set Your APP ID in Example
+Set the example Qiscus Multichannel APP ID you got from step 1. Open Example/ChatManager.swift, replace the appId at line 21 with your APP ID.
+```swift
+lazy  var  widget: MultichannelWidget = {
+    return  MultichannelWidget(appID: "YOUR_APP_ID_FROM_STEP_1")
+}()
+```
+
+### Step 5: Start Chatting
+The Example is ready to use. You can start chatting with your customer service.
+![Ready to Chat Image](/Readme/ready_to_chat.png)
 
 ## Contribution
 ios-multichannel-widget is fully open-source. All contributions and suggestions are welcome!
