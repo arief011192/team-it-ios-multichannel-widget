@@ -56,6 +56,8 @@ class QImagesLeftCell: UIBaseChatCell {
         self.ivLeftBubble.backgroundColor = ColorConfiguration.leftBubbleColor
         self.ivLeftBubble.layer.cornerRadius = 5.0
         self.ivLeftBubble.clipsToBounds = true
+        self.ivComment.layer.cornerRadius = 5.0
+        self.ivComment.clipsToBounds = true
         
     }
     

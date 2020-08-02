@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -19,7 +21,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="133"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="VY1-Tj-fZi">
-                                <rect key="frame" x="20" y="5" width="297" height="123"/>
+                                <rect key="frame" x="20" y="0.0" width="297" height="125"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadiuss">
                                         <real key="value" value="6"/>
@@ -27,15 +29,15 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="halo" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MsS-mP-HBr">
-                                <rect key="frame" x="34" y="80" width="278" height="36.5"/>
+                                <rect key="frame" x="34" y="75" width="278" height="41.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lD1-CS-kGf" userLabel="background">
-                                <rect key="frame" x="30" y="15" width="282" height="60"/>
+                                <rect key="frame" x="30" y="10" width="282" height="60"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yXR-xd-HX5">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="yXR-xd-HX5">
                                         <rect key="frame" x="6" y="5" width="50" height="49.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="50" id="83n-JP-mAL"/>
@@ -91,7 +93,7 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2DX-7T-UW9">
-                                <rect key="frame" x="321" y="5" width="42" height="10"/>
+                                <rect key="frame" x="321" y="0.0" width="42" height="10"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="10" id="Lc8-X4-XRe"/>
                                     <constraint firstAttribute="width" constant="42" id="kz5-83-yTx"/>
@@ -121,9 +123,9 @@
                             <constraint firstItem="lD1-CS-kGf" firstAttribute="leading" secondItem="VY1-Tj-fZi" secondAttribute="leading" constant="10" id="L27-hx-BaT"/>
                             <constraint firstItem="2DX-7T-UW9" firstAttribute="top" secondItem="VY1-Tj-fZi" secondAttribute="top" id="Lw2-og-w8c"/>
                             <constraint firstItem="lD1-CS-kGf" firstAttribute="top" secondItem="VY1-Tj-fZi" secondAttribute="top" constant="10" id="QLu-uk-TfG"/>
-                            <constraint firstItem="VY1-Tj-fZi" firstAttribute="top" secondItem="fbA-Kr-gQb" secondAttribute="top" constant="5" id="TLo-U8-efa"/>
+                            <constraint firstItem="VY1-Tj-fZi" firstAttribute="top" secondItem="fbA-Kr-gQb" secondAttribute="top" id="TLo-U8-efa"/>
                             <constraint firstItem="lD1-CS-kGf" firstAttribute="leading" secondItem="MsS-mP-HBr" secondAttribute="leading" constant="-4" id="atL-XZ-Y4p"/>
-                            <constraint firstAttribute="bottom" secondItem="VY1-Tj-fZi" secondAttribute="bottom" constant="5" id="eds-4s-Hl8"/>
+                            <constraint firstAttribute="bottom" secondItem="VY1-Tj-fZi" secondAttribute="bottom" constant="8" id="eds-4s-Hl8"/>
                             <constraint firstItem="2BY-Ve-6Je" firstAttribute="leading" secondItem="fbA-Kr-gQb" secondAttribute="leading" constant="26" id="fT6-75-gYe"/>
                             <constraint firstItem="2BY-Ve-6Je" firstAttribute="top" secondItem="fbA-Kr-gQb" secondAttribute="top" constant="10" id="gag-wj-mql"/>
                             <constraint firstAttribute="bottom" secondItem="MsS-mP-HBr" secondAttribute="bottom" constant="16.5" id="kee-oq-3vX"/>

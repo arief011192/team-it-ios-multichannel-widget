@@ -746,7 +746,7 @@ extension UIChatViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 20
+        return 36
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
@@ -762,7 +762,8 @@ extension UIChatViewController: UITableViewDataSource {
             containerView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
             containerView.addSubview(label)
             label.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
-            label.centerYAnchor.constraint(equalTo: containerView.centerYAnchor).isActive = true
+            label.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 0).isActive = true
+            label.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8).isActive = true
             
             return containerView
             

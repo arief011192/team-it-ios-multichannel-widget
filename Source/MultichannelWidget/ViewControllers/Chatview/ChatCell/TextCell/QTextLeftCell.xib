@@ -21,7 +21,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="424" height="218"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="Iu0-VT-qD4">
-                                <rect key="frame" x="18" y="5" width="257" height="208"/>
+                                <rect key="frame" x="18" y="0.0" width="257" height="210"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadiuss">
                                         <real key="value" value="6"/>
@@ -52,7 +52,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="CmT-ww-wYB" userLabel="tv">
-                                <rect key="frame" x="23" y="10" width="247" height="198"/>
+                                <rect key="frame" x="23" y="5" width="247" height="200"/>
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="46" id="EOE-4n-U6n"/>
@@ -76,7 +76,7 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="bottom" secondItem="Iu0-VT-qD4" secondAttribute="bottom" constant="5" id="30X-t3-2Fs"/>
+                            <constraint firstAttribute="bottom" secondItem="Iu0-VT-qD4" secondAttribute="bottom" constant="8" id="30X-t3-2Fs"/>
                             <constraint firstItem="CmT-ww-wYB" firstAttribute="top" secondItem="Iu0-VT-qD4" secondAttribute="top" constant="5" id="BOW-w4-UWz"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Iu0-VT-qD4" secondAttribute="trailing" constant="58" id="H3V-84-uj6"/>
                             <constraint firstItem="Iu0-VT-qD4" firstAttribute="bottom" secondItem="CmT-ww-wYB" secondAttribute="bottom" constant="5" id="L5F-kb-iIl"/>
@@ -88,7 +88,7 @@
                             <constraint firstItem="Iu0-VT-qD4" firstAttribute="leading" secondItem="ok4-GL-9Bo" secondAttribute="leading" constant="-5" id="Zyb-N3-Z7Z"/>
                             <constraint firstItem="bEE-ol-nUK" firstAttribute="top" secondItem="ok4-GL-9Bo" secondAttribute="top" id="cqS-7d-f7y"/>
                             <constraint firstItem="Iu0-VT-qD4" firstAttribute="trailing" secondItem="ok4-GL-9Bo" secondAttribute="trailing" constant="5" id="dM2-jd-ZuE"/>
-                            <constraint firstItem="Iu0-VT-qD4" firstAttribute="top" secondItem="p3w-fh-zvu" secondAttribute="bottom" constant="5" id="fSi-4b-raj"/>
+                            <constraint firstItem="Iu0-VT-qD4" firstAttribute="top" secondItem="p3w-fh-zvu" secondAttribute="bottom" id="fSi-4b-raj"/>
                             <constraint firstItem="ok4-GL-9Bo" firstAttribute="leading" secondItem="p3w-fh-zvu" secondAttribute="leading" constant="5" id="frE-sW-8ke"/>
                             <constraint firstAttribute="bottom" secondItem="ok4-GL-9Bo" secondAttribute="bottom" constant="15" id="ldo-eN-D3e"/>
                             <constraint firstItem="p3w-fh-zvu" firstAttribute="top" secondItem="5hh-dE-BIu" secondAttribute="top" constant="-21" id="mVh-A7-HyY"/>

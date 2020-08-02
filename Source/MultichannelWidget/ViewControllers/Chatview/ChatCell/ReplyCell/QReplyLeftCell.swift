@@ -104,16 +104,16 @@ class QReplyLeftCell: UIBaseChatCell {
         case .video:
             let url = message.getAttachmentURL(message: text ?? "")
             self.tvCommentContent.text      = message.fileName(text: url)
-            self.ivCommentImage.image       = UIImage(named: "ic_file" , in: MultichannelWidget.bundle, compatibleWith: nil)
+            self.ivCommentImage.image       = UIImage(named: "ic_file_black" , in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
             self.ivCommentImage.contentMode = .scaleAspectFit
-            self.ivCommentImage.tintColor   = ColorConfiguration.leftBubbleColor
+            self.ivCommentImage.tintColor   = #colorLiteral(red: 0.4077942371, green: 0.4078705907, blue: 0.4077951014, alpha: 1)
         case .audio:
             self.tvCommentContent.text = text
         case .document:
             //pdf
-            self.ivCommentImage.image = UIImage(named: "ic_file" , in: MultichannelWidget.bundle, compatibleWith: nil)
+            self.ivCommentImage.image = UIImage(named: "ic_file_black" , in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
             self.ivCommentImage.contentMode = .scaleAspectFit
-            self.ivCommentImage.tintColor   = ColorConfiguration.leftBubbleColor
+            self.ivCommentImage.tintColor   = #colorLiteral(red: 0.4077942371, green: 0.4078705907, blue: 0.4077951014, alpha: 1)
             let url = message.getAttachmentURL(message: text ?? "")
             self.tvCommentContent.text      = message.fileName(text: url)
         case .location:
@@ -127,9 +127,9 @@ class QReplyLeftCell: UIBaseChatCell {
         case .file:
             let url = message.getAttachmentURL(message: text ?? "")
             self.tvCommentContent.text      = message.fileName(text: url)
-            self.ivCommentImage.image       = UIImage(named: "ic_file" , in: MultichannelWidget.bundle, compatibleWith: nil)
+            self.ivCommentImage.image       = UIImage(named: "ic_file_black" , in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
             self.ivCommentImage.contentMode = .scaleAspectFit
-            self.ivCommentImage.tintColor   = ColorConfiguration.leftBubbleColor
+            self.ivCommentImage.tintColor   = #colorLiteral(red: 0.4077942371, green: 0.4078705907, blue: 0.4077951014, alpha: 1)
         case .other:
             self.tvCommentContent.text = text
             self.ivCommentImageWidhtCons.constant = 0

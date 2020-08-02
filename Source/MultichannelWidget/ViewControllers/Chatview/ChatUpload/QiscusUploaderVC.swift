@@ -23,11 +23,11 @@ enum QUploaderType {
 
 class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegate {
 
-    @IBOutlet weak var heightProgressViewCons: NSLayoutConstraint!
+    @IBOutlet weak var viewProgressContainer: UIView!
     @IBOutlet weak var labelProgress: UILabel!
-    @IBOutlet weak var progressView: UIView!
-    @IBOutlet weak var containerProgressView: UIView!
+    @IBOutlet weak var viewProgress: UIView!
     @IBOutlet weak var sendButton: UIButton!
+    @IBOutlet weak var constraintProgressWidth: NSLayoutConstraint!
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var imageView: UIImageView!
@@ -85,10 +85,10 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
                 print(progress.fractionCompleted)
                 self.showProgress()
                 self.labelProgress.text = "\(Int(progress.fractionCompleted * 100)) %"
-                let newHeight = progress.fractionCompleted * self.maxProgressHeight
-                self.heightProgressViewCons.constant = CGFloat(newHeight)
+                
+                self.constraintProgressWidth.constant = UIScreen.main.bounds.width * CGFloat(progress.fractionCompleted)
                 UIView.animate(withDuration: 0.65, animations: {
-                    self.progressView.layoutIfNeeded()
+                    self.viewProgressContainer.layoutIfNeeded()
                 })
             }.responseJSON { response in
                 switch response.result {
@@ -99,8 +99,8 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
                     let image = JSON(jsonResponse)
 
                     self.sendButton.isEnabled = true
-                    self.sendButton.isHidden = false
                     self.hiddenProgress()
+                    self.view.layoutIfNeeded()
                     
                     let message = QismoManager.shared.qiscus.newMessage()
                     message.type = "file_attachment"
@@ -128,7 +128,6 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
     func setupUI(){
         self.title = "Image"
         self.hiddenProgress()
-        self.containerProgressView.layer.cornerRadius = self.containerProgressView.frame.height / 2
         
         let keyboardToolBar = UIToolbar()
         keyboardToolBar.sizeToFit()
@@ -153,21 +152,18 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
         self.sendButton.tintColor = ColorConfiguration.topColor
         self.mediaCaption.font = ChatConfig.chatFont
         
+        self.sendButton.setImage(UIImage(named: "ic_send", in: MultichannelWidget.bundle, compatibleWith: nil), for: .normal)
+        self.sendButton.setImage(UIImage(named: "ic_uploading", in: MultichannelWidget.bundle, compatibleWith: nil), for: .disabled)
         self.sendButton.isEnabled = false
-        self.sendButton.isHidden = true
 
     }
     
     func hiddenProgress(){
-        self.containerProgressView.isHidden = true
-        self.labelProgress.isHidden = true
-        self.progressView.isHidden = true
+        viewProgressContainer.isHidden = true
     }
     
     func showProgress(){
-        self.labelProgress.isHidden = false
-        self.containerProgressView.isHidden = false
-        self.progressView.isHidden = false
+        viewProgressContainer.isHidden = false
     }
     
     @objc func doneClicked() {
