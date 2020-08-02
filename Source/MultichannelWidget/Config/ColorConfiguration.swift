@@ -21,7 +21,7 @@ class ColorConfiguration: NSObject {
     /// Your navigation color, using UIColor class, Default value : nil
     static var navigationColor: UIColor?
     
-    static var navigationTitleColor: UIColor = .systemBlue
+    static var navigationTitleColor: UIColor = .white
     
     /// Your right bubble color, using UIColor class, Default value : UIColor(red: 165/255.0, green: 226/255.0, blue: 221/255.0, alpha: 1.0)
     static var systemBubbleColor: UIColor = UIColor(red: 201/255, green: 229/255, blue: 215/255, alpha: 1)
@@ -41,9 +41,9 @@ class ColorConfiguration: NSObject {
     /// Your failed text color if the message fail to send, using UIColor class, Default value : UIColor(red: 1, green: 19/255.0, blue: 0, alpha: 1)
     static var failToSendColor: UIColor = UIColor(red: 1, green: 19/255.0, blue: 0, alpha: 1)
     
-    static var readMessageColor: UIColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+    static var readMessageColor: UIColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
     
-    static var sentOrDeliveredColor: UIColor = UIColor(red: 133/255.0, green: 133/255.0, blue: 133/255.0, alpha: 1)
+    static var sentOrDeliveredColor: UIColor = #colorLiteral(red: 0.2549019754, green: 0.2745098174, blue: 0.3019607961, alpha: 1)
     
     static var sendButtonColor: UIColor = UIColor(red: 0, green: 0.443, blue: 0.733, alpha: 1)
     

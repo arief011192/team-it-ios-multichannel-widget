@@ -8,18 +8,18 @@
 #if os(iOS)
 import UIKit
 #endif
-import QiscusCoreAPI
+import QiscusCore
 
 // Blueprint method
 protocol UIChatInputAction {
-    func send(message : CommentModel)
+    func send(message : QMessage)
     func typing(_ value: Bool)
     func setHeight(_ value: CGFloat)
 }
 
 // internal function
 protocol UIChatInputDelegate {
-    func send(message : CommentModel,onSuccess: @escaping (CommentModel) -> Void, onError: @escaping (String) -> Void)
+    func send(message : QMessage,onSuccess: @escaping (QMessage) -> Void, onError: @escaping (String) -> Void)
     func typing(_ value: Bool)
     func onHeightChanged(height: CGFloat)
 }
@@ -76,7 +76,7 @@ class UIChatInput: UIView {
     @IBAction private func clickUISendButton(_ sender: Any) {
         guard let text = self.tfInput.text else {return}
         if !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            let message = QismoManager.shared.qiscus.newMessage()
+            let message = QMessage()
             message.message = text
             message.type    = "text"
             self._delegate?.send(message: message, onSuccess: { (comment) in
@@ -98,7 +98,7 @@ extension UIChatInput : UIChatInputAction {
         self._delegate?.typing(value)
     }
     
-    func send(message : CommentModel) {
+    func send(message : QMessage) {
         self._delegate?.send(message: message, onSuccess: { (comment) in
             //success
         }, onError: { (error) in

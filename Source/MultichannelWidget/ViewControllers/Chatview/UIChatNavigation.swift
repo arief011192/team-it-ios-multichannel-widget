@@ -8,7 +8,7 @@
 #if os(iOS)
 import UIKit
 #endif
-import QiscusCoreAPI
+import QiscusCore
 import AlamofireImage
 
 class UIChatNavigation: UIView {
@@ -20,7 +20,7 @@ class UIChatNavigation: UIView {
     /// UILabel subtitle
     @IBOutlet weak var labelSubtitle: UILabel!
     
-    var room: RoomModel? {
+    var room: QChatRoom? {
         set {
             self._room = newValue
             if let data = newValue { present(room: data) } // bind data only
@@ -29,7 +29,7 @@ class UIChatNavigation: UIView {
             return self._room
         }
     }
-    private var _room : RoomModel? = nil
+    private var _room : QChatRoom? = nil
     
     override var intrinsicContentSize: CGSize {
         return UIView.layoutFittingExpandedSize
@@ -70,24 +70,20 @@ class UIChatNavigation: UIView {
     }
     
     private func setupUI() {
-        
+        self.ivAvatar.layer.cornerRadius = 43/2
+        self.ivAvatar.clipsToBounds = true
     }
     
-    func present(room: RoomModel) {
+    func present(room: QChatRoom) {
         
-        self.ivAvatar.af.setImage(withURL: room.avatarUrl!, filter: CircleFilter())
-        
-        // title value
-        //always check room localDB
-        
-        //load from rest
-        if room.type == .group {
-//            QiscusCoreAPI.shared.getParticipants(roomUniqueId: (self.room?.uniqueId)!, onSuccess: { (participants) in
-//                self.labelSubtitle.text = self.getParticipant(participants: participants)
-//            }, onError: { (error) in
-//                //error
-//            })
-        }
+        // change avatar room do admin avatar, you can set avatar on admin dashboard
+        room.participants?.forEach({ (p) in
+            if p.id.contains("admin@qismo.com") {
+                if let avatarURL = p.avatarUrl {
+                    self.ivAvatar.af.setImage(withURL: avatarURL)
+                }
+            }
+        })
     }
     
     override func layoutSubviews() {
@@ -97,13 +93,13 @@ class UIChatNavigation: UIView {
 }
 
 extension UIChatNavigation {
-    func getParticipant(participants: [MemberModel]) -> String {
+    func getParticipant(participants: [QParticipant]) -> String {
         var result = ""
         for m in participants {
             if result.isEmpty {
-                result = m.username
+                result = m.name
             }else {
-                result = result + ", \(m.username)"
+                result = result + ", \(m.name)"
             }
         }
         return result

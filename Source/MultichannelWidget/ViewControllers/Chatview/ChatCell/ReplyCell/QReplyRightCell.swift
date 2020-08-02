@@ -8,7 +8,7 @@
 #if os(iOS)
 import UIKit
 #endif
-import QiscusCoreAPI
+import QiscusCore
 import SwiftyJSON
 
 class QReplyRightCell: UIBaseChatCell {
@@ -22,6 +22,8 @@ class QReplyRightCell: UIBaseChatCell {
     @IBOutlet weak var lbName: UILabel!
     @IBOutlet weak var ivBubble: UIImageView!
     @IBOutlet weak var ivStatus: UIImageView!
+    
+    
     var menuConfig = enableMenuConfig()
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -32,6 +34,7 @@ class QReplyRightCell: UIBaseChatCell {
         
         viewReplyPreview.addGestureRecognizer(tap)
         viewReplyPreview.isUserInteractionEnabled = true
+        ivCommentImage.clipsToBounds = true
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -44,25 +47,32 @@ class QReplyRightCell: UIBaseChatCell {
         
     }
     
-    override func present(message: CommentModel) {
+    override func present(message: QMessage) {
         // parsing payload
         self.bindData(message: message)
         
     }
     
-    override func update(message: CommentModel) {
+    override func update(message: QMessage) {
         self.bindData(message: message)
     }
     
-    func bindData(message: CommentModel){
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.ivCommentImageWidhtCons.constant = 50
+    }
+    
+    func bindData(message: QMessage){
         self.setupBalon()
         self.status(message: message)
         
         guard let replyData = message.payload else {
             return
         }
-        var text = replyData["replied_comment_message"] as? String
+        let text = replyData["replied_comment_message"] as? String
         var replyType = message.replyType(message: text!)
+        
+        lbCommentSender.text = replyData["replied_comment_sender_username"] as? String
         
         if replyType == .text  {
             switch replyData["replied_comment_type"] as? String {
@@ -127,13 +137,15 @@ class QReplyRightCell: UIBaseChatCell {
         if(message.isMyComment() == true){
             self.lbName.text = "You"
         }else{
-            self.lbName.text = message.username
+            self.lbName.text = message.sender.name
         }
         
-        guard let user = QismoManager.shared.qiscus.userProfile else { return }
-        if repliedEmail == user.email {
+        if let user = QismoManager.shared.network.qiscusUser, repliedEmail == user.id {
+            username = "You"
+        } else if let userEmail = SharedPreferences.getQiscusAccount(), repliedEmail == userEmail {
             username = "You"
         }
+        
         self.lbCommentSender.text = username
     }
     
@@ -155,11 +167,11 @@ class QReplyRightCell: UIBaseChatCell {
 //        self.lbTime.textColor = ColorConfiguration.timeLabelTextColor
     }
     
-    func status(message: CommentModel){
+    func status(message: QMessage){
         
         switch message.status {
         case .deleted:
-            ivStatus.image = UIImage(named: "ic_deleted", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+//            ivStatus.image = UIImage(named: "ic_deleted", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
             break
         case .sending, .pending:
             lbTime.textColor = ColorConfiguration.timeLabelTextColor
@@ -189,7 +201,7 @@ class QReplyRightCell: UIBaseChatCell {
             ivStatus.tintColor = ColorConfiguration.failToSendColor
             break
         case .deleting:
-            ivStatus.image = UIImage(named: "ic_deleted", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+//            ivStatus.image = UIImage(named: "ic_deleted", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
             break
         }
     }

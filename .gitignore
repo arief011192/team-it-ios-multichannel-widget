@@ -4,6 +4,7 @@ Podfile.lock
 Example.xcworkspace/*
 Example.xcodeproj/xcuserdata/*
 .build/*
+Examples/cocoapods/Example.xcworkspace/xcuserdata
 Examples/carthage/Carthage
 Examples/cocoapods/pods/*
 swift package manager/Carthage/*

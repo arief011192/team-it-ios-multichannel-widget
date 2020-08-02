@@ -8,7 +8,7 @@
 #if os(iOS)
 import UIKit
 #endif
-import QiscusCoreAPI
+import QiscusCore
 import AlamofireImage
 import SwiftyJSON
 
@@ -37,15 +37,15 @@ class QCardLeftCell: UIBaseChatCell {
         self.setMenu()
     }
     
-    override func present(message: CommentModel) {
+    override func present(message: QMessage) {
         self.bind(message: message)
     }
     
-    override func update(message: CommentModel) {
+    override func update(message: QMessage) {
         self.bind(message: message)
     }
     
-    func bind(message: CommentModel) {
+    func bind(message: QMessage) {
         self.setupBalon()
         
         guard let payload = message.payload else { return }

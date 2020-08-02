@@ -18,8 +18,12 @@
 		11449CAB249DFD6800E32D9F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11449C9D249DEA6400E32D9F /* Alamofire.framework */; };
 		11449CAC249DFFC700E32D9F /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11449CA0249DEA6400E32D9F /* AlamofireImage.framework */; };
 		11449CAD249DFFC700E32D9F /* MultichannelWidget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11449CA1249DEA6400E32D9F /* MultichannelWidget.framework */; };
-		11449CAE249DFFC700E32D9F /* QiscusCoreAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11449C9E249DEA6400E32D9F /* QiscusCoreAPI.framework */; };
 		11449CAF249DFFC700E32D9F /* SwiftyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11449C9F249DEA6400E32D9F /* SwiftyJSON.framework */; };
+		11F76AB224C9D8F200C5C65A /* QiscusCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11F76AB024C9D8F100C5C65A /* QiscusCore.framework */; };
+		11F76AB324C9D8F200C5C65A /* QiscusRealtime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11F76AB124C9D8F100C5C65A /* QiscusRealtime.framework */; };
+		11F76AC124C9E10200C5C65A /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11F76ABE24C9E10200C5C65A /* Starscream.framework */; };
+		11F76AC224C9E10200C5C65A /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11F76ABF24C9E10200C5C65A /* CocoaAsyncSocket.framework */; };
+		11F76AC324C9E10200C5C65A /* CocoaMQTT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11F76AC024C9E10200C5C65A /* CocoaMQTT.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,11 +49,15 @@
 		11449C91249DE67200E32D9F /* ExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExampleTests.swift; sourceTree = "<group>"; };
 		11449C93249DE67200E32D9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11449C9D249DEA6400E32D9F /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
-		11449C9E249DEA6400E32D9F /* QiscusCoreAPI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QiscusCoreAPI.framework; path = Carthage/Build/iOS/QiscusCoreAPI.framework; sourceTree = "<group>"; };
 		11449C9F249DEA6400E32D9F /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = Carthage/Build/iOS/SwiftyJSON.framework; sourceTree = "<group>"; };
 		11449CA0249DEA6400E32D9F /* AlamofireImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlamofireImage.framework; path = Carthage/Build/iOS/AlamofireImage.framework; sourceTree = "<group>"; };
 		11449CA1249DEA6400E32D9F /* MultichannelWidget.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MultichannelWidget.framework; path = Carthage/Build/iOS/MultichannelWidget.framework; sourceTree = "<group>"; };
 		11449CA7249DEAE500E32D9F /* ChatManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatManager.swift; sourceTree = "<group>"; };
+		11F76AB024C9D8F100C5C65A /* QiscusCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QiscusCore.framework; path = Carthage/Build/iOS/QiscusCore.framework; sourceTree = "<group>"; };
+		11F76AB124C9D8F100C5C65A /* QiscusRealtime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QiscusRealtime.framework; path = Carthage/Build/iOS/QiscusRealtime.framework; sourceTree = "<group>"; };
+		11F76ABE24C9E10200C5C65A /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Starscream.framework; path = Carthage/Build/iOS/Starscream.framework; sourceTree = "<group>"; };
+		11F76ABF24C9E10200C5C65A /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = Carthage/Build/iOS/CocoaAsyncSocket.framework; sourceTree = "<group>"; };
+		11F76AC024C9E10200C5C65A /* CocoaMQTT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaMQTT.framework; path = Carthage/Build/iOS/CocoaMQTT.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,8 +68,12 @@
 				11449CAB249DFD6800E32D9F /* Alamofire.framework in Frameworks */,
 				11449CAC249DFFC700E32D9F /* AlamofireImage.framework in Frameworks */,
 				11449CAD249DFFC700E32D9F /* MultichannelWidget.framework in Frameworks */,
-				11449CAE249DFFC700E32D9F /* QiscusCoreAPI.framework in Frameworks */,
+				11F76AB224C9D8F200C5C65A /* QiscusCore.framework in Frameworks */,
+				11F76AB324C9D8F200C5C65A /* QiscusRealtime.framework in Frameworks */,
 				11449CAF249DFFC700E32D9F /* SwiftyJSON.framework in Frameworks */,
+				11F76AC124C9E10200C5C65A /* Starscream.framework in Frameworks */,
+				11F76AC224C9E10200C5C65A /* CocoaAsyncSocket.framework in Frameworks */,
+				11F76AC324C9E10200C5C65A /* CocoaMQTT.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -121,10 +133,14 @@
 		11449C9C249DEA6400E32D9F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				11F76ABF24C9E10200C5C65A /* CocoaAsyncSocket.framework */,
+				11F76AC024C9E10200C5C65A /* CocoaMQTT.framework */,
+				11F76ABE24C9E10200C5C65A /* Starscream.framework */,
+				11F76AB024C9D8F100C5C65A /* QiscusCore.framework */,
+				11F76AB124C9D8F100C5C65A /* QiscusRealtime.framework */,
 				11449C9D249DEA6400E32D9F /* Alamofire.framework */,
 				11449CA0249DEA6400E32D9F /* AlamofireImage.framework */,
 				11449CA1249DEA6400E32D9F /* MultichannelWidget.framework */,
-				11449C9E249DEA6400E32D9F /* QiscusCoreAPI.framework */,
 				11449C9F249DEA6400E32D9F /* SwiftyJSON.framework */,
 			);
 			name = Frameworks;
@@ -239,8 +255,12 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/AlamofireImage.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SwiftyJSON.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/QiscusCoreAPI.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/QiscusCore.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/MultichannelWidget.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/QiscusRealtime.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/CocoaMQTT.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/CocoaAsyncSocket.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Starscream.framework",
 			);
 			outputFileListPaths = (
 			);
@@ -248,8 +268,12 @@
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Alamofire.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/AlamofireImage.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SwiftyJSON.framework",
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/QiscusCoreAPI.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/QiscusCore.framework",
 				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/MultichannelWidget.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/QiscusRealtime.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/CocoaAsyncSocket.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/CocoaMQTT.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/Starscream.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

@@ -8,7 +8,7 @@
 #if os(iOS)
 import UIKit
 #endif
-import QiscusCoreAPI
+import QiscusCore
 import SwiftyJSON
 import AlamofireImage
 
@@ -35,6 +35,7 @@ class QReplyLeftCell: UIBaseChatCell {
         
         viewReplyPreview.addGestureRecognizer(tap)
         viewReplyPreview.isUserInteractionEnabled = true
+        ivCommentImage.clipsToBounds = true
     }
     
     @objc func handleTap(_ sender: UITapGestureRecognizer) {
@@ -58,23 +59,29 @@ class QReplyLeftCell: UIBaseChatCell {
         // Configure the view for the selected state
     }
     
-    override func present(message: CommentModel) {
+    override func present(message: QMessage) {
         // parsing payload
         self.bindData(message: message)
         
     }
     
-    override func update(message: CommentModel) {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.ivCommentImageWidhtCons.constant = 50
+    }
+    
+    override func update(message: QMessage) {
         self.bindData(message: message)
     }
     
-    func bindData(message: CommentModel){
+    func bindData(message: QMessage){
         self.setupBalon()
         guard let replyData = message.payload else {
            return
         }
         let text = replyData["replied_comment_message"] as? String
         var replyType = message.replyType(message: text!)
+        lbCommentSender.text = replyData["replied_comment_sender_username"] as? String
         
         if replyType == .text  {
             switch replyData["replied_comment_type"] as? String {
@@ -139,17 +146,19 @@ class QReplyLeftCell: UIBaseChatCell {
         self.lbContent.text = message.message
         self.lbTime.text = self.hour(date: message.date())
         if(isPublic == true){
-            self.lbName.text = message.username
+            self.lbName.text = message.sender.name
             self.lbName.textColor = colorName
             self.lblNameHeightCons.constant = 21
         }else{
             self.lbName.text = ""
             self.lblNameHeightCons.constant = 0
         }
-        guard let user = QismoManager.shared.qiscus.userProfile else { return }
-        if repliedEmail == user.email {
+        if let user = QismoManager.shared.network.qiscusUser, repliedEmail == user.id {
+            username = "You"
+        } else if let userEmail = SharedPreferences.getQiscusAccount(), repliedEmail == userEmail {
             username = "You"
         }
+        
         self.lbCommentSender.text = username
     }
     

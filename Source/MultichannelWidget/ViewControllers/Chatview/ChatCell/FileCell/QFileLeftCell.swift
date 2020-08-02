@@ -8,7 +8,7 @@
 #if os(iOS)
 import UIKit
 #endif
-import QiscusCoreAPI
+import QiscusCore
 
 class QFileLeftCell: UIBaseChatCell {
 
@@ -17,9 +17,11 @@ class QFileLeftCell: UIBaseChatCell {
     @IBOutlet weak var lblDate: UILabel!
     @IBOutlet weak var ivIcon: UIImageView!
     @IBOutlet weak var lblFilename: UILabel!
+    @IBOutlet weak var viewDownloadButtonContainer: UIView!
     
-    var actionBlock: ((CommentModel) -> Void)? = nil
-    private var message: CommentModel? = nil
+    var actionBlock: ((QMessage) -> Void)? = nil
+    var downloadBlock: ((QMessage) -> Void)? = nil
+    private var message: QMessage? = nil
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -34,15 +36,19 @@ class QFileLeftCell: UIBaseChatCell {
         self.setMenu()
     }
     
-    override func present(message: CommentModel) {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+    }
+    
+    override func present(message: QMessage) {
         self.bind(message: message)
     }
     
-    override func update(message: CommentModel) {
+    override func update(message: QMessage) {
         self.bind(message: message)
     }
     
-    func bind(message: CommentModel) {
+    func bind(message: QMessage) {
         self.message = message
         self.setupBalon()
         guard let payload = message.payload else { return }
@@ -55,6 +61,13 @@ class QFileLeftCell: UIBaseChatCell {
         let url = payload["url"] as? String
         self.lblFilename.text = payload["file_name"] as? String
         self.lblExtension.text = ("\(message.fileExtension(fromURL: url!)) file")
+    }
+    
+    @IBAction func downloadDidTap(_ sender: Any) {
+        guard let message = self.message else {
+            return
+        }
+        downloadBlock?(message)
     }
     
     @objc private func didTap() {

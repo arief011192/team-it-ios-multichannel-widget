@@ -14,6 +14,7 @@
                 <outlet property="contraintTopReply" destination="3jt-0Z-5EE" id="Vdp-J5-m6K"/>
                 <outlet property="heightTextViewCons" destination="1uw-f4-jxK" id="eTz-FI-LeA"/>
                 <outlet property="heightView" destination="9Gk-gy-9FX" id="2ND-F2-rHB"/>
+                <outlet property="imageAttachmentButton" destination="MH0-kK-vkd" id="hZh-9Y-LZe"/>
                 <outlet property="imageThumb" destination="9ko-Wy-TkQ" id="oHr-6K-IJq"/>
                 <outlet property="sendButton" destination="KIv-HR-J1D" id="zYB-tv-zsb"/>
                 <outlet property="textView" destination="Vuj-gV-0ov" id="3wf-0l-RDP"/>
@@ -28,7 +29,7 @@
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b58-f3-SDY" userLabel="Border">
                     <rect key="frame" x="0.0" y="0.0" width="649" height="1"/>
-                    <color key="backgroundColor" red="0.91761547330000004" green="0.91769045589999998" blue="0.91373318429999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <color key="backgroundColor" red="0.91764705882352937" green="0.91764705882352937" blue="0.9137254901960784" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="piO-a9-cOF"/>
                     </constraints>
@@ -47,20 +48,20 @@
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eX8-dS-8SK">
-                    <rect key="frame" x="0.0" y="97.5" width="50" height="50"/>
+                    <rect key="frame" x="50" y="97.5" width="40" height="50"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="50" id="BWF-iV-nYy"/>
+                        <constraint firstAttribute="width" constant="40" id="BWF-iV-nYy"/>
                         <constraint firstAttribute="height" constant="50" id="IuH-vd-Pvb"/>
                     </constraints>
                     <color key="tintColor" red="0.51764705879999995" green="0.76078431369999999" blue="0.3803921569" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <state key="normal" image="ic_attachment"/>
+                    <state key="normal" image="ic_file_attachment"/>
                     <connections>
                         <action selector="clickAttachment:" destination="-1" eventType="touchUpInside" id="kun-jy-4MV"/>
                     </connections>
                 </button>
                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="Vuj-gV-0ov">
-                    <rect key="frame" x="50" y="8" width="549" height="229"/>
+                    <rect key="frame" x="90" y="8" width="509" height="229"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="1uw-f4-jxK"/>
@@ -142,21 +143,36 @@
                         <constraint firstAttribute="trailing" secondItem="OhU-CL-Unf" secondAttribute="trailing" constant="8" id="vUb-73-wn8"/>
                     </constraints>
                 </view>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MH0-kK-vkd">
+                    <rect key="frame" x="10" y="97.5" width="40" height="50"/>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="WTw-g4-88O"/>
+                        <constraint firstAttribute="width" constant="40" id="dtm-WI-gaL"/>
+                    </constraints>
+                    <color key="tintColor" red="0.51764705879999995" green="0.76078431369999999" blue="0.3803921569" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <state key="normal" image="ic_image_attachment"/>
+                    <connections>
+                        <action selector="clickImageAttachment:" destination="-1" eventType="touchUpInside" id="gqQ-b6-d5U"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="0.9803802371" green="0.98038595910000004" blue="0.98040086029999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
             <constraints>
+                <constraint firstItem="MH0-kK-vkd" firstAttribute="leading" secondItem="8Om-te-Qpk" secondAttribute="leading" constant="10" id="06Y-6M-G5Y"/>
                 <constraint firstItem="b58-f3-SDY" firstAttribute="top" secondItem="k7R-ZU-AZb" secondAttribute="top" id="0QE-hU-vX4"/>
                 <constraint firstItem="CZd-gi-xu1" firstAttribute="top" secondItem="k7R-ZU-AZb" secondAttribute="top" constant="-50" id="3jt-0Z-5EE" userLabel="contraintTopReplyView"/>
                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="50" id="9Gk-gy-9FX"/>
                 <constraint firstItem="KIv-HR-J1D" firstAttribute="leading" secondItem="k7R-ZU-AZb" secondAttribute="trailing" constant="-50" id="I5H-7y-a33"/>
                 <constraint firstItem="KIv-HR-J1D" firstAttribute="leading" secondItem="Vuj-gV-0ov" secondAttribute="trailing" id="MqH-nR-qm0"/>
+                <constraint firstItem="eX8-dS-8SK" firstAttribute="leading" secondItem="MH0-kK-vkd" secondAttribute="trailing" id="NGt-g5-UXI"/>
                 <constraint firstItem="KIv-HR-J1D" firstAttribute="centerY" secondItem="Vuj-gV-0ov" secondAttribute="centerY" id="Okz-vH-BXh"/>
                 <constraint firstItem="8Om-te-Qpk" firstAttribute="trailing" secondItem="b58-f3-SDY" secondAttribute="trailing" symbolic="YES" id="QIq-m5-xc0"/>
-                <constraint firstItem="eX8-dS-8SK" firstAttribute="centerY" secondItem="Vuj-gV-0ov" secondAttribute="centerY" id="SiA-rY-7RG"/>
                 <constraint firstItem="Vuj-gV-0ov" firstAttribute="top" secondItem="CZd-gi-xu1" secondAttribute="bottom" constant="8" id="ZRL-8e-F1T"/>
+                <constraint firstItem="MH0-kK-vkd" firstAttribute="centerY" secondItem="Vuj-gV-0ov" secondAttribute="centerY" id="aUf-EO-bKm"/>
                 <constraint firstItem="8Om-te-Qpk" firstAttribute="bottom" secondItem="Vuj-gV-0ov" secondAttribute="bottom" constant="10" id="bTd-G3-sYf"/>
                 <constraint firstItem="8Om-te-Qpk" firstAttribute="trailing" secondItem="CZd-gi-xu1" secondAttribute="trailing" id="c8B-Q4-1If"/>
-                <constraint firstItem="eX8-dS-8SK" firstAttribute="leading" secondItem="8Om-te-Qpk" secondAttribute="leading" id="gOG-2e-H61"/>
+                <constraint firstItem="eX8-dS-8SK" firstAttribute="centerY" secondItem="Vuj-gV-0ov" secondAttribute="centerY" id="kt6-Da-S9e"/>
                 <constraint firstItem="b58-f3-SDY" firstAttribute="leading" secondItem="8Om-te-Qpk" secondAttribute="leading" symbolic="YES" id="sbf-9B-Xc1"/>
                 <constraint firstItem="CZd-gi-xu1" firstAttribute="leading" secondItem="b58-f3-SDY" secondAttribute="leading" id="xbo-7r-8lD"/>
                 <constraint firstAttribute="trailing" secondItem="KIv-HR-J1D" secondAttribute="trailing" id="zAX-l7-ZVv"/>
@@ -180,7 +196,8 @@
     </objects>
     <resources>
         <image name="clear" catalog="system" width="128" height="114"/>
-        <image name="ic_attachment" width="64" height="64"/>
+        <image name="ic_file_attachment" width="16" height="20"/>
+        <image name="ic_image_attachment" width="24" height="24"/>
         <image name="ic_send" width="18" height="18"/>
         <image name="link" catalog="system" width="128" height="116"/>
     </resources>

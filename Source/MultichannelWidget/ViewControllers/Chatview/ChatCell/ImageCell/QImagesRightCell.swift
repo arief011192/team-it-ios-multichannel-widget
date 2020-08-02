@@ -8,7 +8,8 @@
 #if os(iOS)
 import UIKit
 #endif
-import QiscusCoreAPI
+import QiscusCore
+import Alamofire
 
 class QImagesRightCell: UIBaseChatCell {
 
@@ -17,8 +18,11 @@ class QImagesRightCell: UIBaseChatCell {
     @IBOutlet weak var ivComment: UIImageView!
     @IBOutlet weak var lblDate: UILabel!
     @IBOutlet weak var marginLblComment: NSLayoutConstraint!
+    @IBOutlet weak var ivStatus: UIImageView!
     
-    var actionBlock: ((CommentModel) -> Void)? = nil
+    
+    var actionBlock: ((QMessage) -> Void)? = nil
+    var imageRequest: DownloadRequest? = nil
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -35,12 +39,19 @@ class QImagesRightCell: UIBaseChatCell {
         // Configure the view for the selected state
     }
     
-    override func present(message: CommentModel) {
+    override func present(message: QMessage) {
         self.bindData(message: message)
     }
     
-    override func update(message: CommentModel) {
+    override func update(message: QMessage) {
         self.bindData(message: message)
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.imageRequest?.cancel()
+        self.ivComment.image = nil
+        self.marginLblComment.constant = 7
     }
     
     func setupBalon(){
@@ -60,9 +71,9 @@ class QImagesRightCell: UIBaseChatCell {
         
     }
     
-    func bindData(message: CommentModel) {
-        
+    func bindData(message: QMessage) {
         setupBalon()
+        status(message: message)
         self.ivComment.image = nil
         self.lblCaption.isHidden = false
         guard let payload = message.payload else { return }
@@ -74,13 +85,73 @@ class QImagesRightCell: UIBaseChatCell {
             
         self.lblCaption.text = caption
 
-        if let url = payload["url"] as? String {
-            if self.ivComment.image == nil {
-                self.ivComment.af.setImage(withURL: URL(string: url)!)
+        if let url = payload["url"] as? String, let imageUrl = URL(string: url) {
+            if let cachedImage = QismoManager.shared.imageCache.object(forKey: NSString(string: url)) {
+                self.ivComment.image = cachedImage
+            } else {
+                DispatchQueue.global(qos: .background).async { [weak self] in
+                    guard let self = self else {
+                        return
+                    }
+                    
+                    let request = URLRequest(url: imageUrl)
+                    
+                    self.imageRequest = AF.download(request).responseData { (response) in
+                        guard let imageData = response.value, let image = UIImage(data: imageData) else {
+                            return
+                        }
+                        
+                        DispatchQueue.main.async {
+                            self.ivComment.image = image
+                        }
+                        QismoManager.shared.imageCache.setObject(image, forKey: url as NSString)
+                    }
+                }
             }
         }
         
-        self.lblDate.text = AppUtil.dateToHour(date: message.date())
+        self.lblDate.text = AppUtil.dateToHour(date: message.timestamp)
+    }
+    
+    func status(message: QMessage){
+        
+        switch message.status {
+        case .deleted:
+            //            ivStatus.image = UIImage(named: "ic_deleted", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+            break
+        case .sending, .pending:
+            lblDate.textColor = ColorConfiguration.timeLabelTextColor
+                        ivStatus.tintColor = ColorConfiguration.timeLabelTextColor
+            lblDate.text = TextConfiguration.sharedInstance.sendingText
+                        ivStatus.image = UIImage(named: "ic_info_time", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+            break
+        case .sent:
+            lblDate.textColor = ColorConfiguration.timeLabelTextColor
+                        ivStatus.tintColor = ColorConfiguration.timeLabelTextColor
+                        ivStatus.image = UIImage(named: "ic_sending", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+            break
+        case .delivered:
+            lblDate.textColor = ColorConfiguration.timeLabelTextColor
+                        ivStatus.tintColor = ColorConfiguration.timeLabelTextColor
+                        ivStatus.image = UIImage(named: "ic_read", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+            
+            break
+        case .read:
+            lblDate.textColor = ColorConfiguration.timeLabelTextColor
+                        ivStatus.tintColor = ColorConfiguration.readMessageColor
+                        ivStatus.image = UIImage(named: "ic_read", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+            
+            break
+        case . failed:
+            lblDate.textColor = ColorConfiguration.failToSendColor
+            lblDate.text = TextConfiguration.sharedInstance.failedText
+                        ivStatus.image = UIImage(named: "ic_warning", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+                        ivStatus.tintColor = ColorConfiguration.failToSendColor
+            break
+        case .deleting:
+            //            ivStatus.image = UIImage(named: "ic_deleted", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+            break
+        }
     }
     
     @objc func imageDidTap() {

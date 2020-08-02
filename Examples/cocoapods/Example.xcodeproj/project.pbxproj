@@ -14,7 +14,7 @@
 		048C41F02408D01600EA7AAA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 048C41EF2408D01600EA7AAA /* Assets.xcassets */; };
 		048C41F32408D01600EA7AAA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 048C41F12408D01600EA7AAA /* LaunchScreen.storyboard */; };
 		11D398972473FD6500071975 /* ChatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11D398962473FD6500071975 /* ChatManager.swift */; };
-		B41FD35B23F248DDB6189A62 /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B0BA296A7A063CC2F851FAD /* Pods_Example.framework */; };
+		51E9877F8861C98CEA5ABF27 /* Pods_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D2A11F13170BBDC00024A7A7 /* Pods_Example.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,9 +27,9 @@
 		048C41F22408D01600EA7AAA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		048C41F42408D01600EA7AAA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		11D398962473FD6500071975 /* ChatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatManager.swift; sourceTree = "<group>"; };
-		7B0BA296A7A063CC2F851FAD /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		DE789B64F28CD1D6A7795272 /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
-		F116C6D42DDEEB88CD6A2293 /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
+		6ACD78F4FF08B97E3C95C1EB /* Pods-Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.release.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.release.xcconfig"; sourceTree = "<group>"; };
+		8B57FF7BD8C3EA93F7D7982E /* Pods-Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Example.debug.xcconfig"; path = "Target Support Files/Pods-Example/Pods-Example.debug.xcconfig"; sourceTree = "<group>"; };
+		D2A11F13170BBDC00024A7A7 /* Pods_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,7 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B41FD35B23F248DDB6189A62 /* Pods_Example.framework in Frameworks */,
+				51E9877F8861C98CEA5ABF27 /* Pods_Example.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,7 +50,7 @@
 				048C41E52408D01300EA7AAA /* Example */,
 				048C41E42408D01300EA7AAA /* Products */,
 				E4F11191D40543E4AA6F41FD /* Pods */,
-				0B5E59DA86798062684AA9B0 /* Frameworks */,
+				A9BD8E8034A367907186D2FB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -77,10 +77,10 @@
 			path = Example;
 			sourceTree = "<group>";
 		};
-		0B5E59DA86798062684AA9B0 /* Frameworks */ = {
+		A9BD8E8034A367907186D2FB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				7B0BA296A7A063CC2F851FAD /* Pods_Example.framework */,
+				D2A11F13170BBDC00024A7A7 /* Pods_Example.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -88,8 +88,8 @@
 		E4F11191D40543E4AA6F41FD /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				F116C6D42DDEEB88CD6A2293 /* Pods-Example.debug.xcconfig */,
-				DE789B64F28CD1D6A7795272 /* Pods-Example.release.xcconfig */,
+				8B57FF7BD8C3EA93F7D7982E /* Pods-Example.debug.xcconfig */,
+				6ACD78F4FF08B97E3C95C1EB /* Pods-Example.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -101,11 +101,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 048C41F72408D01600EA7AAA /* Build configuration list for PBXNativeTarget "Example" */;
 			buildPhases = (
-				7DEE14D4D0CD7F39D9CD4046 /* [CP] Check Pods Manifest.lock */,
+				91161BDBA71345A56F75D29A /* [CP] Check Pods Manifest.lock */,
 				048C41DF2408D01300EA7AAA /* Sources */,
 				048C41E02408D01300EA7AAA /* Frameworks */,
 				048C41E12408D01300EA7AAA /* Resources */,
-				32A55896E3FE897556C3C3CA /* [CP] Embed Pods Frameworks */,
+				C64C22605401CDE4AA3BF106 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -163,24 +163,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		32A55896E3FE897556C3C3CA /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7DEE14D4D0CD7F39D9CD4046 /* [CP] Check Pods Manifest.lock */ = {
+		91161BDBA71345A56F75D29A /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -200,6 +183,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C64C22605401CDE4AA3BF106 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Example/Pods-Example-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -354,7 +354,7 @@
 		};
 		048C41F82408D01600EA7AAA /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F116C6D42DDEEB88CD6A2293 /* Pods-Example.debug.xcconfig */;
+			baseConfigurationReference = 8B57FF7BD8C3EA93F7D7982E /* Pods-Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -374,7 +374,7 @@
 		};
 		048C41F92408D01600EA7AAA /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DE789B64F28CD1D6A7795272 /* Pods-Example.release.xcconfig */;
+			baseConfigurationReference = 6ACD78F4FF08B97E3C95C1EB /* Pods-Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

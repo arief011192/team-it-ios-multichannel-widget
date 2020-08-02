@@ -1,15 +1,15 @@
 //
-//  QismoManager.swift
-//  BBChat
+//  QismoManager2.swift
+//  MultichannelWidget
 //
-//  Created by asharijuang on 17/12/19.
+//  Created by Rahardyan Bisma on 16/07/20.
 //
 
 #if os(iOS)
 import UIKit
 #endif
 import Foundation
-import QiscusCoreAPI
+import QiscusCore
 import SwiftyJSON
 import UserNotifications
 
@@ -22,9 +22,10 @@ class QismoManager {
     private var username : String = ""
     private var avatarUrl: String = ""
     var network : QismoNetworkManager!
-    var qiscus : QiscusCoreAPI!
+    var qiscus : QiscusCore!
     var qiscusServer = QiscusServer(url: URL(string: "https://api.qiscus.com")!, realtimeURL: "", realtimePort: 80)
     var deviceToken : String = "" // save device token for 1st time or before login
+    let imageCache = NSCache<NSString, UIImage>()
     
     
     func setUser(id: String, username: String, avatarUrl: String = "") {
@@ -36,25 +37,29 @@ class QismoManager {
     func clear() {
         self.userID = ""
         self.username = ""
-        self.qiscus.signOut()
+        self.qiscus.clearUser { (error) in
+            print("Qiscus clear user succeeded")
+        }
         SharedPreferences.removeRoomId()
+        SharedPreferences.removeQiscusAccount()
     }
     
     func setup(appID: String, server : QiscusServer? = nil) {
         self.appID = appID
-        self.qiscus = QiscusCoreAPI.init(withAppId: appID, server: qiscusServer)
-        self.network = QismoNetworkManager(QiscusCoreAPI: self.qiscus)
+        self.qiscus = QiscusCore()
+        self.qiscus.setup(AppID: appID)
+        _ = self.qiscus.connect(delegate: self)
+        self.network = QismoNetworkManager(qiscusCore: self.qiscus)
         if let _server = server {
             self.qiscusServer = _server
         }
     }
     
     func initiateChat(withTitle title: String, andSubtitle subtitle: String, userId: String? = nil, username: String? = nil,avatar: String? = nil, extras: String? = nil, userProperties: [[String:Any]]? = nil, callback: @escaping (UIViewController) -> Void)  {
-        let savedRoomId = SharedPreferences.getRoomId()
         
-        if savedRoomId != nil {
+        if let savedRoomId = SharedPreferences.getRoomId() {
             let ui = UIChatViewController()
-            ui.roomId = savedRoomId!
+            ui.roomId = savedRoomId
             ui.chatTitle = title
             ui.chatSubtitle = subtitle
             callback(ui)
@@ -72,7 +77,8 @@ class QismoManager {
             ] as [String : Any]
         
         self.network.initiateChat(param: param as [String : Any], onSuccess: { roomId in
-            
+            SharedPreferences.saveTitle(title: title)
+            SharedPreferences.saveSubtitle(subtitle: subtitle)
             SharedPreferences.saveParam(param: param)
             SharedPreferences.saveRoomId(id: roomId)
             let ui = UIChatViewController()
@@ -83,7 +89,7 @@ class QismoManager {
             
             // check device token
             if !self.deviceToken.isEmpty {
-                self.qiscus.register(deviceToken: self.deviceToken, isDevelopment: false, onSuccess: { (success) in
+                self.qiscus.shared.registerDeviceToken(token: self.deviceToken, isDevelopment: false, onSuccess: { (success) in
                     if success { self.deviceToken = "" }
                 }) { (error) in
                     //
@@ -128,20 +134,8 @@ class QismoManager {
             if removePreviousNotif {
                 self.removeNotification(withRoom: roomId)
             }
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(1)) {
-               self.redirectToChat(roomID: roomId)
-            }
         }
         // mybe for another notif
-    }
-    
-    @available(*, deprecated, message: "Not relevan, since user can config chat view with title and color")
-    private func redirectToChat(roomID id: Int) {
-        let current = UIApplication.currentViewController()
-        let target = UIChatViewController()
-        // MARK: TODO get qiscus room from local db
-        target.roomId = String(id)
-        current?.navigationController?.pushViewController(target, animated: true)
     }
     
     private func removeNotification(withRoom id: Int) {
@@ -158,6 +152,26 @@ class QismoManager {
                 }
             }
         }
+    }
+    
+    
+}
+
+extension QismoManager : QiscusConnectionDelegate {
+    public func connectionState(change state: QiscusConnectionState) {
+        print("::realtime connection state \(state)")
+    }
+    
+    public func onConnected() {
+        print("::realtime connected")
+    }
+    
+    public func onReconnecting() {
+        print("::realtime reconnecting")
+    }
+    
+    public func onDisconnected(withError err: QError?) {
+        print("::realtime disconnected \(err?.message)")
     }
     
     

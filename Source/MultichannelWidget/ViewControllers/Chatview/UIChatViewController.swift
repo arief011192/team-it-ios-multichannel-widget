@@ -10,14 +10,14 @@ import UIKit
 #endif
 import ContactsUI
 import SwiftyJSON
-import QiscusCoreAPI
+import QiscusCore
 
 // Chat view blue print or function
 protocol UIChatView {
-    func uiChat(viewController : UIChatViewController, didSelectMessage message: CommentModel)
-    func uiChat(viewController : UIChatViewController, performAction action: Selector, forRowAt message: CommentModel, withSender sender: Any?)
-    func uiChat(viewController : UIChatViewController, canPerformAction action: Selector, forRowAtmessage: CommentModel, withSender sender: Any?) -> Bool
-    func uiChat(viewController : UIChatViewController, firstMessage message: CommentModel, viewForHeaderInSection section: Int) -> UIView?
+    func uiChat(viewController : UIChatViewController, didSelectMessage message: QMessage)
+    func uiChat(viewController : UIChatViewController, performAction action: Selector, forRowAt message: QMessage, withSender sender: Any?)
+    func uiChat(viewController : UIChatViewController, canPerformAction action: Selector, forRowAtmessage: QMessage, withSender sender: Any?) -> Bool
+    func uiChat(viewController : UIChatViewController, firstMessage message: QMessage, viewForHeaderInSection section: Int) -> UIView?
 }
 
 class DateHeaderLabel: UILabel {
@@ -25,11 +25,11 @@ class DateHeaderLabel: UILabel {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = #colorLiteral(red: 0.3555911001, green: 0.7599821354, blue: 1, alpha: 0.7924068921)
-        textColor = .darkGray
+        backgroundColor = #colorLiteral(red: 0.7098039216, green: 0.7098039216, blue: 0.7098039216, alpha: 1)
+        textColor = .white
         textAlignment = .center
         translatesAutoresizingMaskIntoConstraints = false // enables auto layout
-        font = UIFont.boldSystemFont(ofSize: 9.5)
+        font = UIFont.boldSystemFont(ofSize: 14)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -39,7 +39,7 @@ class DateHeaderLabel: UILabel {
     override var intrinsicContentSize: CGSize {
         let originalContentSize = super.intrinsicContentSize
         let height = originalContentSize.height + 12
-        layer.cornerRadius = height / 2
+        layer.cornerRadius = 8
         layer.masksToBounds = true
         return CGSize(width: originalContentSize.width + 15, height: height)
     }
@@ -74,6 +74,7 @@ class UIChatViewController: UIViewController {
     var chatInput : CustomChatInput = CustomChatInput()
     var disableInput: DisableInput = DisableInput()
     private var presenter: UIChatPresenter = UIChatPresenter()
+    private var isDownloading: Bool = false
     
     var heightAtIndexPath: [String: CGFloat] = [:]
     var roomId: String {
@@ -89,6 +90,7 @@ class UIChatViewController: UIViewController {
     var chatDelegate : UIChatView? = nil
     var isFromUploader = false
     var isResolved = false
+    var typingTimer: Timer?
     
     // UI Config
     var navigationOriginColor: UIColor?
@@ -98,20 +100,19 @@ class UIChatViewController: UIViewController {
     var maxUploadSizeInKB:Double = Double(100) * Double(1024)
     var UTIs:[String]{
         get{
-            return ["public.jpeg", "public.png","com.compuserve.gif","public.text", "public.archive", "com.microsoft.word.doc", "com.microsoft.excel.xls", "com.microsoft.powerpoint.​ppt", "com.adobe.pdf","public.mpeg-4"]
+            return ["public.jpeg", "public.png","com.compuserve.gif","public.text", "public.archive", "com.microsoft.word.doc", "com.microsoft.excel.xls", "com.microsoft.powerpoint.​ppt", "com.adobe.pdf","public.mpeg-4", "mov"]
         }
     }
-    var room : RoomModel? {
+    var room : QChatRoom? {
         set(newValue) {
             self.presenter.room = newValue
             self.refreshUI()
+            self.chatTitleView.room = newValue
         }
         get {
             return self.presenter.room
         }
     }
-    
-    var synchTimer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -131,18 +132,12 @@ class UIChatViewController: UIViewController {
         center.addObserver(self, selector: #selector(UIChatViewController.keyboardChange(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         center.addObserver(self,selector: #selector(reSubscribeRoom(_:)), name: Notification.Name(rawValue: "reSubscribeRoom"),object: nil)
         view.endEditing(true)
-        
-        //sync timer
-        synchTimer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { timer in
-            self.presenter.syncMessage() 
-        })
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         //disable timer
-        synchTimer?.invalidate()
-        
+        constraintViewInputBottom.constant = 0
         self.presenter.detachView()
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
@@ -363,9 +358,9 @@ class UIChatViewController: UIViewController {
         var result = ""
         for m in self.presenter.participants {
             if result.isEmpty {
-                result = m.username
+                result = m.name
             }else {
-                result = result + ", \(m.username)"
+                result = result + ", \(m.name)"
             }
         }
         return result
@@ -389,18 +384,18 @@ class UIChatViewController: UIViewController {
         self.tableViewConversation.backgroundColor = color
     }
     
-    func scrollToComment(comment: CommentModel) {
+    func scrollToComment(comment: QMessage) {
         if let indexPath = self.presenter.getIndexPath(comment: comment) {
             self.tableViewConversation.scrollToRow(at: indexPath, at: .bottom, animated: true)
         }
     }
     
-    func cellFor(message: CommentModel, at indexPath: IndexPath, in tableView: UITableView) -> UIBaseChatCell {
+    func cellFor(message: QMessage, at indexPath: IndexPath, in tableView: UITableView) -> UIBaseChatCell {
         let menuConfig = enableMenuConfig()
         let colorName:UIColor = UIColor.lightGray
         
         if message.type == "text" {
-            if (message.isMyComment() == true){
+            if (message.isMyComment() == true || message.userEmail.isEmpty){
                 let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
                 cell.menuConfig = menuConfig
                 cell.cellMenu = self
@@ -468,19 +463,34 @@ class UIChatViewController: UIViewController {
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qFileRightCell", for: indexPath) as! QFileRightCell
                         //                        cell.menuConfig = menuConfig
                         cell.cellMenu = self
-                        cell.actionBlock = { comment in
-                            let fileUrl = comment.getAttachmentURL(message: comment.message)
-                            
-                            if fileUrl.isPDF {
-                                let webFileViewController = WebFileViewController()
-                                webFileViewController.fileUrl = fileUrl
-                                self.navigationController?.pushViewController(webFileViewController, animated: true)
-                            } else {
-                                guard let url = URL(string: fileUrl) else { return }
-                                UIApplication.shared.open(url)
+                        cell.actionBlock = { [weak self] message in
+                            guard let self = self else {
+                                return
+                            }
+                            if self.isDownloading {
+                                return
                             }
                             
+                            message.download(downloadProgress: { (progress) in
+                                self.isDownloading = true
+                                print("progress \(progress)")
+                                if progress == 1 {
+                                    self.isDownloading = false
+                                    self.widthProgress.constant = 0
+                                    return
+                                }
+                                
+                                UIView.animate(withDuration: 0.5) {
+                                    self.widthProgress.constant = CGFloat(progress) * UIScreen.main.bounds.width
+                                    self.view.layoutIfNeeded()
+                                }
+                            }) { (localFileURL) in
+                                let webFileViewController = WebFileViewController()
+                                webFileViewController.localFileUrl = localFileURL
+                                self.navigationController?.pushViewController(webFileViewController, animated: true)
+                            }
                         }
+                        
                         return cell
                     } else {
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qFileLeftCell", for: indexPath) as! QFileLeftCell
@@ -491,17 +501,57 @@ class UIChatViewController: UIViewController {
                         //                            cell.isPublic = false
                         //                        }
                         cell.cellMenu = self
-                        cell.actionBlock = { comment in
-                            let fileUrl = comment.getAttachmentURL(message: comment.message)
-                            
-                            if fileUrl.isPDF {
-                                let webFileViewController = WebFileViewController()
-                                webFileViewController.fileUrl = fileUrl
-                                self.navigationController?.pushViewController(webFileViewController, animated: true)
-                            } else {
-                                guard let url = URL(string: fileUrl) else { return }
-                                UIApplication.shared.open(url)
+                        cell.actionBlock = { [weak self] message in
+                            guard let self = self else {
+                                return
                             }
+                            if self.isDownloading {
+                                return
+                            }
+                            
+                            message.download(downloadProgress: { (progress) in
+                                self.isDownloading = true
+                                print("progress \(progress)")
+                                if progress == 1 {
+                                    self.isDownloading = false
+                                    self.widthProgress.constant = 0
+                                    return
+                                }
+                                
+                                UIView.animate(withDuration: 0.5) {
+                                    self.widthProgress.constant = CGFloat(progress) * UIScreen.main.bounds.width
+                                    self.view.layoutIfNeeded()
+                                }
+                            }) { (localFileURL) in
+                                let webFileViewController = WebFileViewController()
+                                webFileViewController.localFileUrl = localFileURL
+                                self.navigationController?.pushViewController(webFileViewController, animated: true)
+                            }
+                        }
+                        
+                        cell.downloadBlock = { [weak self] message in
+                            guard let self = self else {
+                                return
+                            }
+                            
+                            if self.isDownloading {
+                                return
+                            }
+                            message.download(from: self, downloadProgress: { (progress) in
+                                self.isDownloading = true
+                                print("progress \(progress)")
+                                if progress == 1 {
+                                    self.isDownloading = false
+                                    self.widthProgress.constant = 0
+                                    return
+                                }
+                                
+                                UIView.animate(withDuration: 0.5) {
+                                    self.widthProgress.constant = CGFloat(progress) * UIScreen.main.bounds.width
+                                    self.view.layoutIfNeeded()
+                                }
+                            })
+                            
                         }
                         return cell
                     }
@@ -567,9 +617,9 @@ extension UIChatViewController: UIChatViewDelegate {
     func onReloadComment(){
         self.tableViewConversation.reloadData()
     }
-    func onUpdateComment(comment: CommentModel, indexpath: IndexPath) {
+    func onUpdateComment(comment: QMessage, indexpath: IndexPath) {
         // reload cell in section and index path
-        if self.tableViewConversation.cellForRow(at: indexpath) != nil{
+        if self.tableViewConversation.cellForRow(at: indexpath) != nil {
             self.tableViewConversation.reloadRows(at: [indexpath], with: .none)
         }
     }
@@ -593,16 +643,23 @@ extension UIChatViewController: UIChatViewDelegate {
             }
         }else {
             if let room = self.presenter.room {
-                if room.type == .group {
-                    self.chatTitleView.labelSubtitle.text = getParticipant()
-                }else{
-                    self.chatTitleView.labelSubtitle.text = "Online"
-                }
+                self.chatTitleView.labelSubtitle.text = self.chatSubtitle
             }
         }
+        
+        
+        if typingTimer != nil {
+            typingTimer?.invalidate()
+        }
+        
+        typingTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.resetSubtitle), userInfo: nil, repeats: false)
     }
     
-    func onSendingComment(comment: CommentModel, newSection: Bool) {
+    @objc func resetSubtitle() {
+        self.chatTitleView.labelSubtitle.text = self.chatSubtitle
+    }
+    
+    func onSendingComment(comment: QMessage, newSection: Bool) {
         self.emptyMessageView.alpha = 0
         if newSection {
             self.tableViewConversation.beginUpdates()
@@ -637,7 +694,8 @@ extension UIChatViewController: UIChatViewDelegate {
         }
     }
     
-    func onLoadRoomFinished(room: RoomModel) {
+    func onLoadRoomFinished(room: QChatRoom) {
+        self.room = room
         self.setupUI()
     }
     
@@ -657,7 +715,7 @@ extension UIChatViewController: UIChatViewDelegate {
         self.tableViewConversation.reloadData()
     }
     
-    func onSendMessageFinished(comment: CommentModel) {
+    func onSendMessageFinished(comment: QMessage) {
         
     }
     
@@ -752,8 +810,8 @@ extension UIChatViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if let firstMessageInSection = self.presenter.comments[section].first {
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "E, d MMM"
-            let dateString = dateFormatter.string(from: firstMessageInSection.date)
+            dateFormatter.dateFormat = "E, MMMM d, YYYY"
+            let dateString = dateFormatter.string(from: firstMessageInSection.timestamp)
             
             let label = DateHeaderLabel()
             label.text = dateString
@@ -764,6 +822,7 @@ extension UIChatViewController: UITableViewDataSource {
             label.centerXAnchor.constraint(equalTo: containerView.centerXAnchor).isActive = true
             label.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 0).isActive = true
             label.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8).isActive = true
+            label.widthAnchor.constraint(equalToConstant: 183).isActive = true
             
             return containerView
             
@@ -803,18 +862,18 @@ extension UIChatViewController: UITableViewDelegate {
 }
 
 extension UIChatViewController : UIChatView {
-    func uiChat(viewController: UIChatViewController, didSelectMessage message: CommentModel) {
+    func uiChat(viewController: UIChatViewController, didSelectMessage message: QMessage) {
         print("selected message \(message)")
     }
     
-    func uiChat(viewController: UIChatViewController, performAction action: Selector, forRowAt message: CommentModel, withSender sender: Any?) {
+    func uiChat(viewController: UIChatViewController, performAction action: Selector, forRowAt message: QMessage, withSender sender: Any?) {
         if action == #selector(UIResponderStandardEditActions.copy(_:)) {
             let pasteboard = UIPasteboard.general
             pasteboard.string = message.message
         }
     }
     
-    func uiChat(viewController: UIChatViewController, canPerformAction action: Selector, forRowAtmessage: CommentModel, withSender sender: Any?) -> Bool {
+    func uiChat(viewController: UIChatViewController, canPerformAction action: Selector, forRowAtmessage: QMessage, withSender sender: Any?) -> Bool {
         switch action.description {
         case "copy:":
             return true
@@ -827,7 +886,7 @@ extension UIChatViewController : UIChatView {
         }
     }
     
-    func uiChat(viewController: UIChatViewController, firstMessage message: CommentModel, viewForHeaderInSection section: Int) -> UIView? {
+    func uiChat(viewController: UIChatViewController, firstMessage message: QMessage, viewForHeaderInSection section: Int) -> UIView? {
         return nil
     }
 }
@@ -841,11 +900,11 @@ extension UIChatViewController : UIChatInputDelegate {
         self.presenter.isTyping(value)
     }
     
-    func send(message: CommentModel,onSuccess: @escaping (CommentModel) -> Void, onError: @escaping (String) -> Void) {
+    func send(message: QMessage,onSuccess: @escaping (QMessage) -> Void, onError: @escaping (String) -> Void) {
         
-        if message.roomId.isEmpty || message.roomId == "" {
+        if message.chatRoomId.isEmpty || message.chatRoomId == "" {
             if let room = self.room {
-                message.roomId = room.id
+                message.chatRoomId = room.id
             }
         }
         
@@ -862,7 +921,7 @@ extension UIChatViewController : UIChatInputDelegate {
         }
     }
     
-    func setFromUploader(comment: CommentModel) {
+    func setFromUploader(comment: QMessage) {
         self.isFromUploader = true
     }
 }
@@ -876,6 +935,7 @@ extension UIChatViewController : ReplyChatInputDelegate {
 
 extension UIChatViewController : DisableChatInputDelegate {
     func startNewChat(vc: UIChatViewController) {
+        vc.chatTitleView = self.chatTitleView
         var vcArray = self.navigationController?.viewControllers
         if vcArray != nil {
             vcArray!.removeLast()
@@ -892,7 +952,7 @@ extension UIChatViewController : DisableChatInputDelegate {
 
 //// MARK: Handle Cell Menu
 extension UIChatViewController : UIBaseChatCellDelegate {
-    func didTap(delete comment: CommentModel) {
+    func didTap(delete comment: QMessage) {
         
         let alert = UIAlertController(title: "Alert", message: "Want to delete this message ?", preferredStyle: UIAlertController.Style.alert)
         
@@ -904,7 +964,7 @@ extension UIChatViewController : UIBaseChatCellDelegate {
         self.present(alert, animated: true, completion: nil)
     }
     
-    func didReply(reply comment: CommentModel) {
+    func didReply(reply comment: QMessage) {
         self.chatInput.showReplyView(comment: comment)
         self.constraintViewInputHeight.constant = 100
     }

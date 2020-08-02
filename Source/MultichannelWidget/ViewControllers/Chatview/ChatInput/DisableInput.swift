@@ -37,17 +37,20 @@ class DisableInput: UIView {
             return
         }
         
+        let title = SharedPreferences.getTitle()
+        let subtitle = SharedPreferences.getSubtitle()
+        
         let userId = param["user_id"] as! String
         let username = param["name"] as! String
         let avatar = param["avatar"] as! String
-        let extras = param["extras"] as! String
         let userProperties = param["user_properties"] as! [[String: Any]]
         
+        let extras = SharedPreferences.getExtras().replacingOccurrences(of: "\"is_resolved\": true", with: "\"is_resolved\": false")
         debugPrint(userId)
 
         SharedPreferences.removeRoomId()
 
-        QismoManager.shared.initiateChat(withTitle: "", andSubtitle: "", userId: userId, username: username, avatar: avatar, extras: extras, userProperties: userProperties, callback: { roomId in
+        QismoManager.shared.initiateChat(withTitle: title, andSubtitle: subtitle, userId: userId, username: username, avatar: avatar, extras: extras, userProperties: userProperties, callback: { roomId in
             self.disableInputDelegate?.startNewChat(vc: roomId as! UIChatViewController)
         })
        

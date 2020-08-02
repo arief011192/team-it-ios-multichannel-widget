@@ -8,13 +8,13 @@
 #if os(iOS)
 import UIKit
 #endif
-import QiscusCoreAPI
+import QiscusCore
 
 class FullImageViewController: UIViewController {
     
     @IBOutlet weak var ivImage: UIImageView!
     
-    var message: CommentModel?
+    var message: QMessage?
     
     override func viewDidLoad() {
         super.viewDidLoad()

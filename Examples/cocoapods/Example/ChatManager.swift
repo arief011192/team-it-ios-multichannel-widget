@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 import MultichannelWidget
+import QiscusCore
 
 enum ChatTransitionType {
     case push(animated: Bool)
@@ -38,15 +39,15 @@ final class ChatManager {
         
         widget.prepareChat(withTitle: "Customer Care", andSubtitle: "ready to serve")
 //            .setNavigationColor(color: #colorLiteral(red: 0.2202146215, green: 0.6294460518, blue: 0.9050356218, alpha: 1))
-            .setNavigationTitleColor(color: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
-            .setRightBubbleColor(color: #colorLiteral(red: 0.2202146215, green: 0.6294460518, blue: 0.9050356218, alpha: 1))
-            .setLeftBubbleColor(color: #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1))
-            .setRightBubblTextColor(color: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
-            .setLeftBubblTextColor(color: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
-            .setTimeLabelTextColor(color: #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1))
-            .setBaseColor(color: #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1))
-            .setEmptyTextColor(color: #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1))
-            .setEmptyBackgroundColor(color: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
+//            .setNavigationTitleColor(color: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
+//            .setRightBubbleColor(color: #colorLiteral(red: 0.2202146215, green: 0.6294460518, blue: 0.9050356218, alpha: 1))
+//            .setLeftBubbleColor(color: #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1))
+//            .setRightBubblTextColor(color: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
+//            .setLeftBubblTextColor(color: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
+//            .setTimeLabelTextColor(color: #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1))
+//            .setBaseColor(color: #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1))
+//            .setEmptyTextColor(color: #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1))
+//            .setEmptyBackgroundColor(color: #colorLiteral(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0))
             .startChat { (chatViewController) in
                 viewController.navigationController?.setViewControllers([viewController, chatViewController], animated: true)
         }
@@ -71,6 +72,6 @@ final class ChatManager {
     
     func userTapNotification(userInfo : [AnyHashable : Any]) {
         self.widget.handleNotification(userInfo: userInfo, removePreviousNotif: true)
-        .startChat(withRoomId: <#T##String#>, callback: <#T##(UIViewController) -> Void#>)
+//        .startChat(withRoomId: <#T##String#>, callback: <#T##(UIViewController) -> Void#>)
     }
 }

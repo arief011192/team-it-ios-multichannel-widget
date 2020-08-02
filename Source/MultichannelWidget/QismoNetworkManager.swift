@@ -1,27 +1,27 @@
 //
-//  QismoNetworkManager.swift
-//  Pods
+//  QismoNetworkManagerV2.swift
+//  MultichannelWidget
 //
-//  Created by qiscus on 04/02/20.
+//  Created by Rahardyan Bisma on 16/07/20.
 //
 
 import Foundation
-import QiscusCoreAPI
+import QiscusCore
 import Alamofire
 import SwiftyJSON
 
 class QismoNetworkManager {
     
-    var qiscus: QiscusCoreAPI
+    var qiscus: QiscusCore
+    var qiscusUser: QAccount?
     let urlInitiateChat = "https://multichannel.qiscus.com/api/v1/qiscus/initiate_chat"
     
-    public init(QiscusCoreAPI : QiscusCoreAPI) {
-        self.qiscus = QiscusCoreAPI
+    public init(qiscusCore : QiscusCore) {
+        self.qiscus = qiscusCore
     }
     
     public func initiateChat(param: [String:Any], onSuccess: @escaping(String) -> Void, onError: @escaping(String) -> Void) {
         var mParam = param
-        
         self.qiscus.getJWTNonce(onSuccess: { nonce in
 //            mParam = ["nonce" : nonce.nonce]
             mParam.updateValue(nonce.nonce, forKey: "nonce")
@@ -45,8 +45,10 @@ class QismoNetworkManager {
                     return
                 }
                 //login sdk
-                self.setQismoSdkUser(identityToken: identityToken, onSuccess: { user in
+                self.setQismoSdkUser(identityToken: identityToken, onSuccess: { [weak self] user in
                     //success login sdk
+                    self?.qiscusUser = user
+                    SharedPreferences.saveQiscusAccount(userEmail: user.id)
                     onSuccess(roomId)
                 }, onError: { qError in
                     debugPrint(qError.message)
@@ -68,7 +70,7 @@ class QismoNetworkManager {
             }
     }
     
-    public func setQismoSdkUser(identityToken: String, onSuccess: @escaping(UserModel) -> Void, onError: @escaping(QError) -> Void) {
+    public func setQismoSdkUser(identityToken: String, onSuccess: @escaping(QAccount) -> Void, onError: @escaping(QError) -> Void) {
         self.qiscus.setUserWithIdentityToken(token: identityToken, onSuccess: { user in
             onSuccess(user)
         }, onError: { qError in
@@ -76,14 +78,14 @@ class QismoNetworkManager {
         })
     }
     
-    public func getQismoRoom(roomId: String, onSuccess: @escaping(RoomModel) -> Void, onError: @escaping(QError) -> Void) {
-        
-        self.qiscus.getChatRoom(id: roomId, onSuccess: { room, comments in
+    public func getQismoRoom(roomId: String, onSuccess: @escaping(QChatRoom) -> Void, onError: @escaping(QError) -> Void) {
+        self.qiscus.shared.getChatRooms(roomIds: [roomId], onSuccess: { (room) in
             
-        }, onError: { qError in
+        }) { (error) in
             
-        })
+        }
         
     }
     
 }
+

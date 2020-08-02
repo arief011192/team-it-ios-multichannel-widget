@@ -11,14 +11,15 @@ import UIKit
 #endif
 import Photos
 import MobileCoreServices
-import QiscusCoreAPI
+import QiscusCore
 import SwiftyJSON
 import Alamofire
 import AlamofireImage
 
 protocol CustomChatInputDelegate {
     func sendAttachment()
-    func sendMessage(message: CommentModel)
+    func sendImageAttachment()
+    func sendMessage(message: QMessage)
     func hideReply()
 }
 
@@ -35,16 +36,17 @@ class CustomChatInput: UIChatInput {
     @IBOutlet weak var viewReply: UIView!
     @IBOutlet weak var sendButton: UIButton!
     @IBOutlet weak var attachButton: UIButton!
+    @IBOutlet weak var imageAttachmentButton: UIButton!
     @IBOutlet weak var contraintTopReply: NSLayoutConstraint!
     @IBOutlet weak var tvReply: UILabel!
     @IBOutlet weak var heightTextViewCons: NSLayoutConstraint!
     @IBOutlet weak var textView: UITextView!
     var chatInputDelegate : CustomChatInputDelegate? = nil
     var replyChatInputDelegate: ReplyChatInputDelegate? = nil
-//    var defaultInputBarHeight: CGFloat = 34.0
-//    var customInputBarHeight: CGFloat = 34.0
+    //    var defaultInputBarHeight: CGFloat = 34.0
+    //    var customInputBarHeight: CGFloat = 34.0
     var colorName : UIColor = UIColor.black
-    var replyComment: CommentModel? = nil
+    var replyComment: QMessage? = nil
     
     override func commonInit(nib: UINib) {
         let nib = UINib(nibName: "CustomChatInput", bundle: MultichannelWidget.bundle)
@@ -53,24 +55,27 @@ class CustomChatInput: UIChatInput {
         textView.text = TextConfiguration.sharedInstance.textPlaceholder
         textView.textColor = UIColor.lightGray
         textView.font = ChatConfig.chatFont
-        //self.textView.layer.cornerRadius = self.textView.frame.size.height / 2
-        //self.textView.clipsToBounds = true
-        self.textView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-
+        textView.layer.borderColor = #colorLiteral(red: 0.9176470588, green: 0.9176470588, blue: 0.9137254902, alpha: 1)
+        textView.layer.borderWidth = 1
+        textView.layer.cornerRadius = 8
+        textView.textContainerInset = UIEdgeInsets(top: 2, left: 2, bottom: 0, right: 2)
+        
         self.sendButton.tintColor = ColorConfiguration.sendButtonColor
         self.attachButton.tintColor = ColorConfiguration.attachmentButtonColor
-        self.attachButton.setImage(UIImage(named: "ic_attachment", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate), for: .normal)
+        self.attachButton.setImage(UIImage(named: "ic_file_attachment", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate), for: .normal)
+        self.imageAttachmentButton.tintColor = ColorConfiguration.attachmentButtonColor
+        self.imageAttachmentButton.setImage(UIImage(named: "ic_image_attachment", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate), for: .normal)
         self.sendButton.setImage(UIImage(named: "ic_send", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate), for: .normal)
     }
     
     @IBAction func clickSend(_ sender: Any) {
         guard let text = self.textView.text else {return}
         if !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && text != TextConfiguration.sharedInstance.textPlaceholder {
-//            var payload:JSON? = nil
-            let comment = QismoManager.shared.qiscus.newMessage()
+            //            var payload:JSON? = nil
+            let comment = QMessage()
             
             if let _replyData = replyComment {
-                let senderName = _replyData.username
+                let senderName = _replyData.sender.name
                 comment.type = "reply"
                 comment.message = text
                 comment.payload = [
@@ -95,16 +100,19 @@ class CustomChatInput: UIChatInput {
         self.setHeight(50)
         hideReply()
     }
+    @IBAction func clickImageAttachment(_ sender: Any) {
+        self.chatInputDelegate?.sendImageAttachment()
+    }
     
     @IBAction func clickAttachment(_ sender: Any) {
-         self.chatInputDelegate?.sendAttachment()
+        self.chatInputDelegate?.sendAttachment()
     }
     
     @IBAction func closeReply(_ sender: Any) {
         hideReply()
     }
     
-    public func showReplyView(comment: CommentModel) {
+    public func showReplyView(comment: QMessage) {
         self.contraintTopReply.constant = 0
         self.viewReply.isHidden = false
         self.tvReply.text = comment.message
@@ -113,7 +121,7 @@ class CustomChatInput: UIChatInput {
             self.widthReplyImage.constant = 40
             let url = URL(string: comment.getAttachmentURL(message: comment.message))
             self.imageThumb.af.setImage(withURL: url!)
-
+            
             if let payload = comment.payload, let caption = payload["caption"] as? String, !caption.isEmpty {
                 self.tvReply.text = caption
             }else {
@@ -153,9 +161,9 @@ extension CustomChatInput : UITextViewDelegate {
         self.typing(true)
         let fixedWidth = textView.frame.size.width
         let newSize = textView.sizeThatFits(CGSize.init(width: fixedWidth, height: CGFloat(MAXFLOAT)))
-        if (newSize.height >= 35 && newSize.height <= 100) {
-            self.heightTextViewCons.constant = newSize.height
-            self.heightView.constant = newSize.height + 10.0
+        if (newSize.height <= 100) {
+            self.heightTextViewCons.constant = newSize.height + 10
+            self.heightView.constant = newSize.height + 25.0
             if self.replyComment != nil {
                 self.setHeight(self.heightView.constant + 50)
             } else {
@@ -165,6 +173,10 @@ extension CustomChatInput : UITextViewDelegate {
         
         if (newSize.height >= 100) {
             self.textView.isScrollEnabled = true
+        }
+        
+        if textView.text.isEmpty {
+            self.typing(false)
         }
     }
 }
@@ -301,46 +313,43 @@ extension UIChatViewController : CustomChatInputDelegate {
         })
     }
     
-    func sendMessage(message: CommentModel) {
+    func sendMessage(message: QMessage) {
         let postedComment = message
-
+        
         self.send(message: postedComment, onSuccess: { (comment) in
             //success
         }) { (error) in
             //error
         }
     }
-
-    func sendAttachment() {
+    
+    func sendImageAttachment() {
         let optionMenu = UIAlertController()
         let cameraAction = UIAlertAction(title: "Take Camera", style: .default, handler: {
             (alert: UIAlertAction!) -> Void in
             self.uploadCamera()
         })
         optionMenu.addAction(cameraAction)
-
-
+        
+        
         let galleryAction = UIAlertAction(title: "Image from Gallery", style: .default, handler: {
             (alert: UIAlertAction!) -> Void in
             self.uploadGalery()
         })
         optionMenu.addAction(galleryAction)
         
-        let fileAction = UIAlertAction(title: "File / Document", style: .default, handler: {
-            (alert: UIAlertAction!) -> Void in
-            self.uploadFile()
-        })
-        optionMenu.addAction(fileAction)
-
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: {
             (alert: UIAlertAction!) -> Void in
-
+            
         })
-
+        
         optionMenu.addAction(cancelAction)
         self.present(optionMenu, animated: true, completion: nil)
     }
-
+    
+    func sendAttachment() {
+        self.uploadFile()
+    }
     
 }
 
@@ -362,7 +371,7 @@ extension UIChatViewController: UIDocumentPickerDelegate{
     }
     
     public func postReceivedFile(fileUrl: URL) {
-        guard let token = QismoManager.shared.qiscus.userProfile?.token else { return }
+        // guard let token = QismoManager.shared.network.qiscusUser?.token else { return }
         var contentPayload: [String: Any] = [:]
         let coordinator = NSFileCoordinator()
         coordinator.coordinate(readingItemAt: fileUrl, options: NSFileCoordinator.ReadingOptions.forUploading, error: nil) { (dataURL) in
@@ -493,118 +502,107 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                                             let file = FileUploadModel()
                                             file.data = data
                                             file.name = fileName
-                                            let header: HTTPHeaders = [
-                                                "Content-Type": "application/json",
-                                                "QISCUS_SDK_APP_ID": "\(QismoManager.shared.qiscus.config.appId)",
-                                                "QISCUS_SDK_TOKEN" : "\(token)"
-                                            ]
+//                                            let header: HTTPHeaders = [
+//                                                "Content-Type": "application/json",
+//                                                "QISCUS_SDK_APP_ID": "\(QismoManager.shared.appID)",
+//                                                "QISCUS_SDK_TOKEN" : "\(token)"
+//                                            ]
                                             
-                                            AF.upload(multipartFormData: { (multipartFormData) in
-                                                multipartFormData.append(file.data!, withName: "file", fileName: fileName, mimeType: "image/jpg")
-                                            }, to: "\(QismoManager.shared.qiscus.config.server.url)/upload", method: .post, headers: header, interceptor: nil).uploadProgress { [weak self] (progress) in
+                                            let fileModel = FileUploadModel()
+                                            fileModel.name = fileName
+                                            fileModel.data = file.data
+                                            QismoManager.shared.qiscus.shared.upload(file: fileModel, onSuccess: { [weak self] (fileModel) in
+                                                
+                                                let message = QMessage()
+                                                message.type = "file_attachment"
+                                                message.payload = [
+                                                    "url"       : fileModel.url.absoluteString,
+                                                    "file_name" : fileModel.name,
+                                                    "size"      : fileModel.size,
+                                                    "caption"   : ""
+                                                ]
+                                                
+                                                message.message = "Send Attachment"
+                                                self?.send(message: message, onSuccess: { (comment) in
+                                                    debugPrint(message)
+                                                }, onError: { (error) in
+                                                    self?.heightProgressBar.constant = 0
+                                                    self?.widthProgress.constant = 0
+                                                })
+                                                }, onError: { (error) in
+                                                    print(error)
+                                            }) { [weak self] (progress) in
                                                 guard let self = self else {
                                                     return
                                                 }
                                                 self.heightProgressBar.constant = 10
-                                                self.widthProgress.constant = CGFloat(progress.fractionCompleted) * UIScreen.main.bounds.width
+                                                self.widthProgress.constant = CGFloat(progress) * UIScreen.main.bounds.width
                                                 print("upload progress :\(progress) isMainThread \(Thread.isMainThread)")
                                                 
-                                                if(progress.fractionCompleted == 1) {
+                                                if(progress == 1) {
                                                     DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                                                         self.heightProgressBar.constant = 0
                                                         self.widthProgress.constant = 0
                                                     }
                                                 }
-                                                
-                                            }.responseJSON { response in
-                                                switch response.result {
-                                                case .success(_):
-                                                    guard let jsonResponse = response.value as? [String: Any] else {return}
-                                                    print(jsonResponse)
-                                                    
-                                                    let image = JSON(jsonResponse)
-                                                    
-                                                    let message = QismoManager.shared.qiscus.newMessage()
-                                                    message.type = "file_attachment"
-                                                    message.payload = [
-                                                        "url"       : image["results"]["file"]["url"].stringValue,
-                                                        "file_name" : file.name,
-                                                        "size"      : image["results"]["file"]["size"].stringValue,
-                                                        "caption"   : ""
-                                                    ]
-                                                    
-                                                    message.message = "Send Attachment"
-                                                    self.send(message: message, onSuccess: { (comment) in
-                                                        debugPrint(message)
-                                                    }, onError: { (error) in
-                                                        self.heightProgressBar.constant = 0
-                                                        self.widthProgress.constant = 0
-                                                    })
-                                                case .failure(let error):
-                                                    print(error)
-                                                }
                                             }
                                             
                     },
-                    cancelAction: {
+                                         cancelAction: {
                                             
                     })
                 } else {
-                    let header: HTTPHeaders = [
-                        "Content-Type": "application/json",
-                        "QISCUS_SDK_APP_ID": "\(QismoManager.shared.qiscus.config.appId)",
-                        "QISCUS_SDK_TOKEN" : "\(token)"
-                    ]
-                    AF.upload(multipartFormData: { (multipartFormData) in
-                        multipartFormData.append(data, withName: "file", fileName: fileName, mimeType: "image/jpg")
-                    }, to: "\(QismoManager.shared.qiscus.config.server.url)/upload", method: .post, headers: header, interceptor: nil).uploadProgress { [weak self] (progress) in
+//                    let header: HTTPHeaders = [
+//                        "Content-Type": "application/json",
+//                        "QISCUS_SDK_APP_ID": "\(QismoManager.shared.appID)",
+//                        "QISCUS_SDK_TOKEN" : "\(token)"
+//                    ]
+                    
+                    let fileUploadModel = FileUploadModel()
+                    fileUploadModel.name = fileName
+                    fileUploadModel.data = data
+                    
+                    QismoManager.shared.qiscus.shared.upload(file: fileUploadModel, onSuccess: { [weak self] (fileModel) in
+                        let message = QMessage()
+                        message.type = "file_attachment"
+                        message.payload = [
+                            "url"       : fileModel.url.absoluteString,
+                            "file_name" : fileModel.name,
+                            "size"      : fileModel.size,
+                            "caption"   : ""
+                        ]
+                        
+                        message.message = "Send Attachment"
+                        self?.send(message: message, onSuccess: { (comment) in
+                            debugPrint(message)
+                        }, onError: { (error) in
+                            self?.heightProgressBar.constant = 0
+                            self?.widthProgress.constant = 0
+                        })
+                        }, onError: { (error) in
+                            print(error)
+                    }) { [weak self] (progress) in
                         guard let self = self else {
                             return
                         }
                         print("upload progress :\(progress)")
                         self.heightProgressBar.constant = 10
-                        self.widthProgress.constant = CGFloat(progress.fractionCompleted) * UIScreen.main.bounds.width
+                        self.widthProgress.constant = CGFloat(progress) * UIScreen.main.bounds.width
                         print("upload progress :\(progress) isMainThread \(Thread.isMainThread)")
                         
-                        if(progress.fractionCompleted == 1) {
+                        if(progress == 1) {
                             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                                 self.heightProgressBar.constant = 0
                                 self.widthProgress.constant = 0
                             }
                         }
-                    }.responseJSON { response in
-                        switch response.result {
-                        case .success(_):
-                            guard let jsonResponse = response.value as? [String: Any] else {return}
-                            print(jsonResponse)
-                            
-                            let image = JSON(jsonResponse)
-                            
-                            let message = QismoManager.shared.qiscus.newMessage()
-                            message.type = "file_attachment"
-                            message.payload = [
-                                "url"       : image["results"]["file"]["url"].stringValue,
-                                "file_name" : fileName,
-                                "size"      : image["results"]["file"]["size"].stringValue,
-                                "caption"   : ""
-                            ]
-                            
-                            message.message = "Send Attachment"
-                            self.send(message: message, onSuccess: { (comment) in
-                                debugPrint(message)
-                            }, onError: { (error) in
-                                self.heightProgressBar.constant = 0
-                                self.widthProgress.constant = 0
-                            })
-                        case .failure(let error):
-                            print(error)
-                        }
                     }
                 }
                 
-            }catch _{
+            } catch _{
                 //finish loading
                 //self.dismissLoading()
+                
             }
         }
     }
@@ -748,26 +746,26 @@ extension UIChatViewController : UIImagePickerControllerDelegate, UINavigationCo
                                         let file = FileUploadModel()
                                         file.data = mediaData!
                                         file.name = fileName
-//                                        QiscusCoreAPI.shared.upload(file: file, onSuccess: { (file) in
-//                                            let message = CommentModel()
-//                                            message.type = "file_attachment"
-//                                            message.payload = [
-//                                                "url"       : file.url.absoluteString,
-//                                                "file_name" : file.name,
-//                                                "size"      : file.size,
-//                                                "caption"   : ""
-//                                            ]
-//                                            message.message = "Send Attachment"
-//                                            self.send(message: message, onSuccess: { (comment) in
-//                                                //success
-//                                            }, onError: { (error) in
-//                                                //error
-//                                            })
-//                                        }, onError: { (error) in
-//                                            //error
-//                                        }, progressListener: { (progress) in
-//                                            print("progress =\(progress)")
-//                                        })
+                                        //                                        QiscusCoreAPI.shared.upload(file: file, onSuccess: { (file) in
+                                        //                                            let message = CommentModel()
+                                        //                                            message.type = "file_attachment"
+                                        //                                            message.payload = [
+                                        //                                                "url"       : file.url.absoluteString,
+                                        //                                                "file_name" : file.name,
+                                        //                                                "size"      : file.size,
+                                        //                                                "caption"   : ""
+                                        //                                            ]
+                                        //                                            message.message = "Send Attachment"
+                                        //                                            self.send(message: message, onSuccess: { (comment) in
+                                        //                                                //success
+                                        //                                            }, onError: { (error) in
+                                        //                                                //error
+                                        //                                            })
+                                        //                                        }, onError: { (error) in
+                                        //                                            //error
+                                        //                                        }, progressListener: { (progress) in
+                                        //                                            print("progress =\(progress)")
+                                        //                                        })
                                         
                 },
                                      cancelAction: {
@@ -785,4 +783,3 @@ extension UIChatViewController : UIImagePickerControllerDelegate, UINavigationCo
         dismiss(animated: true, completion: nil)
     }
 }
-

@@ -24,6 +24,7 @@ class WebFileViewController: UIViewController {
     }()
     
     var fileUrl: String?
+    var localFileUrl: URL?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,11 +54,18 @@ class WebFileViewController: UIViewController {
             ])
         }
         
-        guard let fileUrl = self.fileUrl, let url = URL(string: fileUrl) else {
+        guard let localFileUrl = self.localFileUrl else {
+            guard let fileUrl = self.fileUrl, let url = URL(string: fileUrl) else {
+                return
+            }
+            
+            webView.load(URLRequest(url: url))
             return
         }
         
-        webView.load(URLRequest(url: url))
+        
+        webView.loadFileURL(localFileUrl, allowingReadAccessTo: localFileUrl)
+        
     }
 
 }

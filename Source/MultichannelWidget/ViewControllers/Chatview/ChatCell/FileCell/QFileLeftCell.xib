@@ -37,20 +37,53 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xe3-LK-zEl" userLabel="lblFilename">
-                        <rect key="frame" x="77" y="15" width="163" height="14.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <rect key="frame" x="77" y="15" width="163" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hkz-6R-6qE" userLabel="lblExtension">
-                        <rect key="frame" x="77" y="33.5" width="175" height="14.5"/>
+                        <rect key="frame" x="77" y="36" width="129" height="14.5"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c9L-3V-QH9">
+                        <rect key="frame" x="214" y="34" width="36" height="24"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7FF-V9-G6j">
+                                <rect key="frame" x="0.0" y="0.0" width="36" height="24"/>
+                                <inset key="imageEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                <state key="normal" image="ic_download"/>
+                                <connections>
+                                    <action selector="downloadDidTap:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="rfP-E8-Aa3"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MwX-5I-m0g">
+                                <rect key="frame" x="15" y="20" width="16" height="2"/>
+                                <color key="backgroundColor" red="0.0029026633129999998" green="0.37193250659999999" blue="0.80029171710000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="2" id="oaA-AL-Je8"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="7FF-V9-G6j" firstAttribute="top" secondItem="c9L-3V-QH9" secondAttribute="top" id="091-jZ-VZw"/>
+                            <constraint firstAttribute="trailing" secondItem="MwX-5I-m0g" secondAttribute="trailing" constant="5" id="3SE-ei-VLG"/>
+                            <constraint firstAttribute="bottom" secondItem="7FF-V9-G6j" secondAttribute="bottom" id="4l7-R6-OLE"/>
+                            <constraint firstAttribute="height" constant="24" id="6qX-mW-ucg"/>
+                            <constraint firstAttribute="trailing" secondItem="7FF-V9-G6j" secondAttribute="trailing" id="8Xy-lV-WEx"/>
+                            <constraint firstItem="7FF-V9-G6j" firstAttribute="leading" secondItem="c9L-3V-QH9" secondAttribute="leading" id="Ur2-yU-YPN"/>
+                            <constraint firstAttribute="width" constant="36" id="ZK5-9I-lbn"/>
+                            <constraint firstItem="MwX-5I-m0g" firstAttribute="bottom" secondItem="7FF-V9-G6j" secondAttribute="bottom" constant="-2" id="irl-dY-K0y"/>
+                            <constraint firstItem="MwX-5I-m0g" firstAttribute="leading" secondItem="c9L-3V-QH9" secondAttribute="leading" constant="15" id="uDS-DQ-h8O"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="1aF-aS-NjY" firstAttribute="leading" secondItem="RkJ-nk-PhL" secondAttribute="trailing" constant="8" id="394-u4-8qT"/>
+                    <constraint firstItem="c9L-3V-QH9" firstAttribute="leading" secondItem="Hkz-6R-6qE" secondAttribute="trailing" constant="8" id="4tY-FN-U7F"/>
                     <constraint firstItem="Hkz-6R-6qE" firstAttribute="leading" secondItem="C51-bn-wjW" secondAttribute="trailing" constant="8" id="6aa-gi-v2A"/>
                     <constraint firstItem="1aF-aS-NjY" firstAttribute="top" secondItem="RkJ-nk-PhL" secondAttribute="top" id="Dz3-Cr-iy2"/>
                     <constraint firstItem="RkJ-nk-PhL" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="Ksm-e8-mtq"/>
@@ -60,7 +93,8 @@
                     <constraint firstAttribute="trailing" secondItem="RkJ-nk-PhL" secondAttribute="trailing" constant="70" id="a5Z-7E-DXr"/>
                     <constraint firstItem="RkJ-nk-PhL" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="eH1-b1-6tF"/>
                     <constraint firstItem="C51-bn-wjW" firstAttribute="top" secondItem="RkJ-nk-PhL" secondAttribute="top" constant="5" id="eWv-sP-EAy"/>
-                    <constraint firstItem="RkJ-nk-PhL" firstAttribute="trailingMargin" secondItem="Hkz-6R-6qE" secondAttribute="trailing" constant="-10" id="els-iX-xM6"/>
+                    <constraint firstItem="c9L-3V-QH9" firstAttribute="bottom" secondItem="RkJ-nk-PhL" secondAttribute="bottom" constant="-2" id="f7P-rU-0tu"/>
+                    <constraint firstItem="c9L-3V-QH9" firstAttribute="trailing" secondItem="RkJ-nk-PhL" secondAttribute="trailing" id="peL-Kp-o7S"/>
                     <constraint firstItem="C51-bn-wjW" firstAttribute="leading" secondItem="RkJ-nk-PhL" secondAttribute="leading" constant="5" id="s0V-gO-5l2"/>
                     <constraint firstItem="Hkz-6R-6qE" firstAttribute="top" secondItem="Xe3-LK-zEl" secondAttribute="bottom" constant="4" id="umq-nK-NcH"/>
                     <constraint firstItem="Xe3-LK-zEl" firstAttribute="trailing" secondItem="RkJ-nk-PhL" secondAttribute="trailing" constant="-10" id="y6g-7u-caP"/>
@@ -74,8 +108,12 @@
                 <outlet property="lblDate" destination="1aF-aS-NjY" id="QDc-Zp-f8L"/>
                 <outlet property="lblExtension" destination="Hkz-6R-6qE" id="cJU-7E-ngj"/>
                 <outlet property="lblFilename" destination="Xe3-LK-zEl" id="KRN-ZD-ZeK"/>
+                <outlet property="viewDownloadButtonContainer" destination="c9L-3V-QH9" id="Kgp-bI-7HY"/>
             </connections>
             <point key="canvasLocation" x="60.869565217391312" y="134.59821428571428"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="ic_download" width="10.5" height="10.5"/>
+    </resources>
 </document>

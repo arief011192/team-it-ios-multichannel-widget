@@ -11,7 +11,7 @@ import UIKit
 #endif
 import Photos
 import MobileCoreServices
-import QiscusCoreAPI
+import QiscusCore
 import Alamofire
 import AlamofireImage
 import SwiftyJSON
@@ -21,7 +21,7 @@ enum QUploaderType {
     case video
 }
 
-class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegate {
+class QiscusUploaderVC: UIViewController, UIScrollViewDelegate {
 
     @IBOutlet weak var viewProgressContainer: UIView!
     @IBOutlet weak var labelProgress: UILabel!
@@ -40,7 +40,7 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
     var type = QUploaderType.image
     var data   : Data?
     var fileName :String?
-    var imageData: [CommentModel] = []
+    var imageData: [QMessage] = []
     var selectedImageIndex: Int = 0
     let maxProgressHeight:Double = 40.0
     var content: [String: Any] = [:]
@@ -68,55 +68,33 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
             file.data = data!
             file.name = fileName!
             
-            guard let token = QismoManager.shared.qiscus.userProfile?.token else { return }
-            
-            let header: HTTPHeaders = [
-                "Content-Type": "application/json",
-                "QISCUS_SDK_APP_ID": "\(QismoManager.shared.qiscus.config.appId)",
-                "QISCUS_SDK_TOKEN" : "\(token)"
-            ]
-
-            AF.upload(multipartFormData: { (multipartFormData) in
-                multipartFormData.append(self.data!, withName: "file", fileName: self.fileName!, mimeType: "image/jpg")
-            }, to: "\(QismoManager.shared.qiscus.config.server.url)/upload", method: .post, headers: header, interceptor: nil).uploadProgress { [weak self] (progress) in
-                guard let self = self else {
-                    return
-                }
-                print(progress.fractionCompleted)
-                self.showProgress()
-                self.labelProgress.text = "\(Int(progress.fractionCompleted * 100)) %"
+            QismoManager.shared.qiscus.shared.upload(file: file, onSuccess: { (file) in
+                self.sendButton.isEnabled = true
+                self.sendButton.isHidden = false
+                self.hiddenProgress()
                 
-                self.constraintProgressWidth.constant = UIScreen.main.bounds.width * CGFloat(progress.fractionCompleted)
+                let message = QMessage()
+                message.type = "file_attachment"
+                message.payload = [
+                    "url"       : file.url.absoluteString,
+                    "file_name" : file.name,
+                    "size"      : file.size,
+                    "caption"   : ""
+                ]
+                message.message = "Send Image"
+                self.imageData.append(message)
+            }, onError: { (error) in
+                //error
+            }, progressListener: { (progress) in
+                print("upload progress: \(progress)")
+                self.showProgress()
+                self.labelProgress.text = "\(Int(progress * 100)) %"
+                
+                self.constraintProgressWidth.constant = UIScreen.main.bounds.width * CGFloat(progress)
                 UIView.animate(withDuration: 0.65, animations: {
                     self.viewProgressContainer.layoutIfNeeded()
                 })
-            }.responseJSON { response in
-                switch response.result {
-                case .success(_):
-                    guard let jsonResponse = response.value as? [String: Any] else {return}
-                    print(jsonResponse)
-                    
-                    let image = JSON(jsonResponse)
-
-                    self.sendButton.isEnabled = true
-                    self.hiddenProgress()
-                    self.view.layoutIfNeeded()
-                    
-                    let message = QismoManager.shared.qiscus.newMessage()
-                    message.type = "file_attachment"
-                    message.payload = [
-                        "url"       : image["results"]["file"]["url"].stringValue,
-                        "file_name" : file.name,
-                        "size"      : image["results"]["file"]["size"].stringValue,
-                        "caption"   : ""
-                    ]
-                    
-                    message.message = "Send Image"
-                    self.imageData.append(message)
-                case .failure(let error):
-                    print(error)
-                }
-            }
+            })
             
         }
         
@@ -221,12 +199,19 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
                 self.imageData.first?.payload![ "caption" ] = mediaCaption.text
             }
             
-            chatView?.send(message: self.imageData.first!, onSuccess: { (comment) in
-                self.chatView?.setFromUploader(comment: comment)
-                let _ = self.navigationController?.popViewController(animated: true)
-            }, onError: { (error) in
-                let _ = self.navigationController?.popViewController(animated: true)
-            })
+            let _ = self.navigationController?.popViewController(animated: true)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                guard let self = self else {
+                    return
+                }
+                self.chatView?.send(message: self.imageData.first!, onSuccess: { (comment) in
+                    self.chatView?.setFromUploader(comment: comment)
+                }, onError: { (error) in
+                    print("error send image \(error)")
+                })
+            }
+        
         }
     }
     
@@ -250,7 +235,7 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
         let animateDuration = info[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
         
         self.inputBottom.constant = keyboardHeight
-        self.minInputHeight.constant = 32 * 3
+//        self.minInputHeight.constant = 32 * 3
         UIView.animate(withDuration: animateDuration, delay: 0, options: UIView.AnimationOptions(), animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
@@ -261,3 +246,23 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate,UITextViewDelegat
     }
 }
 
+extension QiscusUploaderVC : UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        chatView?.typing(true)
+        let fixedWidth = textView.frame.size.width
+        let newSize = textView.sizeThatFits(CGSize.init(width: fixedWidth, height: CGFloat(MAXFLOAT)))
+        if (newSize.height >= 35 && newSize.height <= 100) {
+            self.minInputHeight.constant = newSize.height
+//            self.heightView.constant = newSize.height + 10.0
+//            if self.replyComment != nil {
+//                self.setHeight(self.heightView.constant + 50)
+//            } else {
+//                self.setHeight(self.heightView.constant)
+//            }
+        }
+        
+        if (newSize.height >= 100) {
+            textView.isScrollEnabled = true
+        }
+    }
+}

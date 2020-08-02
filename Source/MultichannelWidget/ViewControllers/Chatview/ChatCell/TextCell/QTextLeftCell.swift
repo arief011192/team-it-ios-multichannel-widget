@@ -9,7 +9,7 @@
 import UIKit
 #endif
 
-import QiscusCoreAPI
+import QiscusCore
 
 class QTextLeftCell: UIBaseChatCell, UITextViewDelegate {
     @IBOutlet weak var lbName: UILabel!
@@ -40,17 +40,17 @@ class QTextLeftCell: UIBaseChatCell, UITextViewDelegate {
         self.tvContent2.delegate = self
     }
     
-    override func present(message: CommentModel) {
+    override func present(message: QMessage) {
         // parsing payload
         self.bindData(message: message)
         
     }
     
-    override func update(message: CommentModel) {
+    override func update(message: QMessage) {
         self.bindData(message: message)
     }
     
-    func bindData(message: CommentModel){
+    func bindData(message: QMessage){
         self.setupBalon()
         
         self.lbTime.text = self.hour(date: message.date())
@@ -62,7 +62,7 @@ class QTextLeftCell: UIBaseChatCell, UITextViewDelegate {
         self.tvContent2.textColor = ColorConfiguration.leftBubbleTextColor
         
         if(isPublic == true){
-            self.lbName.text = message.username
+            self.lbName.text = message.sender.name
             self.lbName.textColor = colorName
             lbNameHeight.constant = 21
         }else{

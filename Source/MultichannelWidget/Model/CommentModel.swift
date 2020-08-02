@@ -7,7 +7,8 @@
 
 import Foundation
 import SwiftyJSON
-import QiscusCoreAPI
+import QiscusCore
+import Alamofire
 
 @objc enum QiscusFileType:Int{
     case image
@@ -89,22 +90,23 @@ public enum QReplyType:Int{
     }
 }
 
-extension CommentModel {
-
+extension QMessage {
+    
     func isMyComment() -> Bool {
-         //change this later when user savevd on presisstance storage
-        if let user = QismoManager.shared.qiscus.userProfile {
-            return userEmail == user.email
-        } else {
+        //change this later when user savevd on presisstance storage
+        if let user = QismoManager.shared.qiscus.getProfile() {
+            return userEmail == user.id
+        }else {
             return false
         }
+        
     }
     
     func date() -> Date? {
         let formatter = DateFormatter()
         formatter.dateFormat    = "yyyy-MM-dd'T'HH:mm:ssZ"
         formatter.timeZone      = TimeZone(abbreviation: "UTC")
-        let date = formatter.date(from: self.timestamp)
+        let date = formatter.date(from: self.timestampString)
         return date
     }
     
@@ -170,14 +172,14 @@ extension CommentModel {
         var data = [AnyHashable : Any]()
         
         data["qiscus_commentdata"] = true
-        data["qiscus_uniqueId"] = self.uniqId
+        data["qiscus_uniqueId"] = self.uniqueId
         data["qiscus_id"] = self.id
-        data["qiscus_roomId"] = self.roomId
-        data["qiscus_beforeId"] = self.commentBeforeId
+        data["qiscus_roomId"] = self.chatRoomId
+        data["qiscus_beforeId"] = self.previousMessageId
         data["qiscus_text"] = self.message
         data["qiscus_createdAt"] = self.unixTimestamp
         data["qiscus_senderEmail"] = self.userEmail
-        data["qiscus_senderName"] = self.username
+        data["qiscus_senderName"] = self.userId
         data["qiscus_statusRaw"] = self.status
         data["qiscus_typeRaw"] = self.type
         data["qiscus_data"] = self.payload
@@ -205,6 +207,98 @@ extension CommentModel {
             }
         }else{
             return .text
+        }
+    }
+    
+    func getLocalFilePath() -> URL? {
+        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        
+        func localFilePath(for url: URL) -> URL {
+            return documentsPath.appendingPathComponent("\(url.lastPathComponent)")
+        }
+        
+        guard let commentFileUrlPath = URL(string: getAttachmentURL(message: self.message)) else {
+            return nil
+        }
+            
+        let url = localFilePath(for: commentFileUrlPath)
+        let fileManager = FileManager.default
+        
+        if fileManager.fileExists(atPath: url.path) {
+            return url
+        }else {
+            return nil
+        }
+    }
+    
+    func isFileDownloaded() -> Bool {
+        guard getLocalFilePath() != nil else {
+            return false
+        }
+        
+        return true
+    }
+    
+    func download(from viewController: UIViewController? = nil, downloadProgress: @escaping ((Double) -> Void), completetionHandler: ((URL) -> Void)? = nil) {
+        let urlString = self.getAttachmentURL(message: self.message)
+        let url = URL(string: urlString)
+        let fileName = String((url!.lastPathComponent)) as NSString
+        // Create destination URL
+        let documentsUrl:URL =  FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let destinationFileUrl = documentsUrl.appendingPathComponent("\(fileName)")
+        
+        func handleDownload(localUrlPath: URL) {
+            do {
+                try FileManager.default.copyItem(at: localUrlPath, to: destinationFileUrl)
+                completetionHandler?(destinationFileUrl)
+                do {
+                    //Show UIActivityViewController to save the downloaded file
+                    let contents  = try FileManager.default.contentsOfDirectory(at: documentsUrl, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+                    for indexx in 0..<contents.count {
+                        if contents[indexx].lastPathComponent == destinationFileUrl.lastPathComponent {
+                            DispatchQueue.main.async {
+                                let activityViewController = UIActivityViewController(activityItems: [contents[indexx]], applicationActivities: nil)
+                                viewController?.present(activityViewController, animated: true, completion: nil)
+                            }
+                        }
+                    }
+                }
+                catch (let err) {
+                    print("error: \(err)")
+                }
+            } catch (let writeError) {
+                completetionHandler?(destinationFileUrl)
+                do {
+                    //Show UIActivityViewController to save the downloaded file
+                    let contents  = try FileManager.default.contentsOfDirectory(at: documentsUrl, includingPropertiesForKeys: nil, options: .skipsHiddenFiles)
+                    for indexx in 0..<contents.count {
+                        if contents[indexx].lastPathComponent == destinationFileUrl.lastPathComponent {
+                            DispatchQueue.main.async {
+                                let activityViewController = UIActivityViewController(activityItems: [contents[indexx]], applicationActivities: nil)
+                                viewController?.present(activityViewController, animated: true, completion: nil)
+                            }
+                            return
+                        }
+                    }
+                }
+                catch (let err) {
+                    print("error: \(err)")
+                }
+            }
+        }
+        
+        if self.isFileDownloaded(), let localUrlPath = self.getLocalFilePath() {
+            handleDownload(localUrlPath: localUrlPath)
+            downloadProgress(1)
+        } else {
+            AF.download(urlString).response(completionHandler: { (response) in
+            if let tempLocalUrl = response.fileURL {
+                // Success
+                handleDownload(localUrlPath: tempLocalUrl)
+            }
+            }).downloadProgress(closure: { progress in
+                downloadProgress(progress.fractionCompleted)
+            })
         }
     }
     
