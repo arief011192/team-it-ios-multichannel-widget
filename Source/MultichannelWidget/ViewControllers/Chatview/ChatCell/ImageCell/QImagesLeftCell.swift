@@ -55,6 +55,7 @@ class QImagesLeftCell: UIBaseChatCell {
         super.prepareForReuse()
         self.imageRequest?.cancel()
         self.ivComment.image = nil
+        self.marginCommentTop.constant = 7
     }
     
     func setupBalon(){

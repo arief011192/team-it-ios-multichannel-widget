@@ -54,8 +54,10 @@ class QismoNetworkManager {
                     debugPrint(qError.message)
                 })
                 
+            }.cURLDescription { curl in
+                print("initiate chat \(curl)")
             }
-            print("initiate chat \(request.description)")
+            
         }, onError: { error in
             print(error.message)
             onError(error.message)

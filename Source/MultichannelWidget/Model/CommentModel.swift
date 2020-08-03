@@ -9,6 +9,7 @@ import Foundation
 import SwiftyJSON
 import QiscusCore
 import Alamofire
+import UIKit
 
 @objc enum QiscusFileType:Int{
     case image
