@@ -179,3 +179,19 @@ class AssetsConfiguration: NSObject {
     static var rightBallonNormal:UIImage? = UIImage(named: "text_balloon_right")
     static var backgroundChat:UIImage? = UIImage(named: "chat_bg")
 }
+
+extension UITableView {
+    var dataHasChanged: Bool {
+        guard let dataSource = dataSource else { return false }
+        let sections = dataSource.numberOfSections?(in: self) ?? 0
+        if numberOfSections != sections {
+            return true
+        }
+        for section in 0..<sections {
+            if numberOfRows(inSection: section) != dataSource.tableView(self, numberOfRowsInSection: section) {
+                return true
+            }
+        }
+        return false
+    }
+}

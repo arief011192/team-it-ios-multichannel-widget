@@ -109,7 +109,7 @@ class UIChatPresenter: UIChatUserInteraction {
             instance.viewPresenter?.onLoadRoomFinished(room: room)
           
             if comments.isEmpty {
-                instance.viewPresenter?.onLoadMessageFailed(message: "no message")
+                instance.viewPresenter?.onLoadMessageFailed(message: "No message here yet...")
                 return
             }
             
@@ -126,7 +126,8 @@ class UIChatPresenter: UIChatUserInteraction {
             
         }, onError: { [weak self] error in
             guard let instance = self else { return }
-            instance.viewPresenter?.onLoadMessageFailed(message: error.message)
+               instance.viewPresenter?.onLoadMessageFailed(message: "No message here yet...")
+               print("error load message \(error.message)")
         })
     }
     

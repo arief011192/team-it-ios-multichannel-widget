@@ -107,7 +107,6 @@ class UIChatViewController: UIViewController {
         set(newValue) {
             self.presenter.room = newValue
             self.refreshUI()
-            self.chatTitleView.room = newValue
         }
         get {
             return self.presenter.room
@@ -619,13 +618,19 @@ extension UIChatViewController: UIChatViewDelegate {
     }
     func onUpdateComment(comment: QMessage, indexpath: IndexPath) {
         // reload cell in section and index path
+        if self.tableViewConversation.dataHasChanged {
+            self.tableViewConversation.reloadData()
+        } else {
+           self.tableViewConversation.reloadRows(at: [indexpath], with: .none)
+        }
+        
         if self.tableViewConversation.cellForRow(at: indexpath) != nil {
             self.tableViewConversation.reloadRows(at: [indexpath], with: .none)
         }
     }
     
     func onLoadMessageFailed(message: String) {
-        //
+        self.labelEmptyMessage.text = message
     }
     
     func onUser(name: String, isOnline: Bool, message: String) {
@@ -695,7 +700,6 @@ extension UIChatViewController: UIChatViewDelegate {
     }
     
     func onLoadRoomFinished(room: QChatRoom) {
-        self.room = room
         self.setupUI()
     }
     
