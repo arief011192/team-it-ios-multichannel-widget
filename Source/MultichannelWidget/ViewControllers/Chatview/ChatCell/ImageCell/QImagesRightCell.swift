@@ -19,6 +19,7 @@ class QImagesRightCell: UIBaseChatCell {
     @IBOutlet weak var lblDate: UILabel!
     @IBOutlet weak var marginLblComment: NSLayoutConstraint!
     @IBOutlet weak var ivStatus: UIImageView!
+    @IBOutlet weak var loadingIndicator: UIActivityIndicatorView!
     
     
     var actionBlock: ((QMessage) -> Void)? = nil
@@ -52,6 +53,8 @@ class QImagesRightCell: UIBaseChatCell {
         self.imageRequest?.cancel()
         self.ivComment.image = nil
         self.marginLblComment.constant = 7
+        self.loadingIndicator.isHidden = false
+        self.loadingIndicator.startAnimating()
     }
     
     func setupBalon(){
@@ -88,6 +91,8 @@ class QImagesRightCell: UIBaseChatCell {
         if let url = payload["url"] as? String, let imageUrl = URL(string: url) {
             if let cachedImage = QismoManager.shared.imageCache.object(forKey: NSString(string: url)) {
                 self.ivComment.image = cachedImage
+                self.loadingIndicator.stopAnimating()
+                self.loadingIndicator.isHidden = true
             } else {
                 DispatchQueue.global(qos: .background).async { [weak self] in
                     guard let self = self else {
@@ -103,6 +108,8 @@ class QImagesRightCell: UIBaseChatCell {
                         
                         DispatchQueue.main.async {
                             self.ivComment.image = image
+                            self.loadingIndicator.stopAnimating()
+                            self.loadingIndicator.isHidden = true
                         }
                         QismoManager.shared.imageCache.setObject(image, forKey: url as NSString)
                     }

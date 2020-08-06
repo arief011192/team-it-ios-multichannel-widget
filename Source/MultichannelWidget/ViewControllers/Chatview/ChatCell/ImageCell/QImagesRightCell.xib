@@ -45,6 +45,9 @@
                             <constraint firstAttribute="width" constant="20" id="Mcc-SR-nke"/>
                         </constraints>
                     </imageView>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="C9b-LG-ure">
+                        <rect key="frame" x="221.5" y="57" width="20" height="20"/>
+                    </activityIndicatorView>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                 <constraints>
@@ -59,8 +62,10 @@
                     <constraint firstItem="zNu-Go-dSw" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="3" id="dfA-U3-D82"/>
                     <constraint firstItem="mAT-rA-UZf" firstAttribute="trailing" secondItem="zNu-Go-dSw" secondAttribute="trailing" id="kce-cH-YAW"/>
                     <constraint firstItem="6lM-LH-RRa" firstAttribute="top" secondItem="zNu-Go-dSw" secondAttribute="top" id="mtr-OD-Z64"/>
+                    <constraint firstItem="C9b-LG-ure" firstAttribute="centerX" secondItem="mAT-rA-UZf" secondAttribute="centerX" id="o9b-u3-iGN"/>
                     <constraint firstItem="zNu-Go-dSw" firstAttribute="trailingMargin" secondItem="f9z-NA-U4g" secondAttribute="trailing" id="qdW-JU-6zI"/>
                     <constraint firstItem="UnE-gV-hcQ" firstAttribute="trailing" secondItem="6lM-LH-RRa" secondAttribute="trailing" id="rVM-By-ufI"/>
+                    <constraint firstItem="C9b-LG-ure" firstAttribute="centerY" secondItem="mAT-rA-UZf" secondAttribute="centerY" id="tKu-t1-wMD"/>
                     <constraint firstAttribute="trailing" secondItem="zNu-Go-dSw" secondAttribute="trailing" constant="21" id="w1O-EH-ya1"/>
                     <constraint firstItem="UnE-gV-hcQ" firstAttribute="top" secondItem="6lM-LH-RRa" secondAttribute="bottom" constant="2" id="w1u-fc-0Vn"/>
                 </constraints>
@@ -73,6 +78,7 @@
                 <outlet property="ivStatus" destination="UnE-gV-hcQ" id="SuP-rN-kHn"/>
                 <outlet property="lblCaption" destination="f9z-NA-U4g" id="N79-Gu-nLz"/>
                 <outlet property="lblDate" destination="6lM-LH-RRa" id="vry-ra-Rwq"/>
+                <outlet property="loadingIndicator" destination="C9b-LG-ure" id="s7W-oa-9nO"/>
                 <outlet property="marginLblComment" destination="Xef-xX-LKC" id="9Kw-1w-0um"/>
             </connections>
             <point key="canvasLocation" x="232.60869565217394" y="-8.0357142857142847"/>

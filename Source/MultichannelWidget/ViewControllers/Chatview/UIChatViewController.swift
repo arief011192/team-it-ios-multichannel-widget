@@ -427,7 +427,7 @@ class UIChatViewController: UIViewController {
             if let url = payload["url"] as? String {
                 let ext = message.fileExtension(fromURL:url)
                 if(ext.contains("jpg") || ext.contains("png") || ext.contains("heic") || ext.contains("jpeg") || ext.contains("tif") || ext.contains("gif")){
-                    if (message.isMyComment() == true){
+                    if (message.isMyComment() == true || message.userEmail.isEmpty){
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qImagesRightCell", for: indexPath) as! QImagesRightCell
 //                        cell.menuConfig = menuConfig
                         cell.actionBlock = { comment in
@@ -458,7 +458,7 @@ class UIChatViewController: UIViewController {
                         return cell
                     }
                 } else {
-                    if (message.isMyComment() == true){
+                    if (message.isMyComment() == true || message.userEmail.isEmpty){
                         let cell = tableView.dequeueReusableCell(withIdentifier: "qFileRightCell", for: indexPath) as! QFileRightCell
                         //                        cell.menuConfig = menuConfig
                         cell.cellMenu = self
@@ -556,7 +556,7 @@ class UIChatViewController: UIViewController {
                     }
                 }
             } else {
-                if (message.isMyComment() == true){
+                if (message.isMyComment() == true || message.userEmail.isEmpty){
                     let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
                     cell.menuConfig = menuConfig
                     cell.cellMenu = self
@@ -574,7 +574,7 @@ class UIChatViewController: UIViewController {
                 }
             }
         } else if message.type == "reply" {
-            if message.isMyComment() == true {
+            if message.isMyComment() == true || message.userEmail.isEmpty {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "qReplyRightCell", for: indexPath) as! QReplyRightCell
                 cell.cellMenu = self
                 return cell
@@ -602,8 +602,8 @@ class UIChatViewController: UIViewController {
             return cell
             
         }
-            let cell = tableView.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath) as! EmptyCell
-            return cell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath) as! EmptyCell
+        return cell
     }
 }
 
@@ -736,16 +736,26 @@ extension UIChatViewController: UIChatViewDelegate {
         
         if Thread.isMainThread {
             if newSection {
-                self.tableViewConversation.beginUpdates()
-                self.tableViewConversation.insertSections(IndexSet(integer: 0), with: .right)
-                self.tableViewConversation.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
-                self.tableViewConversation.endUpdates()
+                if self.tableViewConversation.dataHasChanged {
+                    self.tableViewConversation.reloadData()
+                } else {
+                   self.tableViewConversation.beginUpdates()
+                   self.tableViewConversation.insertSections(IndexSet(integer: 0), with: .right)
+                   self.tableViewConversation.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+                   self.tableViewConversation.endUpdates()
+                }
             } else {
-                let indexPath = IndexPath(row: 0, section: 0)
-                self.tableViewConversation.beginUpdates()
-                self.tableViewConversation.insertRows(at: [indexPath], with: .right)
-                self.tableViewConversation.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
-                self.tableViewConversation.endUpdates()
+                if self.tableViewConversation.dataHasChanged {
+                    self.tableViewConversation.reloadData()
+                } else {
+                    let indexPath = IndexPath(row: 0, section: 0)
+                    let previousIndexPath = IndexPath(row: 1, section: 0)
+                    self.tableViewConversation.beginUpdates()
+                    self.tableViewConversation.insertRows(at: [indexPath], with: .right)
+                    self.tableViewConversation.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+                    self.tableViewConversation.endUpdates()
+                    self.tableViewConversation.reloadRows(at: [previousIndexPath], with: .none)
+                }
             }
         }
     }
@@ -814,11 +824,12 @@ extension UIChatViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         if let firstMessageInSection = self.presenter.comments[section].first {
             let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "E, MMMM d, YYYY"
+            dateFormatter.dateFormat = "EEEE, MMMM d, YYYY"
             let dateString = dateFormatter.string(from: firstMessageInSection.timestamp)
             
             let label = DateHeaderLabel()
             label.text = dateString
+            label.font = UIFont.systemFont(ofSize: 12)
             
             let containerView = UIView()
             containerView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
