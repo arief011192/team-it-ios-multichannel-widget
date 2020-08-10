@@ -13,7 +13,6 @@ import QiscusCore
 
 class QTextLeftCell: UIBaseChatCell, UITextViewDelegate {
     @IBOutlet weak var lbName: UILabel!
-    @IBOutlet weak var tvContent: UILabel!
     @IBOutlet weak var ivBubbleLeft: UIImageView!
     @IBOutlet weak var lbTime: UILabel!
     @IBOutlet weak var viewContainer: UIView!
@@ -55,10 +54,14 @@ class QTextLeftCell: UIBaseChatCell, UITextViewDelegate {
         
         self.lbTime.text = self.hour(date: message.date())
         self.lbTime.textColor = ColorConfiguration.timeLabelTextColor
-        self.tvContent.text = message.message
-        self.tvContent.textColor = ColorConfiguration.leftBubbleTextColor
         
-        self.tvContent2.attributedText = NSAttributedString(string: message.message)
+        let attributedString = NSAttributedString(string: message.message,
+                                                  attributes: [
+                                                    NSAttributedString.Key.font : UIFont.systemFont(ofSize: 14),
+                                                    NSAttributedString.Key.foregroundColor : ColorConfiguration.leftBubbleTextColor
+        ])
+        
+        self.tvContent2.attributedText = attributedString
         self.tvContent2.textColor = ColorConfiguration.leftBubbleTextColor
         
         if(isPublic == true){

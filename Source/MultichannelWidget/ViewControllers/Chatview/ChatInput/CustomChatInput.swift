@@ -200,12 +200,17 @@ extension UIChatViewController : CustomChatInputDelegate {
         if AVCaptureDevice.authorizationStatus(for: AVMediaType.video) ==  AVAuthorizationStatus.authorized
         {
             DispatchQueue.main.async(execute: {
+                if #available(iOS 11.0, *) {
+                    self.latestNavbarTint = self.currentNavbarTint
+                    UINavigationBar.appearance().tintColor = UIColor.blue
+                }
+                
                 let picker = UIImagePickerController()
                 picker.delegate = self
                 picker.allowsEditing = false
-                picker.mediaTypes = [(kUTTypeImage as String),(kUTTypeMovie as String)]
+                picker.mediaTypes = [(kUTTypeImage as String)]
                 
-                picker.sourceType = UIImagePickerController.SourceType.camera
+                picker.sourceType = .camera
                 self.present(picker, animated: true, completion: nil)
             })
         }else{
@@ -215,13 +220,19 @@ extension UIChatViewController : CustomChatInputDelegate {
                         PHPhotoLibrary.requestAuthorization({(status:PHAuthorizationStatus) in
                             switch status{
                             case .authorized:
-                                let picker = UIImagePickerController()
-                                picker.delegate = self
-                                picker.allowsEditing = false
-                                picker.mediaTypes = [(kUTTypeImage as String),(kUTTypeMovie as String)]
-                                
-                                picker.sourceType = UIImagePickerController.SourceType.camera
-                                self.present(picker, animated: true, completion: nil)
+                                DispatchQueue.main.async(execute: {
+                                    if #available(iOS 11.0, *) {
+                                        self.latestNavbarTint = self.currentNavbarTint
+                                        UINavigationBar.appearance().tintColor = UIColor.blue
+                                    }
+                                    let picker = UIImagePickerController()
+                                    picker.delegate = self
+                                    picker.allowsEditing = false
+                                    picker.mediaTypes = [(kUTTypeImage as String)]
+                                    
+                                    picker.sourceType = .camera
+                                    self.present(picker, animated: true, completion: nil)
+                                })
                                 break
                             case .denied:
                                 self.showPhotoAccessAlert()
@@ -277,12 +288,18 @@ extension UIChatViewController : CustomChatInputDelegate {
         
         let documentPicker = UIDocumentPickerViewController(documentTypes: self.UTIs, in: UIDocumentPickerMode.import)
         documentPicker.delegate = self
-        documentPicker.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+        documentPicker.modalPresentationStyle = .fullScreen
+        
         self.present(documentPicker, animated: true, completion: nil)
     }
     
     func goToGaleryPicker(){
         DispatchQueue.main.async(execute: {
+            if #available(iOS 11.0, *) {
+                self.latestNavbarTint = self.currentNavbarTint
+                UINavigationBar.appearance().tintColor = UIColor.blue
+            }
+            
             let picker = UIImagePickerController()
             picker.delegate = self
             picker.allowsEditing = false
@@ -512,18 +529,9 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                     QPopUpView.showAlert(withTarget: self, image: thumb, message:popupText, isVideoImage: video,
                                          doneAction: {
                                             
-                                            let file = FileUploadModel()
-                                            file.data = data
-                                            file.name = fileName
-//                                            let header: HTTPHeaders = [
-//                                                "Content-Type": "application/json",
-//                                                "QISCUS_SDK_APP_ID": "\(QismoManager.shared.appID)",
-//                                                "QISCUS_SDK_TOKEN" : "\(token)"
-//                                            ]
-                                            
                                             let fileModel = FileUploadModel()
                                             fileModel.name = fileName
-                                            fileModel.data = file.data
+                                            fileModel.data = data
                                             QismoManager.shared.qiscus.shared.upload(file: fileModel, onSuccess: { [weak self] (fileModel) in
                                                 
                                                 let message = QMessage()
@@ -565,12 +573,6 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                                             
                     })
                 } else {
-//                    let header: HTTPHeaders = [
-//                        "Content-Type": "application/json",
-//                        "QISCUS_SDK_APP_ID": "\(QismoManager.shared.appID)",
-//                        "QISCUS_SDK_TOKEN" : "\(token)"
-//                    ]
-                    
                     let fileUploadModel = FileUploadModel()
                     fileUploadModel.name = fileName
                     fileUploadModel.data = data
@@ -633,6 +635,11 @@ extension UIChatViewController : UIImagePickerControllerDelegate, UINavigationCo
     
     
     public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if #available(iOS 11.0, *) {
+            UINavigationBar.appearance().tintColor = self.latestNavbarTint
+            self.navigationController?.navigationBar.tintColor = self.latestNavbarTint
+        }
         
         let fileType:String = info[.mediaType] as! String
         let time = Double(Date().timeIntervalSince1970)
@@ -756,30 +763,45 @@ extension UIChatViewController : UIImagePickerControllerDelegate, UINavigationCo
                 
                 QPopUpView.showAlert(withTarget: self, image: thumbImage, message:"Are you sure to send this video?", isVideoImage: true,
                                      doneAction: {
-                                        let file = FileUploadModel()
-                                        file.data = mediaData!
-                                        file.name = fileName
-                                        //                                        QiscusCoreAPI.shared.upload(file: file, onSuccess: { (file) in
-                                        //                                            let message = CommentModel()
-                                        //                                            message.type = "file_attachment"
-                                        //                                            message.payload = [
-                                        //                                                "url"       : file.url.absoluteString,
-                                        //                                                "file_name" : file.name,
-                                        //                                                "size"      : file.size,
-                                        //                                                "caption"   : ""
-                                        //                                            ]
-                                        //                                            message.message = "Send Attachment"
-                                        //                                            self.send(message: message, onSuccess: { (comment) in
-                                        //                                                //success
-                                        //                                            }, onError: { (error) in
-                                        //                                                //error
-                                        //                                            })
-                                        //                                        }, onError: { (error) in
-                                        //                                            //error
-                                        //                                        }, progressListener: { (progress) in
-                                        //                                            print("progress =\(progress)")
-                                        //                                        })
-                                        
+
+                                        let fileModel = FileUploadModel()
+                                        fileModel.name = fileName
+                                        fileModel.data = mediaData!
+                                        QismoManager.shared.qiscus.shared.upload(file: fileModel, onSuccess: { [weak self] (fileModel) in
+                                            
+                                            let message = QMessage()
+                                            message.type = "file_attachment"
+                                            message.payload = [
+                                                "url"       : fileModel.url.absoluteString,
+                                                "file_name" : fileModel.name,
+                                                "size"      : fileModel.size,
+                                                "caption"   : ""
+                                            ]
+                                            
+                                            message.message = "Send Attachment"
+                                            self?.send(message: message, onSuccess: { (comment) in
+                                                debugPrint(message)
+                                            }, onError: { (error) in
+                                                self?.heightProgressBar.constant = 0
+                                                self?.widthProgress.constant = 0
+                                            })
+                                            }, onError: { (error) in
+                                                print(error)
+                                        }) { [weak self] (progress) in
+                                            guard let self = self else {
+                                                return
+                                            }
+                                            self.heightProgressBar.constant = 10
+                                            self.widthProgress.constant = CGFloat(progress) * UIScreen.main.bounds.width
+                                            print("upload progress :\(progress) isMainThread \(Thread.isMainThread)")
+                                            
+                                            if(progress == 1) {
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                                    self.heightProgressBar.constant = 0
+                                                    self.widthProgress.constant = 0
+                                                }
+                                            }
+                                        }
                 },
                                      cancelAction: {
                                         //cancel upload
@@ -793,6 +815,10 @@ extension UIChatViewController : UIImagePickerControllerDelegate, UINavigationCo
     }
     
     public func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        if #available(iOS 11.0, *) {
+            UINavigationBar.appearance().tintColor = self.latestNavbarTint
+            self.navigationController?.navigationBar.tintColor = self.latestNavbarTint
+        }
         dismiss(animated: true, completion: nil)
     }
 }

@@ -50,6 +50,12 @@ class UIChatPresenter: UIChatUserInteraction {
     var lastIdToLoad: String = ""
     var lastIdToSynch: String = ""
     
+    var qiscus : QiscusCore {
+        get {
+            return QismoManager.shared.qiscus
+        }
+    }
+    
     init() {
         self.comments = [[QMessage]]()
     }
@@ -58,14 +64,14 @@ class UIChatPresenter: UIChatUserInteraction {
         viewPresenter = view
         if let room = self.room {
             
-            QismoManager.shared.qiscus.roomDelegate = self
-            QismoManager.shared.qiscus.activeChatRoom = room
-            QismoManager.shared.qiscus.shared.subscribeChatRoom(room)
-            
-            guard let participants = room.participants else { return }
-            for u in participants {
-                QismoManager.shared.qiscus.shared.subscribeUserOnlinePresence(userId: u.id)
-            }
+//            self.qiscus.roomDelegate = self
+//            self.qiscus.activeChatRoom = room
+//            self.qiscus.shared.subscribeChatRoom(room)
+//
+//            guard let participants = room.participants else { return }
+//            for u in participants {
+//                self.qiscus.shared.subscribeUserOnlinePresence(userId: u.id)
+//            }
             
             self.loadRoom()
             self.loadComments(withID: room.id)
@@ -92,15 +98,16 @@ class UIChatPresenter: UIChatUserInteraction {
         // Show Loading
         self.viewPresenter?.onLoading(message: "Load Message...")
         
-        QismoManager.shared.qiscus.shared.getChatRoomWithMessages(roomId: roomId, onSuccess: { [weak self] (room,comments) in
+        self.qiscus.shared.getChatRoomWithMessages(roomId: roomId, onSuccess: { [weak self] (room,comments) in
             guard let instance = self else { return }
-            QismoManager.shared.qiscus.roomDelegate = self
-            QismoManager.shared.qiscus.activeChatRoom = room
-            QismoManager.shared.qiscus.shared.subscribeChatRoom(room)
-            
+            instance.qiscus.roomDelegate = self
+            instance.qiscus.activeChatRoom = room
+            instance.qiscus.shared.subscribeChatRoom(room)
+            instance.qiscus.connect(delegate: self)
+            instance.qiscus.connectionDelegate = self
             guard let participants = room.participants else { return }
             for u in participants {
-                QismoManager.shared.qiscus.shared.subscribeUserOnlinePresence(userId: u.id)
+                instance.qiscus.shared.subscribeUserOnlinePresence(userId: u.id)
             }
             
             instance.room = room
@@ -117,7 +124,7 @@ class UIChatPresenter: UIChatUserInteraction {
             instance.comments = instance.groupingComments(comments)
             
             if let lastComment = room.lastComment {
-                QismoManager.shared.qiscus.shared.markAsRead(roomId: lastComment.chatRoomId, commentId: lastComment.id)
+                instance.qiscus.shared.markAsRead(roomId: lastComment.chatRoomId, commentId: lastComment.id)
             }
             
             instance.viewPresenter?.onLoadMessageFinished()
@@ -198,7 +205,7 @@ class UIChatPresenter: UIChatUserInteraction {
         
         if lastIdToSynch.isEmpty { return }
         
-        QismoManager.shared.qiscus.synchronize(lastMessageId: lastIdToLoad, onSuccess: { [weak self] (comments) in
+        self.qiscus.synchronize(lastMessageId: lastIdToLoad, onSuccess: { [weak self] (comments) in
             guard let instance = self else { return }
             if comments.count == 0 {
                 return
@@ -250,7 +257,7 @@ class UIChatPresenter: UIChatUserInteraction {
                 
                 // update lastIdToLoad value
                 instance.lastIdToLoad = lastComment.id
-                QismoManager.shared.qiscus.shared.loadMore(roomID: lastComment.chatRoomId, lastCommentID: lastComment.id, limit: 10, onSuccess: { (comments) in
+                instance.qiscus.shared.loadMore(roomID: lastComment.chatRoomId, lastCommentID: lastComment.id, limit: 10, onSuccess: { (comments) in
                     instance.loadMoreDispatchGroup.leave()
                     
                     // if the loadmore from core return empty comment than it means that there are no comments left to be loaded anymore
@@ -299,13 +306,13 @@ class UIChatPresenter: UIChatUserInteraction {
     
     func isTyping(_ value: Bool) {
         if let r = self.room {
-            QismoManager.shared.qiscus.shared.publishTyping(roomID: r.id, isTyping: value)
+            self.qiscus.shared.publishTyping(roomID: r.id, isTyping: value)
         }
     }
     
     func sendMessage(withComment comment: QMessage, onSuccess: @escaping (QMessage) -> Void, onError: @escaping (String) -> Void) {
         addNewCommentUI(comment, isIncoming: false)
-        QismoManager.shared.qiscus.shared.sendMessage(message: comment, onSuccess: { [weak self] (comment) in
+        self.qiscus.shared.sendMessage(message: comment, onSuccess: { [weak self] (comment) in
             guard let self = self else {
                 return
             }
@@ -375,7 +382,9 @@ class UIChatPresenter: UIChatUserInteraction {
             
             // choose uidelegate
             if isIncoming {
-                QismoManager.shared.qiscus.shared.markAsRead(roomId: message.chatRoomId, commentId: message.id)
+                if self.viewPresenter != nil {
+                    QismoManager.shared.qiscus.shared.markAsRead(roomId: message.chatRoomId, commentId: message.id)
+                }
                 self.viewPresenter?.onGotNewComment(newSection: section)
             } else {
                 self.viewPresenter?.onSendingComment(comment: message, newSection: section)
@@ -417,7 +426,7 @@ class UIChatPresenter: UIChatUserInteraction {
     }
     
     func deleteMessage(comment: QMessage) {
-        QismoManager.shared.qiscus.shared.deleteMessages(messageUniqueIds: [comment.uniqueId], onSuccess: { [weak self] (comments) in
+        self.qiscus.shared.deleteMessages(messageUniqueIds: [comment.uniqueId], onSuccess: { [weak self] (comments) in
             SharedPreferences.saveDeletedComment(uniqueId: comment.uniqueId)
             self?.onMessageDeleted(message: comment)
         }) { (error) in
@@ -500,7 +509,7 @@ extension UIChatPresenter : QiscusCoreRoomDelegate {
     }
 
     func onUserTyping(userId : String, roomId : String, typing: Bool){
-        if let user = QismoManager.shared.qiscus.database.participant.find(byUserId : userId){
+        if let user = self.qiscus.database.participant.find(byUserId : userId){
             self.viewPresenter?.onUser(name: user.name, typing: typing)
         }
     }
@@ -521,3 +530,21 @@ extension UIChatPresenter : QiscusCoreRoomDelegate {
     }
 }
 
+extension UIChatPresenter : QiscusConnectionDelegate {
+    public func connectionState(change state: QiscusConnectionState) {
+        print("::realtime connection state \(state)")
+    }
+    
+    public func onConnected() {
+        print("::realtime connected")
+    }
+    
+    public func onReconnecting() {
+        print("::realtime reconnecting")
+    }
+    
+    public func onDisconnected(withError err: QError?) {
+        guard let error = err else { return }
+        print("::realtime disconnected \(error.message)")
+    }
+}

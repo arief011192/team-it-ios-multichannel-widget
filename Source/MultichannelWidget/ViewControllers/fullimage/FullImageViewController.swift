@@ -18,7 +18,7 @@ class FullImageViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         if message != nil {
             if let url = message!.payload?["url"] as? String {
@@ -26,6 +26,7 @@ class FullImageViewController: UIViewController {
                     self.ivImage.af.setImage(withURL: URL(string: url)!)
                 }
             }
+            self.title = message?.fileName(text: message!.message)
         }
 
     }

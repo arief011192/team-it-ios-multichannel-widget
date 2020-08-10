@@ -187,6 +187,7 @@ class UIChatViewController: UIViewController {
     // MARK: View Event Listener
     private func setupUI() {
         // config navBar
+        self.currentNavbarTint = self.navigationController?.navigationBar.tintColor
         self.emptyMessageView.backgroundColor = ColorConfiguration.emptyChatBackgroundColor
         self.labelEmptyMessage.textColor = ColorConfiguration.emptyChatTextColor
         self.labelEmptyNotes.textColor = ColorConfiguration.emptyChatTextColor
@@ -486,6 +487,7 @@ class UIChatViewController: UIViewController {
                             }) { (localFileURL) in
                                 let webFileViewController = WebFileViewController()
                                 webFileViewController.localFileUrl = localFileURL
+                                webFileViewController.fileName = message.fileName(text: localFileURL.absoluteString)
                                 self.navigationController?.pushViewController(webFileViewController, animated: true)
                             }
                         }
@@ -524,6 +526,7 @@ class UIChatViewController: UIViewController {
                             }) { (localFileURL) in
                                 let webFileViewController = WebFileViewController()
                                 webFileViewController.localFileUrl = localFileURL
+                                webFileViewController.fileName = message.fileName(text: localFileURL.absoluteString)
                                 self.navigationController?.pushViewController(webFileViewController, animated: true)
                             }
                         }

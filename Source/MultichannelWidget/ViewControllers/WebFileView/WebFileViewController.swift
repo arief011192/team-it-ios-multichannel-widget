@@ -25,6 +25,7 @@ class WebFileViewController: UIViewController {
     
     var fileUrl: String?
     var localFileUrl: URL?
+    var fileName: String = "File Attachment"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +34,7 @@ class WebFileViewController: UIViewController {
         self.webView.navigationDelegate = self
         self.activityIndicator.isHidden = false
         self.activityIndicator.startAnimating()
-        
+        self.title = fileName
         if #available(iOS 11.0, *) {
             NSLayoutConstraint.activate([
                 self.webView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),

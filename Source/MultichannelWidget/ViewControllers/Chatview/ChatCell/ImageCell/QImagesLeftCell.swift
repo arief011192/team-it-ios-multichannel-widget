@@ -83,7 +83,7 @@ class QImagesLeftCell: UIBaseChatCell {
         let caption = payload["caption"] as? String
         
         if (caption ?? "").isEmpty {
-            self.marginCommentTop.constant = -7
+            self.marginCommentTop.constant = -8
         }
         
         if caption != nil {
