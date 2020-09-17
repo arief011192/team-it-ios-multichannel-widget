@@ -21,12 +21,13 @@ class QismoManager {
     private var userID : String = ""
     private var username : String = ""
     private var avatarUrl: String = ""
+    
+    
     var network : QismoNetworkManager!
     var qiscus : QiscusCore!
     var qiscusServer = QiscusServer(url: URL(string: "https://api.qiscus.com")!, realtimeURL: "", realtimePort: 80)
     var deviceToken : String = "" // save device token for 1st time or before login
     let imageCache = NSCache<NSString, UIImage>()
-    
     
     func setUser(id: String, username: String, avatarUrl: String = "") {
         self.userID = id
@@ -35,6 +36,12 @@ class QismoManager {
     }
     
     func clear() {
+        self.remove(deviceToken: self.deviceToken, onSuccess: { (success) in
+            //
+        }) { (error) in
+            //
+        }
+        
         self.userID = ""
         self.username = ""
         self.qiscus.clearUser { (error) in
@@ -47,60 +54,96 @@ class QismoManager {
     func setup(appID: String, server : QiscusServer? = nil) {
         self.appID = appID
         self.qiscus = QiscusCore()
+        self.qiscus.connectionDelegate = self
         self.qiscus.setup(AppID: appID)
-        _ = self.qiscus.connect(delegate: self)
+        
         self.network = QismoNetworkManager(qiscusCore: self.qiscus)
         if let _server = server {
             self.qiscusServer = _server
         }
+        
+        if let user = self.qiscus.getUserData() {
+            _ = self.qiscus.connect(delegate: self)
+            self.setUser(id: user.id, username: user.name, avatarUrl: user.avatarUrl.absoluteString)
+        }
     }
     
     func initiateChat(withTitle title: String, andSubtitle subtitle: String, userId: String? = nil, username: String? = nil,avatar: String? = nil, extras: String? = nil, userProperties: [[String:Any]]? = nil, callback: @escaping (UIViewController) -> Void)  {
-        
+        // chat session is exist
         if let savedRoomId = SharedPreferences.getRoomId() {
+            self.updateDeviceToken()
+            self.qiscus.connect()
             let ui = UIChatViewController()
             ui.roomId = savedRoomId
             ui.chatTitle = title
             ui.chatSubtitle = subtitle
             callback(ui)
-            return
-        }
-        
-        let param = [
-            "app_id"            : appID,
-            "user_id"           : userId ?? self.userID,
-            "name"              : username ?? self.username,
-            "avatar"            : avatar ?? self.avatarUrl,
-            "extras"            : extras ?? "{}",
-            "user_properties"   : userProperties != nil ? userProperties ?? [] : [],
-            "nonce"             : ""
-            ] as [String : Any]
-        
-        self.network.initiateChat(param: param as [String : Any], onSuccess: { roomId in
-            SharedPreferences.saveTitle(title: title)
-            SharedPreferences.saveSubtitle(subtitle: subtitle)
-            SharedPreferences.saveParam(param: param)
-            SharedPreferences.saveRoomId(id: roomId)
-            let ui = UIChatViewController()
-            ui.roomId = roomId
-            ui.chatTitle = title
-            ui.chatSubtitle = subtitle
-            callback(ui)
+        }else {
+            let param = [
+                "app_id"            : appID,
+                "user_id"           : userId ?? self.userID,
+                "name"              : username ?? self.username,
+                "avatar"            : avatar ?? self.avatarUrl,
+                "extras"            : extras ?? "{}",
+                "user_properties"   : userProperties != nil ? userProperties ?? [] : [],
+                "nonce"             : ""
+                ] as [String : Any]
             
-            // check device token
-            if !self.deviceToken.isEmpty {
-                self.qiscus.shared.registerDeviceToken(token: self.deviceToken, isDevelopment: false, onSuccess: { (success) in
-                    if success { self.deviceToken = "" }
-                }) { (error) in
-                    //
-                }
-            }
-        }, onError: { error in
-            debugPrint("failed initiate chat, \(error)")
-        })
-        
+            self.network.initiateChat(param: param as [String : Any], onSuccess: { roomId in
+                SharedPreferences.saveTitle(title: title)
+                SharedPreferences.saveSubtitle(subtitle: subtitle)
+                SharedPreferences.saveParam(param: param)
+                SharedPreferences.saveRoomId(id: roomId)
+                self.updateDeviceToken()
+                
+                // prepare UI
+                let ui = UIChatViewController()
+                ui.roomId = roomId
+                ui.chatTitle = title
+                ui.chatSubtitle = subtitle
+                callback(ui)
+            }, onError: { error in
+                debugPrint("failed initiate chat, \(error)")
+            })
+        }
     }
     
+    /// Update device token when initiate chat and relogin
+    private func updateDeviceToken() {
+        self.register(deviceToken: self.deviceToken, onSuccess: { (success) in
+            //
+        }) { (error) in
+            //
+        }
+    }
+    
+    public func register(deviceToken token: String, onSuccess: @escaping (Bool) -> Void, onError: @escaping (String) -> Void){
+        self.deviceToken = token
+        // patch bug backend device token not stuck old user
+        // call api twice
+        self.qiscus.shared.registerDeviceToken(token: self.deviceToken, isDevelopment: false, onSuccess: { (success) in
+            onSuccess(success)
+        }) { (error) in
+            onError(error.message)
+        }
+    }
+    
+    public func remove(deviceToken token: String, onSuccess: @escaping (Bool) -> Void, onError: @escaping (String) -> Void) {
+        // patch bug backend device token not stuck old user
+        // call api twice
+        self.qiscus.shared.removeDeviceToken(token: token, isDevelopment: false, onSuccess: { (success) in
+            onSuccess(success)
+        }) { (error) in
+            onError(error.message)
+        }
+        
+        // call api twice
+        self.qiscus.shared.removeDeviceToken(token: token, isDevelopment: true, onSuccess: { (success) in
+            onSuccess(success)
+        }) { (error) in
+            onError(error.message)
+        }
+    }
     
     /// Go to Chat user room id. Example when tap notification
     /// - Parameters:
@@ -153,8 +196,6 @@ class QismoManager {
             }
         }
     }
-    
-    
 }
 
 extension QismoManager : QiscusConnectionDelegate {
@@ -173,6 +214,5 @@ extension QismoManager : QiscusConnectionDelegate {
     public func onDisconnected(withError err: QError?) {
         print("::realtime disconnected \(err?.message)")
     }
-    
     
 }

@@ -35,9 +35,9 @@ class QImagesLeftCell: UIBaseChatCell {
         self.ivComment.isUserInteractionEnabled = true
         let imgTouchEvent = UITapGestureRecognizer(target: self, action: #selector(QImagesLeftCell.imageDidTap))
         self.ivComment.addGestureRecognizer(imgTouchEvent)
-
+        
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         self.setMenu()
@@ -61,6 +61,13 @@ class QImagesLeftCell: UIBaseChatCell {
         self.loadingIndicator.startAnimating()
     }
     
+    private func getUrlFromMessage(message: String) -> URL? {
+        let prefixRemoval = message.replacingOccurrences(of: "[file]", with: "")
+        let suffixRemoval = prefixRemoval.replacingOccurrences(of: "[/file]", with: "")
+        
+        return URL(string: suffixRemoval.trimmingCharacters(in: .whitespacesAndNewlines))
+    }
+    
     func setupBalon(){
         self.ivLeftBubble.applyShadow()
         self.ivLeftBubble.image = self.getBallon()
@@ -69,6 +76,7 @@ class QImagesLeftCell: UIBaseChatCell {
         self.ivLeftBubble.layer.cornerRadius = 5.0
         self.ivLeftBubble.clipsToBounds = true
         self.ivComment.layer.cornerRadius = 5.0
+        self.ivComment.contentMode = .scaleAspectFill
         self.ivComment.clipsToBounds = true
         
     }
@@ -77,10 +85,8 @@ class QImagesLeftCell: UIBaseChatCell {
         setupBalon()
         self.lblDate.text = AppUtil.dateToHour(date: message.timestamp)
         self.lblDate.textColor = ColorConfiguration.timeLabelTextColor
-        guard let payload = message.payload else { return }
         
-        
-        let caption = payload["caption"] as? String
+        let caption = message.payload?["caption"] as? String
         
         if (caption ?? "").isEmpty {
             self.marginCommentTop.constant = -8
@@ -88,12 +94,19 @@ class QImagesLeftCell: UIBaseChatCell {
         
         if caption != nil {
             self.lblCaption.text = caption
-        } else {
             self.lblCaption.isHidden = false
+        } else {
+            self.lblCaption.isHidden = true
         }
-
-        if let url = payload["url"] as? String, let imageUrl = URL(string: url) {
-            if let cachedImage = QismoManager.shared.imageCache.object(forKey: NSString(string: url)) {
+        
+        var url = message.payload?["url"] as? String
+        
+        if url == nil {
+            url = getUrlFromMessage(message: message.message)?.absoluteString
+        }
+        
+        if let imageUrl = URL(string: url ?? "") {
+            if let cachedImage = QismoManager.shared.imageCache.object(forKey: NSString(string: url ?? "")) {
                 self.ivComment.image = cachedImage
                 self.loadingIndicator.isHidden = true
                 self.loadingIndicator.stopAnimating()
@@ -115,7 +128,7 @@ class QImagesLeftCell: UIBaseChatCell {
                             self.loadingIndicator.isHidden = true
                             self.loadingIndicator.stopAnimating()
                         }
-                        QismoManager.shared.imageCache.setObject(image, forKey: url as NSString)
+                        QismoManager.shared.imageCache.setObject(image, forKey: (url as NSString?) ?? "")
                     }
                 }
             }

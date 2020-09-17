@@ -93,6 +93,8 @@ class CustomChatInput: UIChatInput {
                 comment.message = text
             }
             
+            comment.status = .pending
+            comment.userEmail = SharedPreferences.getQiscusAccount() ?? ""
             self.chatInputDelegate?.sendMessage(message: comment)
         }
         

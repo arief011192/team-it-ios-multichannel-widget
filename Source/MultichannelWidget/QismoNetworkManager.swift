@@ -49,6 +49,7 @@ class QismoNetworkManager {
                     //success login sdk
                     self?.qiscusUser = user
                     SharedPreferences.saveQiscusAccount(userEmail: user.id)
+                    self?.qiscus.connect()
                     onSuccess(roomId)
                 }, onError: { qError in
                     debugPrint(qError.message)

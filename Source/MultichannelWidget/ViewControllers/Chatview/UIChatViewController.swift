@@ -67,6 +67,8 @@ class UIChatViewController: UIViewController {
     @IBOutlet weak var labelEmptyMessage: UILabel!
     @IBOutlet weak var labelEmptyNotes: UILabel!
     
+    let emptyMessage = "Great discussion start from greeting each others first"
+    
     lazy var chatTitleView : UIChatNavigation = {
         return UIChatNavigation()
     }()
@@ -116,6 +118,8 @@ class UIChatViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupUI()
+        self.viewChatInput.isHidden = true
+        self.emptyMessageView.isHidden = false
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -130,7 +134,12 @@ class UIChatViewController: UIViewController {
         center.addObserver(self, selector: #selector(UIChatViewController.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
         center.addObserver(self, selector: #selector(UIChatViewController.keyboardChange(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         center.addObserver(self,selector: #selector(reSubscribeRoom(_:)), name: Notification.Name(rawValue: "reSubscribeRoom"),object: nil)
+        center.addObserver(self,selector: #selector(resendPendingMessage), name: WidgetReachabilityConnect, object: nil)
         view.endEditing(true)
+    }
+    
+    @objc func resendPendingMessage() {
+        presenter.resendPendingComment()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -141,6 +150,7 @@ class UIChatViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: Notification.Name(rawValue: "reSubscribeRoom"), object: nil)
+        NotificationCenter.default.removeObserver(self, name: WidgetReachabilityConnect, object: nil)
         view.endEditing(true)
         
         if let customNavigationColor = ColorConfiguration.navigationColor {
@@ -204,7 +214,7 @@ class UIChatViewController: UIViewController {
         } else {
             self.setupInputBar(self.chatInput)
         }
-        
+        self.viewChatInput.isHidden = false
     }
     
     private func setupInputBar(_ inputchatview: UIChatInput) {
@@ -396,11 +406,38 @@ class UIChatViewController: UIViewController {
         
         if message.type == "text" {
             if (message.isMyComment() == true || message.userEmail.isEmpty){
+                
+                if message.message.contains("[file]") && message.message.contains("[/file]") {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "qImagesRightCell", for: indexPath) as! QImagesRightCell
+                    cell.actionBlock = { comment in
+                        
+                        let fullImage = FullImageViewController(nibName: "FullImageViewController", bundle: MultichannelWidget.bundle)
+                        fullImage.message = comment
+                        self.navigationController?.pushViewController(fullImage, animated: true)
+                    }
+                    
+                    cell.cellMenu = self
+                    return cell
+                }
+                
                 let cell = tableView.dequeueReusableCell(withIdentifier: "qTextRightCell", for: indexPath) as! QTextRightCell
                 cell.menuConfig = menuConfig
                 cell.cellMenu = self
                 return cell
             }else{
+                if message.message.contains("[file]") && message.message.contains("[/file]") {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "qImagesLeftCell", for: indexPath) as! QImagesLeftCell
+                    cell.actionBlock = { comment in
+                        
+                        let fullImage = FullImageViewController(nibName: "FullImageViewController", bundle: MultichannelWidget.bundle)
+                        fullImage.message = comment
+                        self.navigationController?.pushViewController(fullImage, animated: true)
+                    }
+                    
+                    cell.cellMenu = self
+                    return cell
+                }
+                
                 let cell = tableView.dequeueReusableCell(withIdentifier: "qTextLeftCell", for: indexPath) as! QTextLeftCell
                 if self.room?.type == .group {
                     cell.colorName = colorName
@@ -668,7 +705,7 @@ extension UIChatViewController: UIChatViewDelegate {
     }
     
     func onSendingComment(comment: QMessage, newSection: Bool) {
-        self.emptyMessageView.alpha = 0
+        self.emptyMessageView.isHidden = true
         if newSection {
             self.tableViewConversation.beginUpdates()
             self.tableViewConversation.insertSections(IndexSet(integer: 0), with: .left)
@@ -688,10 +725,11 @@ extension UIChatViewController: UIChatViewDelegate {
         
         if self.presenter.comments.count == 0 {
             self.tableViewConversation.isHidden = true
-            self.emptyMessageView.alpha = 1
+            self.emptyMessageView.isHidden = false
+            self.labelEmptyNotes.text = emptyMessage
         }else{
             self.tableViewConversation.isHidden = false
-            self.emptyMessageView.alpha = 0
+            self.emptyMessageView.isHidden = true
         }
         
         //this because after upload image can't update tableview. then need reload comments from chat-sdk
@@ -704,6 +742,14 @@ extension UIChatViewController: UIChatViewDelegate {
     
     func onLoadRoomFinished(room: QChatRoom) {
         self.setupUI()
+        if self.presenter.comments.count == 0 {
+            self.tableViewConversation.isHidden = true
+            self.emptyMessageView.isHidden = false
+            self.labelEmptyNotes.text = emptyMessage
+        }else{
+            self.tableViewConversation.isHidden = false
+            self.emptyMessageView.isHidden = true
+        }
     }
     
     func onLoadMoreMesageFinished() {
@@ -713,10 +759,10 @@ extension UIChatViewController: UIChatViewDelegate {
     func onLoadMessageFinished() {
         if self.presenter.comments.count == 0 {
             self.tableViewConversation.isHidden = true
-            self.emptyMessageView.alpha = 1
+            self.emptyMessageView.isHidden = false
         }else{
             self.tableViewConversation.isHidden = false
-            self.emptyMessageView.alpha = 0
+            self.emptyMessageView.isHidden = true
         }
         
         self.tableViewConversation.reloadData()
@@ -729,11 +775,11 @@ extension UIChatViewController: UIChatViewDelegate {
     func onGotNewComment(newSection: Bool) {
         if self.presenter.comments.count == 0 {
             self.tableViewConversation.isHidden = true
-            self.emptyMessageView.alpha = 1
+            self.emptyMessageView.isHidden = false
         }else{
             if(self.tableViewConversation.isHidden == true){
                 self.tableViewConversation.isHidden = false
-                self.emptyMessageView.alpha = 0
+                self.emptyMessageView.isHidden = true
             }
         }
         
@@ -929,7 +975,7 @@ extension UIChatViewController : UIChatInputDelegate {
         self.presenter.sendMessage(withComment: message, onSuccess: { (comment) in
             if (self.tableViewConversation.isHidden == true) {
                 self.tableViewConversation.isHidden = false
-                self.emptyMessageView.alpha = 0
+                self.emptyMessageView.isHidden = true
             }
             self.presenter.isTyping(false)
             onSuccess(comment)

@@ -28,6 +28,8 @@ public class MultichannelWidget {
     let widgetConfig: MultichannelWidgetConfig
     let manager : QismoManager = QismoManager.shared
     
+    var reachability: WidgetReachability?
+    
     public init(appID: String) {
         self.manager.setup(appID: appID)
         self.widgetConfig = MultichannelWidgetConfig()
@@ -56,13 +58,11 @@ public class MultichannelWidget {
     }
     
     public func register(deviceToken token: String, onSuccess: @escaping (Bool) -> Void, onError: @escaping (String) -> Void){
-        self.manager.deviceToken = token
-        manager.qiscus.shared.registerDeviceToken(token: token, isDevelopment: false, onSuccess: { (success) in
-            if success { self.manager.deviceToken = "" }
-            onSuccess(success)
-        }) { (error) in
-            onError(error.message)
-        }
+        manager.register(deviceToken: token, onSuccess: onSuccess, onError: onError)
+    }
+    
+    public func remove(deviceToken token: String, onSuccess: @escaping (Bool) -> Void, onError: @escaping (String) -> Void){
+        manager.remove(deviceToken: token, onSuccess: onSuccess, onError: onError)
     }
     
     public func isLoggedIn() -> Bool {
@@ -80,6 +80,40 @@ public class MultichannelWidget {
     
     public func handleNotification(userInfo : [AnyHashable : Any], removePreviousNotif: Bool) {
         manager.handleNotification(userInfo: userInfo, removePreviousNotif: removePreviousNotif)
+    }
+    
+    func setupReachability(){
+        self.reachability = WidgetReachability()
+        
+        
+        self.reachability?.whenReachable = { reachability in
+            DispatchQueue.main.async {
+                if reachability.isReachableViaWiFi {
+                    print("connected via wifi")
+                } else {
+                    print("connected via cellular data")
+                }
+                
+                if let reachable = self.reachability {
+                    if reachable.isReachable {
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now()+1, execute: {
+                            NotificationCenter.default.post(name: WidgetReachabilityConnect, object: nil)
+                        })
+                    }
+                }
+               
+            }
+            
+        }
+        self.reachability?.whenUnreachable = { reachability in
+            print("no internet connection")
+        }
+        do {
+            try  self.reachability?.startNotifier()
+        } catch {
+            print("Unable to start network notifier")
+        }
     }
     
 }

@@ -25,10 +25,22 @@ class FullImageViewController: UIViewController {
                 if self.ivImage.image == nil {
                     self.ivImage.af.setImage(withURL: URL(string: url)!)
                 }
+            } else if let url = self.getUrlFromMessage(message: message?.message ?? "") {
+                if self.ivImage.image == nil {
+                    self.ivImage.af.setImage(withURL: url)
+                }
             }
+            
             self.title = message?.fileName(text: message!.message)
         }
 
+    }
+    
+    private func getUrlFromMessage(message: String) -> URL? {
+        let prefixRemoval = message.replacingOccurrences(of: "[file]", with: "")
+        let suffixRemoval = prefixRemoval.replacingOccurrences(of: "[/file]", with: "")
+        
+        return URL(string: suffixRemoval.trimmingCharacters(in: .whitespacesAndNewlines))
     }
 
 

@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		04981C3324B6E7AA0067FD14 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04981C3224B6E7AA0067FD14 /* String+Extension.swift */; };
 		04981C3624B6E7FC0067FD14 /* WebFileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04981C3524B6E7FC0067FD14 /* WebFileViewController.swift */; };
+		04BEFF11250B1AD700CF3A6E /* WIdgetReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BEFF10250B1AD700CF3A6E /* WIdgetReachability.swift */; };
+		04BEFF17250F230C00CF3A6E /* Connectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BEFF16250F230C00CF3A6E /* Connectivity.swift */; };
 		11449BCD249DDB5900E32D9F /* MultichannelWidget.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11449BC3249DDB5900E32D9F /* MultichannelWidget.framework */; };
 		11449BD2249DDB5900E32D9F /* MultichannelWidgetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11449BD1249DDB5900E32D9F /* MultichannelWidgetTests.swift */; };
 		11449BD4249DDB5900E32D9F /* MultichannelWidget.h in Headers */ = {isa = PBXBuildFile; fileRef = 11449BC6249DDB5900E32D9F /* MultichannelWidget.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -93,6 +95,8 @@
 /* Begin PBXFileReference section */
 		04981C3224B6E7AA0067FD14 /* String+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		04981C3524B6E7FC0067FD14 /* WebFileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebFileViewController.swift; sourceTree = "<group>"; };
+		04BEFF10250B1AD700CF3A6E /* WIdgetReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WIdgetReachability.swift; sourceTree = "<group>"; };
+		04BEFF16250F230C00CF3A6E /* Connectivity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Connectivity.swift; sourceTree = "<group>"; };
 		11449BC3249DDB5900E32D9F /* MultichannelWidget.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MultichannelWidget.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		11449BC6249DDB5900E32D9F /* MultichannelWidget.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MultichannelWidget.h; sourceTree = "<group>"; };
 		11449BC7249DDB5900E32D9F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -202,6 +206,15 @@
 			path = WebFileView;
 			sourceTree = "<group>";
 		};
+		04BEFF0F250B1AD700CF3A6E /* Connectivity */ = {
+			isa = PBXGroup;
+			children = (
+				04BEFF16250F230C00CF3A6E /* Connectivity.swift */,
+				04BEFF10250B1AD700CF3A6E /* WIdgetReachability.swift */,
+			);
+			path = Connectivity;
+			sourceTree = "<group>";
+		};
 		11449BB9249DDB5900E32D9F = {
 			isa = PBXGroup;
 			children = (
@@ -261,6 +274,7 @@
 				11449C24249DDB9800E32D9F /* QismoManager.swift */,
 				11449C25249DDB9800E32D9F /* Model */,
 				11449C27249DDB9800E32D9F /* SharedPreferences.swift */,
+				04BEFF0F250B1AD700CF3A6E /* Connectivity */,
 				11449C28249DDB9800E32D9F /* MultichannelWidget.swift */,
 			);
 			path = MultichannelWidget;
@@ -601,6 +615,7 @@
 				11449C49249DDB9800E32D9F /* QReplyLeftCell.swift in Sources */,
 				11449C4B249DDB9800E32D9F /* QUIBaseChatCell.swift in Sources */,
 				11449C36249DDB9800E32D9F /* FullImageViewController.swift in Sources */,
+				04BEFF17250F230C00CF3A6E /* Connectivity.swift in Sources */,
 				11449C37249DDB9800E32D9F /* EmptyCell.swift in Sources */,
 				11449C3A249DDB9800E32D9F /* QTextLeftCell.swift in Sources */,
 				11449C4F249DDB9800E32D9F /* QismoViewController.swift in Sources */,
@@ -615,6 +630,7 @@
 				11449C56249DDB9800E32D9F /* UIChatInput.swift in Sources */,
 				11449C31249DDB9800E32D9F /* AppUtil.swift in Sources */,
 				11449C4D249DDB9800E32D9F /* QCardLeftCell.swift in Sources */,
+				04BEFF11250B1AD700CF3A6E /* WIdgetReachability.swift in Sources */,
 				11449C44249DDB9800E32D9F /* QFileLeftCell.swift in Sources */,
 				11449C4E249DDB9800E32D9F /* UIChatPresenter.swift in Sources */,
 				11449C63249DDB9800E32D9F /* MultichannelWidget.swift in Sources */,

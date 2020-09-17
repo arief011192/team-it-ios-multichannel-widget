@@ -36,7 +36,7 @@ class QImagesRightCell: UIBaseChatCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        self.setMenu()
         // Configure the view for the selected state
     }
     
@@ -71,8 +71,16 @@ class QImagesRightCell: UIBaseChatCell {
         
         self.ivComment.layer.cornerRadius = 5.0
         self.ivComment.clipsToBounds = true
+        self.ivComment.contentMode = .scaleAspectFill
         
     }
+    
+    private func getUrlFromMessage(message: String) -> URL? {
+           let prefixRemoval = message.replacingOccurrences(of: "[file]", with: "")
+           let suffixRemoval = prefixRemoval.replacingOccurrences(of: "[/file]", with: "")
+           
+           return URL(string: suffixRemoval.trimmingCharacters(in: .whitespacesAndNewlines))
+       }
     
     func bindData(message: QMessage) {
         setupBalon()
@@ -88,11 +96,17 @@ class QImagesRightCell: UIBaseChatCell {
             
         self.lblCaption.text = caption
 
-        if let url = payload["url"] as? String, let imageUrl = URL(string: url) {
-            if let cachedImage = QismoManager.shared.imageCache.object(forKey: NSString(string: url)) {
+        var url = message.payload?["url"] as? String
+        
+        if url == nil {
+            url = getUrlFromMessage(message: message.message)?.absoluteString
+        }
+        
+        if let imageUrl = URL(string: url ?? "") {
+            if let cachedImage = QismoManager.shared.imageCache.object(forKey: NSString(string: url ?? "")) {
                 self.ivComment.image = cachedImage
-                self.loadingIndicator.stopAnimating()
                 self.loadingIndicator.isHidden = true
+                self.loadingIndicator.stopAnimating()
             } else {
                 DispatchQueue.global(qos: .background).async { [weak self] in
                     guard let self = self else {
@@ -108,10 +122,10 @@ class QImagesRightCell: UIBaseChatCell {
                         
                         DispatchQueue.main.async {
                             self.ivComment.image = image
-                            self.loadingIndicator.stopAnimating()
                             self.loadingIndicator.isHidden = true
+                            self.loadingIndicator.stopAnimating()
                         }
-                        QismoManager.shared.imageCache.setObject(image, forKey: url as NSString)
+                        QismoManager.shared.imageCache.setObject(image, forKey: (url as NSString?) ?? "")
                     }
                 }
             }
