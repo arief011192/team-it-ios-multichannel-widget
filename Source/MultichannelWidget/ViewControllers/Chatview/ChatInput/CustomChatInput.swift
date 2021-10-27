@@ -132,7 +132,7 @@ class CustomChatInput: UIChatInput {
             if let payload = comment.payload, let caption = payload["caption"] as? String, !caption.isEmpty {
                 self.tvReply.text = caption
             }else {
-                self.tvReply.text = "File Attachment"
+                self.tvReply.text = comment.fileName(text: comment.message)
             }
         }else {
             self.widthReplyImage.constant = 0
@@ -545,7 +545,21 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                                                     "caption"   : ""
                                                 ]
                                                 
+                                                if isImage {
+                                                    message.payload = [
+                                                        "type"      : "image/\(message.fileExtension(fromURL: fileModel.url.absoluteString))",
+                                                        "content"   : [
+                                                            "url"       : fileModel.url.absoluteString,
+                                                            "file_name" : fileModel.name,
+                                                            "size"      : fileModel.size,
+                                                            "caption"   : ""
+                                                        ]
+                                                    ]
+                                                }
+                                                
                                                 message.message = "Send Attachment"
+                                                message.status = .pending
+                                                message.userEmail = SharedPreferences.getQiscusAccount() ?? ""
                                                 self?.send(message: message, onSuccess: { (comment) in
                                                     debugPrint(message)
                                                 }, onError: { (error) in
@@ -590,6 +604,8 @@ extension UIChatViewController: UIDocumentPickerDelegate{
                         ]
                         
                         message.message = "Send Attachment"
+                        message.status = .pending
+                        message.userEmail = SharedPreferences.getQiscusAccount() ?? ""
                         self?.send(message: message, onSuccess: { (comment) in
                             debugPrint(message)
                         }, onError: { (error) in
@@ -678,7 +694,7 @@ extension UIChatViewController : UIImagePickerControllerDelegate, UINavigationCo
                 }else{
                     let result = PHAsset.fetchAssets(withALAssetURLs: [imageURL], options: nil)
                     let asset = result.firstObject
-                    imageName = "\((asset?.value(forKey: "filename"))!)"
+                    imageName = "\((asset?.value(forKey: "filename")) ?? "asset")"
                     imageName = imageName.replacingOccurrences(of: "HEIC", with: "jpg")
                     let imageSize = image.size
                     var bigPart = CGFloat(0)
@@ -765,7 +781,7 @@ extension UIChatViewController : UIImagePickerControllerDelegate, UINavigationCo
                 
                 QPopUpView.showAlert(withTarget: self, image: thumbImage, message:"Are you sure to send this video?", isVideoImage: true,
                                      doneAction: {
-
+                                        
                                         let fileModel = FileUploadModel()
                                         fileModel.name = fileName
                                         fileModel.data = mediaData!
@@ -781,6 +797,8 @@ extension UIChatViewController : UIImagePickerControllerDelegate, UINavigationCo
                                             ]
                                             
                                             message.message = "Send Attachment"
+                                            message.status = .pending
+                                            message.userEmail = SharedPreferences.getQiscusAccount() ?? ""
                                             self?.send(message: message, onSuccess: { (comment) in
                                                 debugPrint(message)
                                             }, onError: { (error) in

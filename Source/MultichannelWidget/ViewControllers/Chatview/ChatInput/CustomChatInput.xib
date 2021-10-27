@@ -115,7 +115,7 @@
                                 <constraint firstAttribute="height" constant="25" id="41Q-7r-ULJ"/>
                                 <constraint firstAttribute="width" constant="25" id="V6T-ly-6xm"/>
                             </constraints>
-                            <state key="normal" title="Button" image="clear" catalog="system"/>
+                            <state key="normal" title="Button" image="ic_close"/>
                             <connections>
                                 <action selector="closeReply:" destination="-1" eventType="touchUpInside" id="VU4-ZU-NPr"/>
                             </connections>
@@ -195,7 +195,7 @@
         </view>
     </objects>
     <resources>
-        <image name="clear" catalog="system" width="128" height="114"/>
+        <image name="ic_close" width="16" height="16"/>
         <image name="ic_file_attachment" width="16" height="20"/>
         <image name="ic_file_black" width="38" height="38"/>
         <image name="ic_image_attachment" width="24" height="24"/>

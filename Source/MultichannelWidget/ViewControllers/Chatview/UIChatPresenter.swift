@@ -158,7 +158,18 @@ class UIChatPresenter: UIChatUserInteraction {
             
             instance.loadComments(withID: room.id)
             if let localComments = self?.qiscus.database.message.find(roomId: room.id) {
-                instance.comments = instance.groupingComments(localComments)
+                let nonDeletedComments = localComments.filter { (message) -> Bool in
+                    if SharedPreferences.getDeletedCommentUniqueId()?.contains(message.uniqueId) ?? false {
+                        return false
+                    }
+                    
+                    if message.typeMessage == .system {
+                        return ChatConfig.showSystemMessage
+                    }
+                    
+                    return true
+                }
+                instance.comments = instance.groupingComments(nonDeletedComments)
             } else {
                 instance.comments = instance.groupingComments(comments)
             }
@@ -394,6 +405,9 @@ class UIChatPresenter: UIChatUserInteraction {
     
     private func addNewCommentUI(_ message: QMessage, isIncoming: Bool) {
         // Check first, if the message already deleted
+        if message.typeMessage == .system && !ChatConfig.showSystemMessage {
+            return
+        }
         
         if SharedPreferences.getDeletedCommentUniqueId()?.contains(message.uniqueId) ?? false {
             return
@@ -479,6 +493,10 @@ class UIChatPresenter: UIChatUserInteraction {
 
 // MARK: Core Delegate
 extension UIChatPresenter : QiscusCoreRoomDelegate {
+    func onMessageUpdated(message: QMessage) {
+        
+    }
+    
     func onUserOnlinePresence(userId: String, isOnline: Bool, lastSeen: Date) {
         debugPrint(userId)
     }

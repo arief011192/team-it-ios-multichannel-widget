@@ -21,7 +21,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="424" height="102"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="redraw" horizontalHuggingPriority="251" verticalHuggingPriority="249" translatesAutoresizingMaskIntoConstraints="NO" id="Iu0-VT-qD4">
-                                <rect key="frame" x="18" y="0.0" width="255.5" height="94"/>
+                                <rect key="frame" x="18" y="0.0" width="235" height="94"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="cornerRadiuss">
                                         <real key="value" value="6"/>
@@ -39,11 +39,11 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView autoresizesSubviews="NO" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="CmT-ww-wYB" userLabel="tv">
-                                <rect key="frame" x="23" y="5" width="245.5" height="84"/>
+                                <rect key="frame" x="23" y="5" width="225" height="84"/>
                                 <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="46" id="EOE-4n-U6n"/>
-                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="250" id="t9l-Bo-j4r"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="225" id="t9l-Bo-j4r"/>
                                 </constraints>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad m</string>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -52,7 +52,7 @@
                                 <dataDetectorType key="dataDetectorTypes" link="YES"/>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bEE-ol-nUK">
-                                <rect key="frame" x="278.5" y="5" width="28.5" height="10"/>
+                                <rect key="frame" x="258" y="5" width="28.5" height="10"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="10" id="afc-4K-Ejs"/>
                                 </constraints>

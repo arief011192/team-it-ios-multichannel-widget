@@ -80,7 +80,7 @@ public enum QReplyType:Int{
         case "postback"         : self = .postback ; break
         case "account"          : self = .account ; break
         case "reply"            : self = .reply ; break
-        case "system"           : self = .system ; break
+        case "system", "system_event"           : self = .system ; break
         case "card"             : self = .card ; break
         case "contact_person"   : self = .contact ; break
         case "location"         : self = .location; break
@@ -162,9 +162,9 @@ extension QMessage {
         return fileName
     }
     
-    var typeMessage: CommentModelType{
+    var typeMessage: CommentModelType {
         get{
-            return CommentModelType(rawValue: type.hashValue)!
+            return CommentModelType(name: self.type)
         }
         
     }
@@ -193,7 +193,7 @@ extension QMessage {
             let url = getAttachmentURL(message: message)
             
             switch self.fileExtension(fromURL: url) {
-            case "jpg","jpg_","png","png_","gif","gif_":
+            case "jpg","jpg_","png","png_","gif","gif_", "jpeg":
                 return .image
             case "m4a","m4a_","aac","aac_","mp3","mp3_":
                 return .audio

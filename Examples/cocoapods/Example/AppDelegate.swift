@@ -8,6 +8,7 @@
 
 import UIKit
 import UserNotifications
+import Localize_Swift
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -31,6 +32,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // MARK : register the app for remote notifications
         application.registerForRemoteNotifications()
         application.unregisterForRemoteNotifications()
+        Localize.setCurrentLanguage("en")
         // Override point for customization after application launch.
         return true
     }

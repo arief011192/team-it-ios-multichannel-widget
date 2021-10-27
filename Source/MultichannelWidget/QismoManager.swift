@@ -90,8 +90,6 @@ class QismoManager {
                 ] as [String : Any]
             
             self.network.initiateChat(param: param as [String : Any], onSuccess: { roomId in
-                SharedPreferences.saveTitle(title: title)
-                SharedPreferences.saveSubtitle(subtitle: subtitle)
                 SharedPreferences.saveParam(param: param)
                 SharedPreferences.saveRoomId(id: roomId)
                 self.updateDeviceToken()

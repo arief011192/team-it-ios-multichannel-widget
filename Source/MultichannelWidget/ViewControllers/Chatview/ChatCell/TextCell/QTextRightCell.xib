@@ -31,10 +31,9 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mmf-nu-Icb">
-                                <rect key="frame" x="190" y="7" width="42" height="10"/>
+                                <rect key="frame" x="203.5" y="7" width="28.5" height="10"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="10" id="BJ2-cs-WNv"/>
-                                    <constraint firstAttribute="width" constant="42" id="uz1-a3-d99"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -53,7 +52,7 @@
                                 <rect key="frame" x="248" y="13" width="50" height="46.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="4DS-Kk-b2v"/>
-                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="250" id="QK2-SF-dQW"/>
+                                    <constraint firstAttribute="width" relation="lessThanOrEqual" constant="225" id="QK2-SF-dQW"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

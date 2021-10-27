@@ -28,6 +28,7 @@ open class MultichannelWidgetConfig {
     private var baseColor: UIColor = ColorConfiguration.baseColor
     private var emptyChatBackgroundColor: UIColor = ColorConfiguration.emptyChatBackgroundColor
     private var emptyChatTextColor: UIColor = ColorConfiguration.emptyChatTextColor
+    private var showSystemMessage: Bool = ChatConfig.showSystemMessage
     
     public func setExtras(extras: String) -> MultichannelWidgetConfig {
         self.extras = extras
@@ -110,6 +111,11 @@ open class MultichannelWidgetConfig {
         return self
     }
     
+    public func setShowSystemMessage(isShowing: Bool) -> MultichannelWidgetConfig {
+        self.showSystemMessage = isShowing
+        return self
+    }
+    
     public func startChat(callback: @escaping (UIViewController) -> Void) {
         ColorConfiguration.navigationColor = self.navigationColor
         ColorConfiguration.navigationTitleColor = self.navigationTitleColor
@@ -123,6 +129,7 @@ open class MultichannelWidgetConfig {
         ColorConfiguration.baseColor = self.baseColor
         ColorConfiguration.emptyChatTextColor = self.emptyChatTextColor
         ColorConfiguration.emptyChatBackgroundColor = self.emptyChatBackgroundColor
+        ChatConfig.showSystemMessage = self.showSystemMessage
         
         QismoManager.shared.initiateChat(withTitle: self.title, andSubtitle: self.subtitle, extras: self.extras, userProperties: self.userProperties, callback: callback)
     }

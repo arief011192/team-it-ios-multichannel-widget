@@ -82,6 +82,8 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate {
                     "caption"   : ""
                 ]
                 message.message = "Send Image"
+                message.status = .pending
+                message.userEmail = SharedPreferences.getQiscusAccount() ?? ""
                 self.imageData.append(message)
             }, onError: { (error) in
                 //error
@@ -196,7 +198,7 @@ class QiscusUploaderVC: UIViewController, UIScrollViewDelegate {
         if type == .image {
             
             if (mediaCaption.text != TextConfiguration.sharedInstance.captionPlaceholder ){
-                self.imageData.first?.payload![ "caption" ] = mediaCaption.text
+                self.imageData.first?.payload!["caption"] = mediaCaption.text
             }
             
             let _ = self.navigationController?.popViewController(animated: true)

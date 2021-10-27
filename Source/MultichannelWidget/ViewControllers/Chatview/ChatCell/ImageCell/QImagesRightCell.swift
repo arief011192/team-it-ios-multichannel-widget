@@ -12,7 +12,7 @@ import QiscusCore
 import Alamofire
 
 class QImagesRightCell: UIBaseChatCell {
-
+    
     @IBOutlet weak var ivRightBubble: UIImageView!
     @IBOutlet weak var lblCaption: UILabel!
     @IBOutlet weak var ivComment: UIImageView!
@@ -33,7 +33,7 @@ class QImagesRightCell: UIBaseChatCell {
         let imgTouchEvent = UITapGestureRecognizer(target: self, action: #selector(QImagesRightCell.imageDidTap))
         self.ivComment.addGestureRecognizer(imgTouchEvent)
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         self.setMenu()
@@ -76,11 +76,11 @@ class QImagesRightCell: UIBaseChatCell {
     }
     
     private func getUrlFromMessage(message: String) -> URL? {
-           let prefixRemoval = message.replacingOccurrences(of: "[file]", with: "")
-           let suffixRemoval = prefixRemoval.replacingOccurrences(of: "[/file]", with: "")
-           
-           return URL(string: suffixRemoval.trimmingCharacters(in: .whitespacesAndNewlines))
-       }
+        let prefixRemoval = message.replacingOccurrences(of: "[file]", with: "")
+        let suffixRemoval = prefixRemoval.replacingOccurrences(of: "[/file]", with: "")
+        
+        return URL(string: suffixRemoval.trimmingCharacters(in: .whitespacesAndNewlines))
+    }
     
     func bindData(message: QMessage) {
         setupBalon()
@@ -89,13 +89,18 @@ class QImagesRightCell: UIBaseChatCell {
         self.lblCaption.isHidden = false
         guard let payload = message.payload else { return }
         
-        let caption = payload["caption"] as? String
+        var caption = payload["caption"] as? String
+        
+        if caption == nil {
+            caption = (payload["content"] as? [String : Any])?["caption"] as? String
+        }
+        
         if (caption ?? "").isEmpty {
             self.marginLblComment.constant = -8
         }
-            
+        
         self.lblCaption.text = caption
-
+        
         var url = message.payload?["url"] as? String
         
         if url == nil {
@@ -142,32 +147,32 @@ class QImagesRightCell: UIBaseChatCell {
             break
         case .sending, .pending:
             lblDate.textColor = ColorConfiguration.timeLabelTextColor
-                        ivStatus.tintColor = ColorConfiguration.timeLabelTextColor
+            ivStatus.tintColor = ColorConfiguration.timeLabelTextColor
             lblDate.text = TextConfiguration.sharedInstance.sendingText
-                        ivStatus.image = UIImage(named: "ic_info_time", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+            ivStatus.image = UIImage(named: "ic_info_time", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
             break
         case .sent:
             lblDate.textColor = ColorConfiguration.timeLabelTextColor
-                        ivStatus.tintColor = ColorConfiguration.timeLabelTextColor
-                        ivStatus.image = UIImage(named: "ic_sending", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+            ivStatus.tintColor = ColorConfiguration.timeLabelTextColor
+            ivStatus.image = UIImage(named: "ic_sending", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
             break
         case .delivered:
             lblDate.textColor = ColorConfiguration.timeLabelTextColor
-                        ivStatus.tintColor = ColorConfiguration.timeLabelTextColor
-                        ivStatus.image = UIImage(named: "ic_read", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+            ivStatus.tintColor = ColorConfiguration.timeLabelTextColor
+            ivStatus.image = UIImage(named: "ic_read", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
             
             break
         case .read:
             lblDate.textColor = ColorConfiguration.timeLabelTextColor
-                        ivStatus.tintColor = ColorConfiguration.readMessageColor
-                        ivStatus.image = UIImage(named: "ic_read", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+            ivStatus.tintColor = ColorConfiguration.readMessageColor
+            ivStatus.image = UIImage(named: "ic_read", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
             
             break
         case . failed:
             lblDate.textColor = ColorConfiguration.failToSendColor
             lblDate.text = TextConfiguration.sharedInstance.failedText
-                        ivStatus.image = UIImage(named: "ic_warning", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
-                        ivStatus.tintColor = ColorConfiguration.failToSendColor
+            ivStatus.image = UIImage(named: "ic_warning", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)
+            ivStatus.tintColor = ColorConfiguration.failToSendColor
             break
         case .deleting:
             //            ivStatus.image = UIImage(named: "ic_deleted", in: MultichannelWidget.bundle, compatibleWith: nil)?.withRenderingMode(.alwaysTemplate)

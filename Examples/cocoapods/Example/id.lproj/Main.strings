@@ -1,0 +1,12 @@
+
+/* Class = "UIButton"; normalTitle = "Logout"; ObjectID = "BlS-lg-zuQ"; */
+"BlS-lg-zuQ.normalTitle" = "Logout";
+
+/* Class = "UIButton"; normalTitle = "Chat With CS"; ObjectID = "Kf0-US-hc3"; */
+"Kf0-US-hc3.normalTitle" = "Chat With CS";
+
+/* Class = "UITextField"; placeholder = "Username"; ObjectID = "blG-Uk-G5b"; */
+"blG-Uk-G5b.placeholder" = "Username";
+
+/* Class = "UITextField"; placeholder = "userId"; ObjectID = "tWW-ql-W9d"; */
+"tWW-ql-W9d.placeholder" = "userId";

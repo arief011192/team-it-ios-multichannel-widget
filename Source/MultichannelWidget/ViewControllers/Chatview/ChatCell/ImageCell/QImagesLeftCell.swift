@@ -86,7 +86,11 @@ class QImagesLeftCell: UIBaseChatCell {
         self.lblDate.text = AppUtil.dateToHour(date: message.timestamp)
         self.lblDate.textColor = ColorConfiguration.timeLabelTextColor
         
-        let caption = message.payload?["caption"] as? String
+        var caption = message.payload?["caption"] as? String
+         
+        if caption == nil {
+            caption = (message.payload?["content"] as? [String : Any])?["caption"] as? String
+        }
         
         if (caption ?? "").isEmpty {
             self.marginCommentTop.constant = -8

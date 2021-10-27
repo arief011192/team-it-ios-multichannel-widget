@@ -68,6 +68,18 @@ You will need to call this function to clear logged in user.
 widget.clearUser()
 ``` 
 
+### Hide system message
+configure system message visibility by calling setShowSystemMessage(isShowing: Bool).
+```swift
+ widget.prepareChat(withTitle: "Customer Care", andSubtitle: "ready to serve")
+            ...
+            .setShowSystemMessage(isShowing: false)
+            ...
+            .startChat { (chatViewController) in
+                 viewController.navigationController?.setViewControllers([viewController, chatViewController], animated: true)
+            }
+```
+
 
 
 ## Push Notification
